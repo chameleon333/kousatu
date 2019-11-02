@@ -136,7 +136,7 @@
     <a href="#default" class="logo">CompanyLogo</a>
     <div class="header-right">
       <a class="active" href="/articles/">Home</a>
-      <a href="#contact">Contact</a>
+      <a href="/articles/create">投稿する</a>
       <a href="#about">About</a>
     </div>
   </div>

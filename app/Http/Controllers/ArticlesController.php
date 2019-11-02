@@ -7,6 +7,11 @@ use App\Article;
 
 class ArticlesController extends Controller
 {
+  
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +43,8 @@ class ArticlesController extends Controller
     public function store(Request $request)
     {
       $article = new Article;
-      $article->title = $request->title;
+//      $article->title = $request->title;
+      $article->image_url = $request->image_url->storeAs('public/post_images','test.jpg');
       $article->body = $request->body;
       $article->save();
       return redirect('/articles');
