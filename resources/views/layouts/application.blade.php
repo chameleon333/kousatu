@@ -7,8 +7,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <style>
+    
     body {
       margin: 0;
+      background:#f1f1f1;
       font-family: "Lato", sans-serif;
     }
     textarea {
@@ -17,14 +19,14 @@
     /* Style the header with a grey background and some padding */
     .header {
       overflow: hidden;
-      background-color: #f1f1f1;
+      background-color: #4CAF50;
       padding: 20px 25px 20px 20px;
     }
 
     /* Style the header links */
     .header a {
       float: left;
-      color: black;
+      color: white;
       text-align: center;
       padding: 12px;
       text-decoration: none;
@@ -56,23 +58,10 @@
       float: right;
     }
 
-    /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
-    @media screen and (max-width: 500px) {
-      .header a {
-        float: none;
-        display: block;
-        text-align: left;
-      }
-
-      .header-right {
-        float: none;
-      }
-    }
-
     .sidebar {
       margin: 0;
       padding: 0;
-      width: 150px;
+      width: 130px;
       background-color: #f1f1f1;
       position: fixed;
       height: 100%;
@@ -82,8 +71,8 @@
     .sidebar a {
       display: block;
       color: black;
-      font-size: 14px;
-      padding: 10px;
+      font-size: 12px;
+      padding: 5px;
       text-decoration: none;
     }
 
@@ -99,10 +88,44 @@
 
     div.content {
       margin-left: 150px;
-      padding: 20px 16px;
+      padding: 0px 16px;
+      margin-top:30px;
       height: 1000px;
     }
+    
+    .post_box a{
+/*      text-decoration: none;*/
+      color: black;
+    }
+    
+    .post_pic img{
+      width:100%;
+      border-radius: 10px;
+    }
+    
+    
 
+    /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
+    @media screen and (max-width: 500px) {
+      .header a {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+
+      .header-right {
+        float: none;
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .container{
+        max-width:750px !important;
+        
+      }
+      
+    }
+    
     @media screen and (max-width: 700px) {
       .sidebar {
         width: 100%;
@@ -118,7 +141,7 @@
         margin-left: 0;
       }
     }
-
+    
     @media screen and (max-width: 400px) {
       .sidebar a {
         text-align: center;
@@ -133,9 +156,9 @@
 
 <body>
   <div class="header">
-    <a href="#default" class="logo">CompanyLogo</a>
+    <a href="/articles" class="logo">CompanyLogo</a>
     <div class="header-right">
-      <a class="active" href="/articles/">Home</a>
+      <a class="active" href="/articles">Home</a>
       <a href="/articles/create">投稿する</a>
       <a href="#about">About</a>
     </div>
@@ -143,7 +166,7 @@
 
   <div class="container">
     <div class="sidebar">
-      <a class="active" href="/articles/">Home</a>
+      <a class="active" href="/articles">Home</a>
       <a href="#news">News</a>
       <a href="#contact">Contact</a>
       <a href="#about">About</a>

@@ -6,7 +6,7 @@
 
 {{-- application.blade.phpの@yield('content')に以下のレイアウトを代入 --}}
 @section('content')
-  <div><img src='{{$article->image_url}}'></div>
+  <div class="post_pic"><img src='/{{$article->image_url}}'></div>
   <p>{{$article->body}}</p>
   <br><br>
     <form action="/articles/{{$article->id}}" method="post">

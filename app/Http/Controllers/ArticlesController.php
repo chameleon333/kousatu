@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
+use Carbon\Carbon;
 
 class ArticlesController extends Controller
 {
   
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -43,11 +44,17 @@ class ArticlesController extends Controller
     public function store(Request $request)
     {
       $article = new Article;
+      $time = Carbon::now()->toDateTimeString();
 //      $article->title = $request->title;
-      $article->image_url = $request->image_url->storeAs('public/post_images','test.jpg');
+      $article->image_url = $request->image_url->storeAs('public/post_images',$time.'.jpg');
+//      dd($article->image_url);
+      $article->image_url = str_replace('public/', 'storage/',$article->image_url);
       $article->body = $request->body;
       $article->save();
       return redirect('/articles');
+//      return redirect()->route('articles.index', [
+//        'image_url' => str_replace('public/', 'storage/',$article->image_url)
+//      ]);
     }
 
     /**
