@@ -19,6 +19,12 @@ class CreateCommentsTable extends Migration
             $table->string('article_id');
             $table->text('text');
             $table->timestamps();
+          
+            $table->foreign('account_id')
+              ->references('account_id')
+              ->on('accounts')
+              ->onDelete('cascade')
+              ->onUpdate('cascade');
         });
     }
 

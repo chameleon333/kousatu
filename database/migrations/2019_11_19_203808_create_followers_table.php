@@ -15,8 +15,13 @@ class CreateFollowersTable extends Migration
     {
         Schema::create('followers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('following_id');
-            $table->string('followerd_id');
+            $table->string('following_id')->comment('フォローしているユーザID');
+            $table->string('followed_id')->comment('フォローされているユーザID');
+
+            $table->unique([
+              'following_id',
+              'followed_id'
+            ]);
         });
     }
 

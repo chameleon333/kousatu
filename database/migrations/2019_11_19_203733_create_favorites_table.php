@@ -18,6 +18,18 @@ class CreateFavoritesTable extends Migration
             $table->string('account_id');
             $table->string('article_id');
             $table->timestamps();
+          
+            $table->foreign('account_id')
+              ->references('account_id')
+              ->on('accounts')
+              ->onDelete('cascade')
+              ->onUpdate('cascade');
+
+            $table->foreign('article_id')
+              ->references('article_id')
+              ->on('articles')
+              ->onDelete('cascade')
+              ->onUpdate('cascade');
         });
     }
 
