@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Article_stock;
 
 class Article_stockTableSeeder extends Seeder
 {
@@ -11,10 +12,10 @@ class Article_stockTableSeeder extends Seeder
      */
     public function run()
     {
-      for($i = 2; $i <=10; $i){
-        Favorite::create([
-          'acocunt_id' => 1,
-          'article_id' => $i
+      for($i = 1; $i <= 10; $i++){
+        Article_stock::create([
+          'account_id' => 'test_user'. $i,
+          'article_id' => "記事".$i,
         ]);
       }
     }

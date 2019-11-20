@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Article;
 
 class ArticlesTableSeeder extends Seeder
 {
@@ -28,8 +29,11 @@ class ArticlesTableSeeder extends Seeder
       
       for ($i = 1; $i <= 10; $i++){
         Article::create([
-          'user_id' => $i,
-          'text' => 'これはテスト投稿'. $i,
+          'article_id' => "記事".$i,
+          'account_id' => 'test_user'. $i,
+          'title' => 'これはテストタイトル'. $i,
+          'body' => 'これはテスト投稿'. $i,
+          'image_url' => 'https://placehold.jp/500x500.png',
           'created_at' => now(),
           'updated_at' => now(),
         ]);
