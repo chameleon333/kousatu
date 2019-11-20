@@ -8,15 +8,11 @@
 @section('content')
   @foreach ($articles as $article)
     <div class="post_box">
+      <div><h2>{{$article->title}}</h2></div>
       <a href="/articles/{{$article->id}}">
         <p class="post_pic"><img src="/{{ $article->image_url }}"></p>
         <p>{{$article->body}}</p>
       </a>
-      <form action="/articles/{{$article->id}}" method="post">
-        {{ csrf_field() }}
-        <input type="hidden" name="_method" value="delete">
-        <input type="submit" name="" value="削除する">
-      </form>
       <hr>
     </div>
   @endforeach

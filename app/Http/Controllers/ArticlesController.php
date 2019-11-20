@@ -48,6 +48,7 @@ class ArticlesController extends Controller
 //      $article->title = $request->title;
       $article->image_url = $request->image_url->storeAs('public/post_images',$time.'.jpg');
 //      dd($article->image_url);
+      $article->title = $request->title;
       $article->image_url = str_replace('public/', 'storage/',$article->image_url);
       $article->body = $request->body;
       $article->save();
