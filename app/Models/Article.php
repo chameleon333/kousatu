@@ -12,7 +12,7 @@ class Article extends Model
   
     public function account()
     {
-      return $this->belongTo(Account::class);
+      return $this->belongTo(User::class);
     }
   
     public function favorites()

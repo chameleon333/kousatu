@@ -14,7 +14,7 @@ class FavaritesTableSeeder extends Seeder
     {
       for($i = 1; $i <= 10; $i++){
         Favorite::create([
-          'account_id' => 'test_user'. $i,
+          'user_id' => 'test_user'. $i,
           'article_id' => "記事".$i,
         ]);
       }

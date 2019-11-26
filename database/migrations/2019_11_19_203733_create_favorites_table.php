@@ -15,13 +15,13 @@ class CreateFavoritesTable extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('account_id');
+            $table->string('user_id');
             $table->string('article_id');
             $table->timestamps();
           
-            $table->foreign('account_id')
-              ->references('account_id')
-              ->on('accounts')
+            $table->foreign('user_id')
+              ->references('user_id')
+              ->on('users')
               ->onDelete('cascade')
               ->onUpdate('cascade');
 
