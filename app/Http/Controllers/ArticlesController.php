@@ -18,11 +18,23 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Artile $articles, Follower $follower)
     {
-      $articles = Article::all();
-//      return $articles;
-      return view('articles.index', ['articles' => $articles]);
+      $user = auth()->user();
+      $follow_ids = $follower->followingsIds($user->id);
+      
+      // followed_idだけ抜き出す
+      $following_ids = $follow_ids->pluck('followed_id')->toArray();
+      
+      $timelines = $articles->getTimelines($user->id, $following_ids);
+      
+      return view('articles.index', [
+        'user' => $user,
+        'timelines' => $timelines
+      ]);
+//      $articles = Article::all();
+////      return $articles;
+//      return view('articles.index', ['articles' => $articles]);
     }
 
     /**
@@ -32,7 +44,7 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-      return view('articles.create');
+//      return view('articles.create');
     }
 
     /**
@@ -43,19 +55,19 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
-      $article = new Article;
-      $time = Carbon::now()->toDateTimeString();
+//      $article = new Article;
+//      $time = Carbon::now()->toDateTimeString();
+////      $article->title = $request->title;
+//      $article->image_url = $request->image_url->storeAs('public/post_images',$time.'.jpg');
+////      dd($article->image_url);
 //      $article->title = $request->title;
-      $article->image_url = $request->image_url->storeAs('public/post_images',$time.'.jpg');
-//      dd($article->image_url);
-      $article->title = $request->title;
-      $article->image_url = str_replace('public/', 'storage/',$article->image_url);
-      $article->body = $request->body;
-      $article->save();
-      return redirect('/articles');
-//      return redirect()->route('articles.index', [
-//        'image_url' => str_replace('public/', 'storage/',$article->image_url)
-//      ]);
+//      $article->image_url = str_replace('public/', 'storage/',$article->image_url);
+//      $article->body = $request->body;
+//      $article->save();
+//      return redirect('/articles');
+////      return redirect()->route('articles.index', [
+////        'image_url' => str_replace('public/', 'storage/',$article->image_url)
+////      ]);
     }
 
     /**

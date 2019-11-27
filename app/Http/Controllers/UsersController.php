@@ -52,9 +52,25 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user, Article $article, Follower $follower)
     {
-        //
+      $login_user = auth()->user();
+      $is_following = $login_user->isFollowing($user->id);
+      $is_followed = $login_user->isFollowed($user->id);
+      $timelines = $article->getUserTimeLine($user->id);
+      $article_count = $article->getArticleCount($user->id);
+      $follow_count = $follower->getFollowCount($user->id);
+      $follower_count = $follower->getFollowerCount($user->id);
+//      dd($timelines);
+      return view('users.show',[
+        'user' => $user,
+        'is_following' => $is_following,
+        'is_followed' => $is_followed,
+        'timelines' => $timelines,
+        'article_count' => $article_count,
+        'follow_count' => $follow_count,
+        'follower_count' => $follower_count
+      ]);
     }
 
     /**
@@ -63,11 +79,11 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+      return view('users.edit', ['user'=>$user]);
     }
-
+  
     /**
      * Update the specified resource in storage.
      *
@@ -75,9 +91,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+//      dd($request);
+      $data = $request->all();
+      $validator = Validator::make($data, [
+        'screen_name' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
+        'name' => ['required', 'string', 'max:255'],
+        'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
+      ]);
+      $validator->validate();
+      $user->updateProfile($data);
+      
+      return redirect('users/'.$user->id);
     }
 
     /**
@@ -95,10 +122,10 @@ class UsersController extends Controller
     {
       $follower = auth()->user();
       // フォローしているか
-      $is_following = $follower->isFollowing($user->user_id);
+      $is_following = $follower->isFollowing($user->id);
       if(!$is_following) {
         // フォローしていなければフォローする
-        $follower->follow($user->user_id);
+        $follower->follow($user->id);
         return back();
       }
     }
@@ -107,7 +134,7 @@ class UsersController extends Controller
     {
       $follower = auth()->user();
       // フォローしているか
-      $is_following = $follower->isFollowing($user->user_id);
+      $is_following = $follower->isFollowing($user->id);
       if($is_following) {
         // フォローしていればフォローを解除する
         $follower->unfollow($user->id);

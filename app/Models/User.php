@@ -16,7 +16,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_id',
+        'screen_name',
+        'name',
         'email', 
         'password',
         'profile_image'
@@ -55,36 +56,47 @@ class User extends Authenticatable
       return $this->Where('id', '<>', $user_id)->paginate(5);
     }
   
-    public function follow($user_id)
+    public function follow(Int $user_id)
     {
       return $this->follows()->attach($user_id);
     }
   
-    public function unfollow($user_id)
+    public function unfollow(Int $user_id)
     {
       return $this->follows()->detach($user_id);
     }
   
-    public function isFollowing($user_id)
+    public function isFollowing(Int $user_id)
     {
-//      return (boolean) $this->follows()->where('followed_id', $user_id)->first(['id']);
-//      $debug = $this->follows()->where('followed_id',$user_id)->first(['user_id']);
-//      \Debugbar::info($debug);
-      \Debugbar::info($this->follows());
-//      \Debugbar::info($user_id);
-      \Debugbar::info("user_id");
-      
-//      return (boolean) $this->follows()->where('followed_id',$user_id)->first(['user_id']);
-      return (boolean) $this->follows()->where ('followed_id', $user_id);
+      return (boolean) $this->follows()->where('followed_id', $user_id)->first(['id']);
     }
   
-    public function isFollowed($user_id)
+    public function isFollowed(Int $user_id)
     {
-      
-//      return (boolean) $this->followers()->where('following_id',$user_id)->first(['id']);
-//      $debug = $this->followers()->where('following_id',$user_id);
-//      \Debugbar::info($debug);
-//      return (boolean) $this->followers()->where('following_id',$user_id)->first(['user_id']);
-      return (boolean) $this->followers()->where('following_id',$user_id);
+      return (boolean) $this->followers()->where('following_id',$user_id)->first(['id']);
+    }
+  
+    public function updateProfile(Array $params)
+    {
+      if(isset($params['profile_image']))
+      {
+        $file_name = $params['profile_image']->store('public/profile_image/');
+        
+        $this::where('id', $this->id)
+          ->update([
+            'screen_name' => $params['screen_name'],
+            'name' => $params['name'],
+            'profile_image' => basename($file_name),
+            'email' => $params['email'],
+          ]);
+      } else {
+        $this::where('id', $this->id)
+          ->update([
+            'screen_name' => $params['screen_name'],
+            'name' => $params['name'],
+            'email' => $params['email'],
+          ]);
+      }
+      return;
     }
 }

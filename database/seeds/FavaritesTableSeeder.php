@@ -12,10 +12,10 @@ class FavaritesTableSeeder extends Seeder
      */
     public function run()
     {
-      for($i = 1; $i <= 10; $i++){
+      for($i = 2; $i <= 10; $i++){
         Favorite::create([
-          'user_id' => 'test_user'. $i,
-          'article_id' => "記事".$i,
+          'user_id' => 1,
+          'article_id' => $i,
         ]);
       }
     }

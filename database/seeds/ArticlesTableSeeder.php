@@ -29,8 +29,7 @@ class ArticlesTableSeeder extends Seeder
       
       for ($i = 1; $i <= 10; $i++){
         Article::create([
-          'article_id' => "記事".$i,
-          'user_id' => 'test_user'. $i,
+          'user_id' => $i,
           'title' => 'これはテストタイトル'. $i,
           'body' => 'これはテスト投稿'. $i,
           'image_url' => 'https://placehold.jp/500x500.png',

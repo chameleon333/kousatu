@@ -14,11 +14,11 @@ class CommentsTableSeeder extends Seeder
     {
         for ($i = 1; $i <= 10; $i++) {
             Comment::create([
-                'user_id' => 'test_user'. $i,
-                'article_id' => "記事".$i,
+                'user_id' => 1,
+                'article_id' => $i,
                 'text' => 'これはテストコメント' .$i,
                 'created_at' => now(),
-                'updated_at' => now(),
+                'updated_at' => now()
             ]);
         }
     }
