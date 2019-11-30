@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');  
 });
 
-Route::resource('articles', 'ArticlesController');
+//Route::resource('articles', 'ArticlesController');
 
 Auth::routes();
 
@@ -32,5 +32,5 @@ Route::group(['middleware' => 'auth'], function() {
   Route::delete('users/{user}/unfollow', 'UsersController@unfollow')->name('unfollow');
   
   //投稿記事関連
-  Route::resource('articles', 'AritclesController',['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
+  Route::resource('articles', 'ArticlesController',['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
 });

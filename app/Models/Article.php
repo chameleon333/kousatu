@@ -11,9 +11,9 @@ class Article extends Model
       'body'      
     ];
   
-    public function account()
+    public function user()
     {
-      return $this->belongTo(User::class);
+      return $this->belongsTo(User::class);
     }
   
     public function favorites()
@@ -40,6 +40,12 @@ class Article extends Model
     {
       //自身とフォローしているユーザーを結合する
       $follow_ids[] = $user_id;
-      return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50)
+      return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
+    }
+
+    public function getArticle(Int $article_id)
+    {
+      // dd($this);
+      return $this->with('user')->where('id', $article_id)->first();
     }
 }

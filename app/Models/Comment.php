@@ -10,8 +10,13 @@ class Comment extends Model
       'text'
     ];
   
-    public function account()
+    public function user()
     {
-      return $this->belongsTo(Account::class);
+      return $this->belongsTo(User::class);
+    }
+
+    public function getComments(Int $article_id)
+    {
+      return $this->with('user')->where('article_id', $article_id)->get();
     }
 }
