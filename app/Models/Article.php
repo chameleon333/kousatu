@@ -60,4 +60,10 @@ class Article extends Model
 
       return;
     }
+
+    public function getEditArticle(Int $user_id, Int $article_id)
+    {
+      return $this->where('user_id', $user_id)->where('id', $article_id)->first();
+    }
+
 }

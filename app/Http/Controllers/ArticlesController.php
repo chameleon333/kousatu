@@ -100,10 +100,19 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-//      $article = Article::find($id);
-//      return view('articles.edit', ['article' => $article]);
+        $user = auth()->user();
+        $articles = $article->getEditArticle($user->id, $article_id);
+
+        if(!isset($article)) {
+            return redirect('articles');
+        }
+        
+        return view('articles.edit', [
+            'user' => $user,
+            'articles' => $articles
+        ]);
     }
 
     /**

@@ -1,24 +1,49 @@
-{{-- layoutsフォルダのapplication.blade.phpを継承 --}}
-@extends('layouts.application')
+@extends('layouts.app')
 
-{{-- @yield('title')にテンプレートごとの値を代入 --}}
-@section('title', '編集')
-
-{{-- application.blade.phpの@yield('content')に以下のレイアウトを代入 --}}
 @section('content')
-  <form action="/articles/{{$article->id}}" method="post">
-    {{ csrf_field() }}
-    <div>
-      <label for="title">タイトル</label>
-      <input type="text" name="title" placeholder="記事のタイトルを入れる" value="{{$article->title}}">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <form action="POST" action="{{ route('articles.update', ['articles' => $articles]) }}">
+            @csrf
+            @method('PUT')
+            
+            <div class="form-group row mb-0">
+              <div class="col-md-12 p-3 w-100 d-flex">
+                <img src="{{ asset('storage/profile_image' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                <div class="ml-2 d-flex flex-column">
+                  <p class="mb-0">{{ $user->name }}</p>
+                  <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <textarea class="form-control @error('body') is-invalid @enderror" name="body" required autocomplete="body" rows="10">{{ old('body') ? : $article->body }}</textarea>
+              
+                @error('body')
+                <span class="invalid-feedback">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-group row mb-0">
+              <div class="col-md-12 text-right">
+                <p class="mb-4 text-right">
+                  <p class="mb-4 text-danger">140文字以内</p>
+                  <button class="btn btn-primary">
+                    記事を投稿する
+                  </button>
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div>
-      <label for="body">内容</label>
-      <textarea name="body" rows="8" cols="80" placeholder="記事の内容を入れる">{{$article->body}}</textarea>
-    </div>
-    <div>
-      <input type="hidden" name="_method" value="patch">
-      <input type="submit" value="更新">
-    </div>
-  </form>
-@endsection
+  </div>
+</div>
+＠endsection
