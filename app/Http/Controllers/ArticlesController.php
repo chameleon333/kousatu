@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Follower;
@@ -34,9 +35,6 @@ class ArticlesController extends Controller
         'user' => $user,
         'timelines' => $timelines
       ]);
-//      $articles = Article::all();
-////      return $articles;
-//      return view('articles.index', ['articles' => $articles]);
     }
 
     /**
@@ -46,7 +44,12 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-//      return view('articles.create');
+        $user = auth()->user();
+
+        return view('articles.create',[
+            'user' => $user
+        ]);
+
     }
 
     /**
@@ -55,21 +58,19 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Article $article)
     {
-//      $article = new Article;
-//      $time = Carbon::now()->toDateTimeString();
-////      $article->title = $request->title;
-//      $article->image_url = $request->image_url->storeAs('public/post_images',$time.'.jpg');
-////      dd($article->image_url);
-//      $article->title = $request->title;
-//      $article->image_url = str_replace('public/', 'storage/',$article->image_url);
-//      $article->body = $request->body;
-//      $article->save();
-//      return redirect('/articles');
-////      return redirect()->route('articles.index', [
-////        'image_url' => str_replace('public/', 'storage/',$article->image_url)
-////      ]);
+        $user = auth()->user();
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'body' => ['required', 'string', 'max:140'],
+            'title' => ['required', 'string', 'max:30'],
+            'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+        ]);
+        $validator->validate();
+        $article->ArticleStore($user->id, $data);
+
+        return redirect('articles');
     }
 
     /**

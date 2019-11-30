@@ -11,10 +11,10 @@
     <div class="col-md-8 mb-3">
       <div class="card">
         <div class="card-haeder p-3 w-100 d-flex">
-          <img src="{{ asset('storage/profile_image/' .$timeline->profile_image) }}" class="rounded-circle" width="50" height="50">
+          <img src="{{ asset('storage/profile_image/' .$timeline->user->profile_image) }}" class="rounded-circle" width="50" height="50">
           <div class="ml-2 d-flex flex-column">
-            <p class="mb-0">{{ $timeline->name }}</p>
-            <a href="{{ url('users/' .$timeline->id) }}" class="text-secondary">{{ $timeline->screen_name }}</a>
+            <p class="mb-0">{{ $timeline->user->name }}</p>
+            <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->screen_name }}</a>
           </div>
           <div class="d-flex justify-content-end flex-grow-1">
             <p class="mb-0 text-secondary">{{ $timeline->created_at->format('Y-m-d H:i') }}</p>

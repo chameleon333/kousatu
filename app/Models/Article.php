@@ -40,6 +40,7 @@ class Article extends Model
     {
       //自身とフォローしているユーザーを結合する
       $follow_ids[] = $user_id;
+      // dd($this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50));
       return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
     }
 
@@ -47,5 +48,16 @@ class Article extends Model
     {
       // dd($this);
       return $this->with('user')->where('id', $article_id)->first();
+    }
+
+    public function articleStore(Int $user_id, Array $data)
+    {
+      $this->user_id = $user_id;
+      $this->title = $data['title'];
+      $this->body = $data['body'];
+      $this->image_url = $data['image_url'];
+      $this->save();
+
+      return;
     }
 }
