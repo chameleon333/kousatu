@@ -26,7 +26,7 @@
         <div class="card-footer py-1 d-flex justify-content-end bg-white">
           @if ($timeline->user->id === Auth::user()->id)
           <div class="dropdown mr-3 d-flex align-items-center">
-            <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-ellipsis-v fa-fw"></i>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

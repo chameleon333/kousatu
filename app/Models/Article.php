@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\softDeletes;
 
 class Article extends Model
 {
+    // use SoftDeletes;
+
     protected $fillable = [
       'title',
       'body'      
@@ -64,6 +67,20 @@ class Article extends Model
     public function getEditArticle(Int $user_id, Int $article_id)
     {
       return $this->where('user_id', $user_id)->where('id', $article_id)->first();
+    }
+
+    public function articleUpdate(Int $article_id, Array $data)
+    {
+      $this->id = $article_id;
+      $this->body = $data['body'];
+      $this->update();
+
+      return;
+    }
+
+    public function articleDestroy(Int $user_id, Int $article_id)
+    {
+      return $this->where('user_id',$user_id)->where('id',$article_id)->delete();
     }
 
 }

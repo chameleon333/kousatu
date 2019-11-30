@@ -90,8 +90,6 @@ class ArticlesController extends Controller
             'article' => $article,
             'comments' => $comments
         ]);
-//      $article = Article::find($id);
-//      return view('articles.show', ['article' => $article]);
     }
 
     /**
@@ -103,9 +101,9 @@ class ArticlesController extends Controller
     public function edit(Article $article)
     {
         $user = auth()->user();
-        $articles = $article->getEditArticle($user->id, $article_id);
+        $articles = $article->getEditArticle($user->id, $article->id);
 
-        if(!isset($article)) {
+        if(!isset($articles)) {
             return redirect('articles');
         }
         
@@ -122,13 +120,19 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-//      $article = Article::find($id);
-//      $article->title = $request->title;
-//      $article->body = $request->body;
-//      $article->save();
-//      return redirect("/articles/".$id);
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'body' => ['required', 'string', 'max:140'],
+            'title' => ['required', 'string', 'max:30'],
+            'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+        ]);
+
+        $validator->validate();
+        $article->articleUpdate($article->id, $data);
+
+        return redirect('articles');
     }
 
     /**
@@ -137,10 +141,10 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-//      $article = Article::find($id);
-//      $article->delete();
-//      return redirect('/articles');
+        $user = auth()->user();
+        $article->articleDestroy($user->id, $article->id);
+        return back();
     }
 }

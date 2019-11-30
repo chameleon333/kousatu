@@ -7,20 +7,21 @@
       <div class="card">
         <div class="card-header"></div>
         <div class="card-body">
-          <form action="POST" action="{{ route('articles.update', ['articles' => $articles]) }}">
+          <!-- <form method="POST" action="{{ route('articles.update', ['articles' => $articles]) }}"> -->
+          <form method="POST" action="{{ route('articles.update', ['articles' => $articles]) }}">
             @csrf
             @method('PUT')
             
             <div class="form-group row mb-0">
               <div class="col-md-12 p-3 w-100 d-flex">
-                <img src="{{ asset('storage/profile_image' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
                 <div class="ml-2 d-flex flex-column">
                   <p class="mb-0">{{ $user->name }}</p>
                   <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
                 </div>
               </div>
               <div class="col-md-12">
-                <textarea class="form-control @error('body') is-invalid @enderror" name="body" required autocomplete="body" rows="10">{{ old('body') ? : $article->body }}</textarea>
+                <textarea class="form-control @error('body') is-invalid @enderror" name="body" required autocomplete="body" rows="10">{{ old('body') ? : $articles->body }}</textarea>
               
                 @error('body')
                 <span class="invalid-feedback">
@@ -46,4 +47,4 @@
     </div>
   </div>
 </div>
-＠endsection
+@endsection
