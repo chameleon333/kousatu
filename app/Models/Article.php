@@ -49,7 +49,6 @@ class Article extends Model
 
     public function getArticle(Int $article_id)
     {
-      // dd($this);
       return $this->with('user')->where('id', $article_id)->first();
     }
 

@@ -84,7 +84,6 @@ class ArticlesController extends Controller
         $user = auth()->user();
         $article = $article->getArticle($article->id);
         $comments = $comment->getComments($article->id);
-
         return view('articles.show',[
             'user' => $user,
             'article' => $article,
@@ -124,8 +123,8 @@ class ArticlesController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data,[
-            'body' => ['required', 'string', 'max:140'],
-            'title' => ['required', 'string', 'max:30'],
+            // 'title' => ['required', 'string', 'max:30'],
+            'body' => ['required', 'string', 'max:1'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 

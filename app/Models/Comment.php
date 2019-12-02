@@ -19,4 +19,13 @@ class Comment extends Model
     {
       return $this->with('user')->where('article_id', $article_id)->get();
     }
+
+    public function commentStore(Int $user_id, Array $data)
+    {
+      $this->user_id = $user_id;
+      $this->article_id = $data['article_id'];
+      $this->text = $data['text'];
+      $this->save();
+      return;
+    }
 }
