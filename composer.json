@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-intl": "*",
         "barryvdh/laravel-debugbar": "^3.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
