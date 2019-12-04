@@ -21,18 +21,19 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Article $articles, Follower $follower)
+    public function index(Article $articles, Follower $follower, User $user)
     {
-      $user = auth()->user();
-      $follow_ids = $follower->followingIds($user->id);
+      $login_user = auth()->user();
+    //   $follow_ids = $follower->followingIds($login_user->id);
       
-      // followed_idだけ抜き出す
-      $following_ids = $follow_ids->pluck('followed_id')->toArray();
+    //   // followed_idだけ抜き出す
+    //   $following_ids = $follow_ids->pluck('followed_id')->toArray();
+      $user_ids = $user->pluck('id')->toArray();
       
-      $timelines = $articles->getTimelines($user->id, $following_ids);
+      $timelines = $articles->getTimeLines($login_user->id, $user_ids);
       
       return view('articles.index', [
-        'user' => $user,
+        'user' => $login_user,
         'timelines' => $timelines
       ]);
     }
@@ -81,6 +82,7 @@ class ArticlesController extends Controller
      */
     public function show(Article $article, Comment $comment)
     {
+        $users = auth()->user();
         $user = auth()->user();
         $article = $article->getArticle($article->id);
         $comments = $comment->getComments($article->id);
