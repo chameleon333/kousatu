@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.bg-color {
+    background-color : #ffdd76;
+}
+
+.navbar-ori {
+    flex-direction: row !important;
+}
+
+.anderline-none{
+    text-decoration: none !important;
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute !important;
+}

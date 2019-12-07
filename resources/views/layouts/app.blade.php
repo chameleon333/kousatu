@@ -26,57 +26,78 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        
+        <nav class="navbar navbar-expand-md navbar-light bg-color shadow-sm">
             <div class="container">
-                <!-- <a class="navbar-brand" href="{{ url('/') }}"> -->
                 <a class="navbar-brand" href="{{ url('/articles') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <!-- {{ config('app.name', 'Laravel') }} -->
+                    <img src="/storage/logo/logo.png" width="130px">
+                </a>               
+                
+                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> -->
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+                <div class="navbar" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
+                    <ul class="navbar-nav ml-auto mr-2 navbar-ori">
+                        <!-- <li class="nav-item">
+                            <a class="btn btn-link" role="button" href="{{ url('articles/create') }}"><i class="far fa-folder mr-1"></i><span class="d-none d-sm-inline">ストック記事</span></a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="btn btn-light" role="button" href="{{ url('articles/create') }}"><i class="far fa-edit"></i></i><span class="d-none d-sm-inline ml-1">投稿する</span></a>
+                        </li>
+                    
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav navbar-ori">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
+                            </li> -->
                             @if (Route::has('register'))
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
+                                </li> -->
                             @endif
                         @else
-                                <li class="nav-item mr-5">
-                                    <a href="{{ url('articles/create') }}" class="btn btn-md btn-primary">記事を投稿する</a>
-                                </li>
-                                <li class="nav-item">
-                                    <img src="{{ asset('storage/profile_image/' .auth()->user()->profile_image) }}" class="rounded-circle" width="50" height="50">
-                                </li>
+                                <!-- <li class="nav-item mr-5">
+                                    <a href="{{ url('articles/create') }}" class="btn btn-md btn-primary"><i class="far fa-folder"></i><span class="d-none d-md-inline">記事を投稿する</span></a>
+                                </li> -->
+
+                                <!-- <li class="nav-item">
+                                    <img src="{{ asset('storage/profile_image/' .auth()->user()->profile_image) }}" class="rounded" width="50" height="50">
+                                </li> -->
                                 <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }} <span class="caret"></span>
-                                    </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    <a id="navbarDropdown" class="dropdown-toggle anderline-none" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <img src="{{ asset('storage/profile_image/' .auth()->user()->profile_image) }}" class="rounded" width="37" height="37">
+                                        <span class="caret"></span>
+                                    </a>                                    
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('logout') }}">
+                                            プロフィールを編集する
+                                        </a>
+                                        <a class="dropdown-item" href="{{ url('articles/create') }}">
+                                            ストック記事
+                                        </a>
+
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+                                        
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
                             </li>
                         @endguest
                     </ul>
