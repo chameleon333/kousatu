@@ -16,21 +16,18 @@ Route::get('/', function () {
     return redirect('articles');
 });
 
-//Route::resource('articles', 'ArticlesController');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('articles', 'ArticlesController',['only' => ['index','show']]);
-// Route::get('articles', 'ArticlesController@index');
-// Route::get('articles/{article}/', 'ArticlesController@show');
+Route::resource('users', 'UsersController',['only' => ['index', 'show']]);
 
 
 #ログイン状態
 Route::group(['middleware' => 'auth'], function() {
   //#ユーザ関連
-  Route::resource('users', 'UsersController',['only' => ['index', 'show', 'edit', 'update']]);
+  Route::resource('users', 'UsersController',['only' => ['edit', 'update']]);
   
   // フォロー/フォロー解除を追加
   Route::post('users/{user}/follow', 'UsersController@follow')->name('follow');

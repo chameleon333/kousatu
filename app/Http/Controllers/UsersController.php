@@ -18,11 +18,20 @@ class UsersController extends Controller
      */
     public function index(User $user)
     {
+      if(auth()->user()){
+      //ログインしている場合
       $all_users = $user->getAllUsers(auth()->user()->id);
-//      \Debugbar::addMessage(auth()->user());
-      return view('users.index', [
-        'all_users' => $all_users
-      ]);
+        return view('users.index', [
+          'all_users' => $all_users
+        ]);  
+      } else {
+      //ログインしていない場合
+      $all_users = $user->getAllUsers(auth()->user());
+      // dd($all_users);
+        return view('users.index', [
+          'all_users' => $all_users
+        ]);  
+      }
     }
 
     /**
@@ -61,7 +70,7 @@ class UsersController extends Controller
       $article_count = $article->getArticleCount($user->id);
       $follow_count = $follower->getFollowCount($user->id);
       $follower_count = $follower->getFollowerCount($user->id);
-//      dd($timelines);
+
       return view('users.show',[
         'user' => $user,
         'is_following' => $is_following,
@@ -93,7 +102,6 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-//      dd($request);
       $data = $request->all();
       $validator = Validator::make($data, [
         'screen_name' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
