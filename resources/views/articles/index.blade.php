@@ -6,7 +6,6 @@
     <div class="col-md-8 mb-3 text-right">
       <a href="{{ url('users') }}">ユーザ一覧 <i class="fas fa-users" class="fa-fw"></i> </a>
     </div>
-    @if (isset($timelines))
     @foreach ($timelines as $timeline)
     <div class="col-md-8 mb-3">
       <div class="card">
@@ -28,7 +27,6 @@
       </div>
     </div>
     @endforeach
-    @endif
   </div>
   <div class="my-4 d-flex justify-content-center">
     {{ $timelines->links() }}

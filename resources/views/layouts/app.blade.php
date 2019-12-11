@@ -55,13 +55,13 @@
                     <ul class="navbar-nav navbar-ori">
                         <!-- Authentication Links -->
                         @guest
-                            <!-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li> -->
+                            </li>
                             @if (Route::has('register'))
-                                <!-- <li class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li> -->
+                                </li>
                             @endif
                         @else
                                 <!-- <li class="nav-item mr-5">
@@ -81,7 +81,7 @@
 
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('logout') }}">
+                                        <a class="dropdown-item" href="{{ route('users.edit',['user'=>auth()->user()->id]) }}">
                                             プロフィールを編集する
                                         </a>
                                         <a class="dropdown-item" href="{{ url('articles/create') }}">

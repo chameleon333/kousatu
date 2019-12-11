@@ -39,11 +39,10 @@ class Article extends Model
       return $this->where('user_id', $user_id)->count();
     }
   
-    public function getTimeLines(Int $login_user, Array $users)
+    public function getTimeLines()
     {
       //全ての記事を取得する
-      $users[] = $login_user;
-      return $this->whereIn('user_id', $users)->orderBy('created_at', 'DESC')->paginate(5);
+      return $this->orderBy('created_at', 'DESC')->paginate(5);
     }
 
     public function getFollowedTimeLines(Int $user_id, Array $follow_ids)
