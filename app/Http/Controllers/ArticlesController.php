@@ -21,21 +21,13 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Article $articles, Follower $follower, User $user)
+    public function index(Article $articles)
     {
-      $login_user = auth()->user();
-    //   $follow_ids = $follower->followingIds($login_user->id);
-      
-    //   // followed_idだけ抜き出す
-    //   $following_ids = $follow_ids->pluck('followed_id')->toArray();
-      $user_ids = $user->pluck('id')->toArray();
-      
-      $timelines = $articles->getTimeLines($login_user->id, $user_ids);
-      
-      return view('articles.index', [
-        'user' => $login_user,
+        $timelines = $articles->getTimeLines();
+
+        return view('articles.index', [
         'timelines' => $timelines
-      ]);
+        ]);
     }
 
     /**
@@ -46,7 +38,6 @@ class ArticlesController extends Controller
     public function create()
     {
         $user = auth()->user();
-
         return view('articles.create',[
             'user' => $user
         ]);
@@ -82,7 +73,6 @@ class ArticlesController extends Controller
      */
     public function show(Article $article, Comment $comment)
     {
-        $users = auth()->user();
         $user = auth()->user();
         $article = $article->getArticle($article->id);
         $comments = $comment->getComments($article->id);
@@ -126,7 +116,7 @@ class ArticlesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data,[
             // 'title' => ['required', 'string', 'max:30'],
-            'body' => ['required', 'string', 'max:1'],
+            'body' => ['required', 'string', 'max:150'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 
@@ -142,10 +132,16 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article, Request $request)
     {
         $user = auth()->user();
         $article->articleDestroy($user->id, $article->id);
-        return back();
+        $redirect = $request->input('redirect');
+
+        if ($redirect == "on") {
+            return redirect('/');
+        } else {
+            return back();
+        }
     }
 }
