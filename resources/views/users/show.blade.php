@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<?php 
+  if(Auth::user()) {
+    $auth = Auth::user()->id; 
+  } else {
+    $auth = null;
+  }
+?>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8 mb-3">
@@ -16,18 +23,18 @@
           <div class="p-3 d-flex flex-column justify-content-between">
             <div class="d-flex">
               <div>
-                @if ($user->id === Auth::user()->id)
+                @if ($user->id === $auth)
                 <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
                 @else
                 @if ($is_following)
-                <form action="{{ route('unfollow', ['user' => $user->id]) }}" method="POST">
+                <form action="{{ route('users.unfollow', ['user' => $user->id]) }}" method="POST">
                   {{ csrf_field() }}
                   {{ method_field('DELETE') }}
 
                   <button type="submit" class="btn btn-danger">フォロー解除</button>
                 </form>
                 @else
-                <form action="{{ route('follow', ['user' => $user->id]) }}" method="POST">
+                <form action="{{ route('users.follow', ['user' => $user->id]) }}" method="POST">
                   {{ csrf_field() }}
                   <button type="submit" class="btn btn-primary">フォローする</button>
                 </form>
@@ -74,7 +81,7 @@
           {{ $timeline->body }}
         </div>
         <div class="card-footer py-1 d-flex justify-content-end bg-white">
-          @if ($timeline->user->id === Auth::user()->id)
+          @if ($timeline->user->id === $auth)
           <div class="dropdown mr-3 d-flex align-items-center">
             <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-ellipsis-v fa-fw"></i>
@@ -97,7 +104,7 @@
           </div>
           
           <div class="d-flex align-items-center">
-          @if (!in_array(Auth::user()->id, array_column($timeline->favorites->toArray(), 'user_id'), TRUE))
+          @if (!in_array($auth, array_column($timeline->favorites->toArray(), 'user_id'), TRUE))
             <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
               @csrf
               
@@ -105,7 +112,7 @@
               <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
             </form>
           @else
-            <form method="POST" action="{{ url('favorites/' .array_column($timeline->favorites->toArray(), 'id', 'user_id' )[Auth::user()->id]) }}" class="mb-0">
+            <form method="POST" action="{{ url('favorites/' .array_column($timeline->favorites->toArray(), 'id', 'user_id' )[$auth]) }}" class="mb-0">
               @csrf
               @method('DELETE')
 

@@ -22,19 +22,19 @@
               <div class="d-flex justify-content-end flex-grow-1">
               @if(auth()->user())
                 @if (auth()->user()->isFollowing($user->id))
-                  <form action="{{route('unfollow', ['user' => $user->id]) }}" method="POST">
+                  <form action="{{route('users.unfollow', ['user' => $user->id]) }}" method="POST">
                     {{csrf_field()}}
                     {{method_field('DELETE')}}
                     <button type="submit" class="btn btn-danger">フォロー解除</button>
                   </form>
                 @else
-                  <form action="{{route('follow', ['user' => $user->id]) }}" method="POST">
+                  <form action="{{route('users.follow', ['user' => $user->id]) }}" method="POST">
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-primary">フォローする</button>
                   </form>
                 @endif
               @else
-                <form action="{{route('follow', ['user' => $user->id]) }}" method="POST">
+                <form action="{{route('users.follow', ['user' => $user->id]) }}" method="POST">
                   {{ csrf_field() }}
                   <button type="submit" class="btn btn-primary">フォローする</button>
                 </form>
