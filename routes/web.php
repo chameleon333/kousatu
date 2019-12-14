@@ -30,9 +30,14 @@ Route::group(['middleware' => 'auth'], function() {
   Route::resource('users', 'UsersController',['only' => ['edit', 'update']]);
   
   // フォロー/フォロー解除を追加
-  Route::post('users/{user}/follow', 'UsersController@follow')->name('follow');
-  Route::delete('users/{user}/unfollow', 'UsersController@unfollow')->name('unfollow');
+  Route::post('users/{user}/follow', 'UsersController@follow')->name('users.follow');
+  Route::delete('users/{user}/unfollow', 'UsersController@unfollow')->name('users.unfollow');
+
+  // フォロー/フォロワーユーザー一覧
+  Route::get('users/{user}/following_users', 'UsersController@following_users')->name('users.following_users');
+  Route::get('users/{user}/followers', 'UsersController@followers')->name('users.followers');
   
+
   //投稿記事関連
   Route::resource('articles', 'ArticlesController',['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
 

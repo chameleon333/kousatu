@@ -99,4 +99,15 @@ class User extends Authenticatable
       }
       return;
     }
+
+    public function getFollowingUsers($user_id)
+    {
+      return $this->follows()->where('following_id', $user_id)->paginate(5);
+    }
+
+    public function getFollowers($user_id)
+    {
+      return $this->followers()->where('followed_id', $user_id)->paginate(5);
+    }
+
 }

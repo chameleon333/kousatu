@@ -16,18 +16,17 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index(User $user, Request $request)
     {
       if(auth()->user()){
-      //ログインしている場合
+      //ログインしている場合、自分以外のユーザー情報を取得
       $all_users = $user->getAllUsers(auth()->user()->id);
         return view('users.index', [
           'all_users' => $all_users
         ]);  
       } else {
-      //ログインしていない場合
+      //ログインしていない場合、全てのユーザー情報を取得
       $all_users = $user->getAllUsers(auth()->user());
-      // dd($all_users);
         return view('users.index', [
           'all_users' => $all_users
         ]);  
@@ -64,8 +63,13 @@ class UsersController extends Controller
     public function show(User $user, Article $article, Follower $follower)
     {
       $login_user = auth()->user();
-      $is_following = $login_user->isFollowing($user->id);
-      $is_followed = $login_user->isFollowed($user->id);
+      if($login_user) {
+        $is_following = $login_user->isFollowing($user->id);
+        $is_followed = $login_user->isFollowed($user->id);  
+      } else {
+        $is_following = false;
+        $is_followed = false;
+      }
       $timelines = $article->getUserTimeLine($user->id);
       $article_count = $article->getArticleCount($user->id);
       $follow_count = $follower->getFollowCount($user->id);
@@ -149,4 +153,19 @@ class UsersController extends Controller
         return back();
       }
     }
+    public function following_users(User $user)
+    {
+      $following_users = $user->getFollowingUsers($user->id);
+      return view('users.index', [
+        'all_users' => $following_users
+      ]); 
+    }
+    public function followers(User $user)
+    {
+      $followers = $user->getFollowers($user->id);
+      return view('users.index', [
+        'all_users' => $followers
+      ]); 
+    }
+
 }
