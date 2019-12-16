@@ -18,7 +18,7 @@
                                 <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded" width="50" height="50">
                                 <div class="ml-2 d-flex flex-column">
                                     <p class="mb-0">{{ $user->name }}</p>
-                                    <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
+                                    <a href="{{ url('users/' .$user->id) }}" class="text-secondary">&#064;{{ $user->screen_name }}</a>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -41,7 +41,7 @@
                             <div class="col-md-12 text-right">
                                 <p class="mb-4 text-danger">140文字以内</p>
                                 <button type="submit" class="btn btn-primary">
-                                    ツイートする
+                                    更新する
                                 </button>
                             </div>
                         </div>

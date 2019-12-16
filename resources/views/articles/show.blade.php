@@ -10,13 +10,17 @@
                     <img src="{{ asset('storage/profile_image/' .$article->user->profile_image) }}" class="rounded" width="50" height="50">
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $article->user->name }}</p>
-                        <a href="{{ url('users/' .$article->user->id) }}" class="text-secondary">{{ $article->user->screen_name }}</a>
+                        <a href="{{ url('users/' .$article->user->id) }}" class="text-secondary">&#064;{{ $article->user->screen_name }}</a>
                     </div>
                     <div class="d-flex justify-content-end flex-grow-1">
                         <p class="mb-0 text-secondary">{{ $article->created_at->format('Y-m-d H:i') }}</p>
                     </div>
+                    
                 </div>
                 <div class="card-body">
+                <h1>{!! nl2br(e($article->title)) !!}</h1>
+
+                <div class="border-top mb-5"></div>
                     {!! nl2br(e($article->body)) !!}
                 </div>
 
@@ -53,13 +57,13 @@
                             <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
                                 @csrf
                                 <input type="hidden" name="article_id" value="{{ $article->id }}">
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
+                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
                             </form>
                         @else
                             <form method="POST" action="{{ url('favorites/' .array_column($article->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
                             @csrf
                             @method('DELETE')
-                                <button type="submit" class="btn p-0 border-0 text-danger"><i class="fas fa-heart fa-fw"></i></button>
+                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
                             </form>
                         @endif
                     @endif
@@ -105,7 +109,7 @@
                                         <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded" width="50" height="50">
                                         <div class="ml-2 d-flex flex-column">
                                             <p class="mb-0">{{ $user->name }}</p>
-                                            <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
+                                            <a href="{{ url('users/' .$user->id) }}" class="text-secondary">&#064;{{ $user->screen_name }}</a>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -124,7 +128,7 @@
                                     <div class="col-md-12 text-right">
                                         <p class="mb-4 text-danger">140文字以内</p>
                                         <button type="submit" class="btn btn-primary">
-                                            ツイートする
+                                            コメントする
                                         </button>
                                     </div>
                                 </div>
