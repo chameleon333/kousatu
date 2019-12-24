@@ -56,7 +56,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
@@ -65,6 +64,14 @@
                             </div>
                         </div>
                     </form>
+                    <div class="mt-2">
+                        <form action="login" method="POST">
+                            <input type="hidden" name="email" value="test1@test.com">
+                            <input type="hidden" name="password" value="12345678">
+                            <button type="submit" class="btn btn-primary">簡単ログイン</button>
+                            @csrf                                    
+                        </form>                    
+                    </div>
                 </div>
             </div>
         </div>
