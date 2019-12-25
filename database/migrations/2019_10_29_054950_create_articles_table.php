@@ -19,7 +19,6 @@ class CreateArticlesTable extends Migration
             $table->unsignedInteger('user_id')->comment('ユーザーID');
             $table->string('title');
             $table->text('body')->comment('本文');
-            $table->string('image_url');
             $table->timestamps();
 
 //            $table->index('id');
