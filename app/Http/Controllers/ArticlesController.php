@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Follower;
@@ -54,15 +55,27 @@ class ArticlesController extends Controller
     {
         $user = auth()->user();
         $data = $request->all();
+        $data["article"] = $article;
         $validator = Validator::make($data,[
-            'body' => ['required', 'string', 'max:140'],
-            'title' => ['required', 'string', 'max:30'],
-            'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+            'title' => ['string', 'max:30'],
+            'body' => ['string', 'max:14000'],
+            // 'image_url' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+            'image_url' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
+        
         $validator->validate();
-        $article->ArticleStore($user->id, $data);
-
-        return redirect('articles');
+        // 画像のみの投稿の処理
+        if(isset($data["image_url"]))
+        {
+            $filename = $article->uploadImage($data);
+            return "/storage/post_image/".$filename;
+        } 
+        // 記事を投稿する際の処理
+        elseif(isset($data["title"]) && isset($data["body"])) 
+        {
+            $article->ArticleStore($user->id, $data);
+            return redirect('articles');
+        }
     }
 
     /**
@@ -93,7 +106,7 @@ class ArticlesController extends Controller
     {
         $user = auth()->user();
         $articles = $article->getEditArticle($user->id, $article->id);
-
+        // dd($articles->body);
         if(!isset($articles)) {
             return redirect('articles');
         }
@@ -115,7 +128,7 @@ class ArticlesController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data,[
-            // 'title' => ['required', 'string', 'max:30'],
+            'title' => ['required', 'string', 'max:30'],
             'body' => ['required', 'string', 'max:150'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);

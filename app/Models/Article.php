@@ -63,7 +63,6 @@ class Article extends Model
       $this->user_id = $user_id;
       $this->title = $data['title'];
       $this->body = $data['body'];
-      $this->image_url = $data['image_url'];
       $this->save();
 
       return;
@@ -77,10 +76,20 @@ class Article extends Model
     public function articleUpdate(Int $article_id, Array $data)
     {
       $this->id = $article_id;
+      $this->title = $data['title'];
       $this->body = $data['body'];
       $this->update();
 
       return;
+    }
+
+    public function uploadImage(Array $params)
+    {
+        if(isset($params['image_url']))
+        {
+          $file_name = $params['image_url']->store('public/post_image');
+        }
+        return basename($file_name);
     }
 
     public function articleDestroy(Int $user_id, Int $article_id)

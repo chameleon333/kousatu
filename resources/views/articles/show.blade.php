@@ -19,15 +19,13 @@
                 </div>
                 <div class="card-body">
                 <h1>{!! nl2br(e($article->title)) !!}</h1>
-
                 <div class="border-top mb-5"></div>
-                    {!! nl2br(e($article->body)) !!}
+                    <div id="preview_marked"></div>
+                    <!-- {!! nl2br($article->body) !!} -->
                 </div>
-
+                <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;">{{$article->body}}</textarea>
                 <div class="card-footer py-1 d-flex justify-content-end bg-white">
                 @if ($user)
-
-                
                     @if ($article->user->id === Auth::user()->id)
                         <div class="dropdown mr-3 d-flex align-items-center">
                             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,7 +50,6 @@
                     </div>
                     <div class="d-flex align-items-center">
                     @if ($user)
-
                         @if (!in_array($user->id, array_column($article->favorites->toArray(),'user_id')))
                             <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
                                 @csrf
@@ -98,6 +95,7 @@
                         <p class="mb-0 text-secondary">コメントはまだありません。</p>
                     </li>
                 @endforelse
+
                 <li class="list-group-item">
                     <div class="py-3">
                         @if($user)
@@ -136,7 +134,6 @@
                         @else
                         <div class="to-login">
                             <p>ログインしてください。</p>
-                            
                         </div>
                         @endif
                     </div>
@@ -145,4 +142,7 @@
         </div>
     </div>
 </div>
+<!-- marked.js -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ asset('js/markdown_preview.js') }}" defer></script>
 @endsection
