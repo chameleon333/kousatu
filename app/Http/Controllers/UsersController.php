@@ -106,6 +106,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+      $user = auth()->user();
       $data = $request->all();
       $validator = Validator::make($data, [
         'screen_name' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],

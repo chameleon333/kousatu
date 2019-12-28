@@ -18,7 +18,7 @@
             <p class="mb-0">{{ $timeline->title }}</p>
           </a>
             <p class="mb-0 text-secondary">
-              <span>by &#064;{{$timeline->user->name}}</span>
+              <span>by &#064;{{$timeline->user->screen_name}}</span>
               <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
               <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
             </p>
