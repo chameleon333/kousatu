@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "marked": "^0.8.0",
         "tui-editor": "^1.4.10"
     }
 }
