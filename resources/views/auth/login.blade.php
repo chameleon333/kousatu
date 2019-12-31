@@ -64,14 +64,16 @@
                             </div>
                         </div>
                     </form>
-                    <div class="mt-2">
-                        <form action="login" method="POST">
-                            <input type="hidden" name="email" value="test1@test.com">
-                            <input type="hidden" name="password" value="12345678">
-                            <button type="submit" class="btn btn-primary">簡単ログイン</button>
-                            @csrf                                    
-                        </form>                    
-                    </div>
+                    <form method="POST" action="{{ route('login') }}">
+                        <div class="form-group row mt-2">
+                            <div class="col-md-8 offset-md-4">
+                                <input type="hidden" name="email" value="test1@test.com">
+                                <input type="hidden" name="password" value="12345678">
+                                <button type="submit" class="btn btn-primary">簡単ログイン</button>
+                                @csrf                                                                    
+                            </div>
+                        </div>
+                    </form>                    
                 </div>
             </div>
         </div>

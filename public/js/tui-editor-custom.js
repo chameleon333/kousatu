@@ -39,17 +39,14 @@ function ImageUpload(images){
 function callBody(){
     document.getElementById('edit_content').innerHTML = this.editor.getMarkdown();
 }
-  
-
 
 console.log("test1");
-
 
 this.editor = new tui.Editor({
     el: document.querySelector('#editSection'),
     previewStyle: 'vertical',
     height: '500px',
-    placeholder: 'text input...',
+    placeholder: 'Markdawn記法であなたの考察を共有しましょう！',
     hooks: {
         addImageBlobHook: function(blob, callback){
             var upload_file = ImageUpload(blob);
@@ -58,7 +55,8 @@ this.editor = new tui.Editor({
         }
     },
     initialEditType: 'markdown',
-    toolbarItems: ['image']
+    toolbarItems: ['image'],
+    hideModeSwitch:true
 });
 //textareaから取得したデータの改行コードを統一する
 var body = document.getElementById('edit_content').value.replace(/\r\n|\r/g, "\n");
@@ -66,5 +64,8 @@ var lines = body.split('¥n');
 var content = [lines].join('¥n');
 
 editor.setValue(content);
+
+// ModeSwitch = new ModeSwitch($rootElement,initialType);
+
 
 console.log("test2");

@@ -53,17 +53,20 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav navbar-ori">
+                    <ul class="navbar-nav ml-auto mr-2 navbar-ori">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mr-2 navbar-ori">
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+                    </ul>
                         @else
                                 <li class="nav-item dropdown">
 
@@ -88,7 +91,7 @@
                                     </div>
                             </li>
                         @endguest
-                    </ul>
+                    <!-- </ul> -->
                 </div>
             </div>
         </nav>
