@@ -1,0 +1,30 @@
+$black:black;
+$bg-yellow:#ffdd76;
+
+.black {
+    color:$black;
+}
+
+.bg-yellow {
+    background-color:$bg-yellow;
+}
+
+.ml-2 > a:hover {
+    color:$black;
+}
+
+.text-secondary{
+    font-size:0.8em;
+}
+
+.navbar-ori {
+    flex-direction: row !important;
+}
+
+.anderline-none{
+    text-decoration: none !important;
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute !important;
+}
