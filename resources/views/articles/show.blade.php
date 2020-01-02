@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
 
     <div class="row justify-content-center mb-5">
         <div class="col-md-8 mb-3">
@@ -15,7 +15,6 @@
                     <div class="d-flex justify-content-end flex-grow-1">
                         <p class="mb-0 text-secondary">{{ $article->created_at->format('Y-m-d H:i') }}</p>
                     </div>
-                    
                 </div>
                 <div class="card-body">
                 <h1>{!! nl2br(e($article->title)) !!}</h1>
@@ -58,11 +57,17 @@
                             </form>
                         @else
                             <form method="POST" action="{{ url('favorites/' .array_column($article->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
-                            @csrf
-                            @method('DELETE')
+                                @csrf
+                                @method('DELETE')
                                 <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
                             </form>
                         @endif
+                    @else
+                        <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
+                            @csrf
+                            <input type="hidden" name="article_id" value="{{ $article->id }}">
+                            <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
+                        </form>                    
                     @endif
                         <p class="mb-0 text-secondary">{{ count($article->favorites) }}</p>
                     </div>
@@ -70,7 +75,6 @@
             </div>
         </div>
     </div>
-
     <div class="row justify-content-center">
         <div class="col-md-8 mb-3">
             <ul class="list-group">
@@ -132,13 +136,12 @@
                                 </div>
                             </form>
                         @else
-                        <div class="to-login">
-                            <p>ログインしてください。</p>
-                        </div>
-                        @endif
                     </div>
                 </li>
             </ul>
+                @component('components.login_form')
+                @endcomponent
+            @endif
         </div>
     </div>
 </div>

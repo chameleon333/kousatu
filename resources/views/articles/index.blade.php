@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container">
+  @guest
+    @component('components.login_form')
+    @endcomponent
+  @endguest
+
   <div class="row justify-content-center">
     <div class="col-md-8 mb-3 text-right">
       <a href="{{ url('users') }}">ユーザ一覧 <i class="fas fa-users" class="fa-fw"></i> </a>
