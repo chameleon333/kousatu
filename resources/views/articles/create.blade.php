@@ -13,8 +13,7 @@
                 <input type="text" name="title" class="form-control">
                 <!-- Create the editor container -->                
                 <div id="editSection" rows="8" cols="40">{{ old('body')}}</div>
-                <!-- <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;">fdasffda</textarea> -->
-                <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style=""></textarea>
+                <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;"></textarea>
                 @error('image_url')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
