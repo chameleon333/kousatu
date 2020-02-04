@@ -109,7 +109,8 @@ class UsersController extends Controller
       $user = auth()->user();
       $data = $request->all();
       $validator = Validator::make($data, [
-        'screen_name' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
+        #0-9,英数字,記号の_のみだけ登録できるよう設定
+        'screen_name' => ['required', 'regex:/^(\w)+$/', 'max:50', Rule::unique('users')->ignore($user->id)],
         'name' => ['required', 'string', 'max:255'],
         'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
