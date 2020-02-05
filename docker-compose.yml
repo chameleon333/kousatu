@@ -22,38 +22,41 @@ services:
     image: mysql:5.7
     container_name: db-host
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-      TZ: 'Azia/Tokyo'
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      TZ: ${TZ}
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-    - ./docker/db/data:/var/lib/mysql
-    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    - ./docker/db/sql:/docker-entrypoint-initdb.d
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
-    - 3306:3306
+      - ${DB_PORT}:3306
 
   selenium:
     container_name: chrome
     image: selenium/standalone-chrome
     ports:
       - 4444:4444
-    # mysql_test:
-    #   image: mysql:5.7
-    #   container_name: test_db-host
-    #   environment:
-    #     MYSQL_ROOT_PASSWORD: root
-    #     MYSQL_DATABASE: database
-    #     MYSQL_USER: docker
-    #     MYSQL_PASSWORD: docker
-    #     TZ: 'Azia/Tokyo'
-    #   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    #   volumes:
-    #   - ./docker/db/data:/var/lib/mysql
-    #   - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    #   - ./docker/db/sql:/docker-entrypoint-initdb.d
-    #   ports:
-    #   - 3306:3306
+
+  db-testing:
+    image: mysql:5.7
+    container_name: db-testing
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      TZ: ${TZ}
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+
+    tmpfs:
+      - /var/lib/mysql
+      - /var/log/mysql
+    ports:
+      - ${DB_PORT_TESTING}:3307
   
