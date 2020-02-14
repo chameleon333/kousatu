@@ -1,18 +1,17 @@
 <?php
 
-// namespace Tests\Feature;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-// use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
-
+use App\Models\Article;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
     /**
      * A basic feature test example.
      *
@@ -183,7 +182,7 @@ class UserTest extends TestCase
             ]);
         }
 
-    }
-    
+    } 
 
+    
 }

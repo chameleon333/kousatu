@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
@@ -12,7 +13,7 @@ use Tests\TestCase;
 class PaginationTest extends TestCase
 {
 
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     /**
      * A basic feature test example.
@@ -30,9 +31,10 @@ class PaginationTest extends TestCase
     {
         $response = $this->get('/articles');
         $response->assertSee('ユーザ一覧');
+        // $response->dump();
     }
 
-    //ログイン時、記事投稿画面に遷移する
+    // //ログイン時、記事投稿画面に遷移する
     public function testPostForm_inLogin()
     {
         $user = factory(User::class)->create();
@@ -47,9 +49,6 @@ class PaginationTest extends TestCase
         $response = $this->get('/articles/create');
         $response->assertLocation('/login');
     }
-
-
-
 
 }
 
