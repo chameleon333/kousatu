@@ -83,11 +83,11 @@ class Article extends Model
       return;
     }
 
-    public function uploadImage(Array $params)
+    public function uploadImage(Array $params,$savepath)
     {
         if(isset($params['image_url']))
         {
-          $file_name = $params['image_url']->store('public/post_image');
+          $file_name = $params['image_url']->store($savepath);
         }
         return basename($file_name);
     }

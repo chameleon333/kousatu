@@ -59,7 +59,6 @@ class ArticlesController extends Controller
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
             'body' => ['string', 'max:14000'],
-            // 'image_url' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
             'image_url' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
         
@@ -67,8 +66,10 @@ class ArticlesController extends Controller
         // 画像のみの投稿の処理
         if(isset($data["image_url"]))
         {
-            $filename = $article->uploadImage($data);
-            return "/storage/post_image/".$filename;
+            $savepath ="public/post_image/";
+            $readpath ="/storage/post_image/";
+            $filename = $article->uploadImage($data,$savepath);
+            return $readpath.$filename;
         } 
         // 記事を投稿する際の処理
         elseif(isset($data["title"]) && isset($data["body"])) 
