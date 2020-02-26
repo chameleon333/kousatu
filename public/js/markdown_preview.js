@@ -4,6 +4,3 @@ var lines = body.split('¥n');
 var content = [lines].join('¥n');
 
 document.getElementById('preview_marked').innerHTML = marked(content)
-
-console.log("test3");
-console.log("test4")
