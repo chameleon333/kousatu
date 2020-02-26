@@ -28,3 +28,26 @@
   position: absolute !important;
 }
 
+#preview_marked img {
+  width: 100%;
+  margin-bottom:1.5em;
+}
+#preview_marked .h1, h1 {
+  font-size: 1.5rem!important;
+}
+#preview_marked .h2, h2 {
+  font-size: 1.3rem!important;
+}
+#preview_marked .h3, h3 {
+  font-size: 1.2rem!important;
+}
+#preview_marked .h4, h4 {
+  font-size: 1.1rem!important;
+}
+#preview_marked .h5, h5 {
+  font-size: 1.0rem!important;
+}
+
+.card .h4, h4{
+  font-size: 1.1rem!important;
+}
