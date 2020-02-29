@@ -8,8 +8,8 @@ services:
     - ./:/var/www
 
   nginx:
-    image: nginx
     container_name: nginx
+    build: ./docker/nginx
     ports:
     - 80:80
     volumes:
