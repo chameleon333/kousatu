@@ -1,5 +1,5 @@
 FROM php:7.3-fpm
-COPY php.ini /usr/local/etc/php/
+COPY ./docker/php/php.ini /usr/local/etc/php/
 
 RUN apt-get update \
     && apt-get install -y libicu-dev unzip zlib1g-dev mariadb-client libzip-dev \
@@ -13,6 +13,8 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vender/bin
 
-WORKDIR /var/www
 RUN composer global require "laravel/installer"
 
+ADD . /var/www
+
+WORKDIR /var/www

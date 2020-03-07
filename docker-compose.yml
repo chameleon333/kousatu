@@ -3,13 +3,17 @@ version: '3'
 services:
   php:
     container_name: php
-    build: ./docker/php
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
     volumes:
     - ./:/var/www
 
   nginx:
     container_name: nginx
-    build: ./docker/nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     ports:
     - 80:80
     volumes:
