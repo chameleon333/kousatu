@@ -58,7 +58,7 @@ class ArticlesController extends Controller
         $data["article"] = $article;
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
-            'body' => ['string', 'max:14000'],
+            // 'body' => ['string', 'max:140'],
             'image_url' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
         
@@ -130,7 +130,7 @@ class ArticlesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data,[
             'title' => ['required', 'string', 'max:30'],
-            'body' => ['required', 'string', 'max:150'],
+            // 'body' => ['required', 'string', 'max:150'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 
