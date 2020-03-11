@@ -39,7 +39,6 @@ class UserTest extends TestCase
         ]);
 
         #いいねを外せているかチェック
-        // SELECT
         $favorite = \App\Models\Favorite::where('user_id',$user_id)->where('article_id',$article_id)->first();
         $this->assertNotNull($favorite); // データが取得できたかテスト
         $favorite_id =$favorite->id;
@@ -78,7 +77,9 @@ class UserTest extends TestCase
     {
         $testPassword = "123456789";
 
-        #アップロードしたプロフィールデータがDBにあるかテスト
+        # 正常系テスト
+
+        ## アップロードしたプロフィールデータがDBにあるかテスト
         $factory_userA = factory(App\Models\User::class)->make();
         $testUserNameA = $factory_userA->screen_name;
         $testEmailA = $factory_userA->email;
@@ -88,11 +89,14 @@ class UserTest extends TestCase
             'screen_name' => $testUserNameA,
             'email' => $testEmailA
         ]);
+
+        # 異常系テスト
+
+        ## 不正な形式のユーザー名が登録されないかテスト
         $Bad_testUserName = "testUserばっとてすと@";
         $factory_userB = factory(App\Models\User::class)->make();
         $testEmailB = $factory_userB->email;
 
-        #不正な形式のユーザー名が登録されないかテスト
         $this->post('/register', ['screen_name' => $Bad_testUserName, 'email' => $testEmailB, 'password' => $testPassword, 'password_confirmation' => $testPassword]);
         $this->assertDatabaseMissing('users', [
             'screen_name' => $Bad_testUserName,
