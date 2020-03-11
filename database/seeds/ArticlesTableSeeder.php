@@ -12,11 +12,18 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
+      #htmlデータから記事投稿に使用する
+      $path = dirname(__FILE__).'/data/*.html';
+      $article_paths = File::glob($path);
+
       for ($i = 1; $i <= 10; $i++){
+        #body用データ読み込み
+        $body = file_get_contents($article_paths[$i-1]);
+        $title = basename($article_paths[$i-1],'.html');
         Article::create([
           'user_id' => $i,
-          'title' => 'これはテストタイトル'. $i,
-          'body' => 'これはテスト投稿'. $i,
+          'title' => $title,
+          'body' => $body,
           'created_at' => now(),
           'updated_at' => now(),
         ]);
