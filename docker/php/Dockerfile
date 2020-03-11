@@ -18,3 +18,6 @@ RUN composer global require "laravel/installer"
 ADD . /var/www
 
 WORKDIR /var/www
+
+RUN chmod -R a+w storage/ bootstrap/cache
+
