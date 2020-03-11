@@ -10,7 +10,7 @@
 ?>
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-8 mb-3">
+    <div class="col-md-10 mb-3">
       <div class="card">
         <div class="p-1 d-sm-flex">
           <div class="m-3 d-flex flex-column">
@@ -65,7 +65,7 @@
     </div>
     @if (isset($timelines))
     @foreach ($timelines as $timeline)
-    <div class="col-md-8 mb-3">
+    <div class="col-md-10 mb-3">
       <div class="card">
 
         <div class="card-body p-3 w-100 d-flex">
