@@ -10,11 +10,13 @@
     "require": {
         "php": "^7.2",
         "ext-intl": "*",
+        "aws/aws-sdk-php": "^3.133",
         "barryvdh/laravel-debugbar": "^3.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.1",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "nesbot/carbon": "^2.25"
     },
     "require-dev": {

@@ -4,8 +4,8 @@ function ImageUpload(images){
     var upload_file = "";
     console.log(images);
     var dataimg = new FormData();
-    dataimg.append('image_url', images);
-    console.log("dataimg "+dataimg.get('image_url'));
+    dataimg.append('image', images);
+    console.log("dataimg "+dataimg.get('image'));
     
     $.ajax({
         headers: {
@@ -40,7 +40,6 @@ function callBody(){
     document.getElementById('edit_content').innerHTML = this.editor.getMarkdown();
 }
 
-console.log("test1");
 
 this.editor = new tui.Editor({
     el: document.querySelector('#editSection'),

@@ -9,6 +9,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Follower;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ArticlesController extends Controller
 {
@@ -58,18 +59,16 @@ class ArticlesController extends Controller
         $data["article"] = $article;
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
-            // 'body' => ['string', 'max:140'],
-            'image_url' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
+            'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
         
         $validator->validate();
         // 画像のみの投稿の処理
-        if(isset($data["image_url"]))
+        if(isset($data["image"]))
         {
-            $savepath ="public/post_image/";
-            $readpath ="/storage/post_image/";
-            $filename = $article->uploadImage($data,$savepath);
-            return $readpath.$filename;
+            $image = Storage::disk('s3')->putFile('/post_images', $data["image"], 'public');
+            $image_path = Storage::disk('s3')->url($image);
+            return $image_path;
         } 
         // 記事を投稿する際の処理
         elseif(isset($data["title"]) && isset($data["body"])) 

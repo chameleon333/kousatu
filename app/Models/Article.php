@@ -83,15 +83,6 @@ class Article extends Model
       return;
     }
 
-    public function uploadImage(Array $params,$savepath)
-    {
-        if(isset($params['image_url']))
-        {
-          $file_name = $params['image_url']->store($savepath);
-        }
-        return basename($file_name);
-    }
-
     public function articleDestroy(Int $user_id, Int $article_id)
     {
       return $this->where('user_id',$user_id)->where('id',$article_id)->delete();
