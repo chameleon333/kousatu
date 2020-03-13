@@ -8,7 +8,7 @@
           <div class="card">
             <div class="card-haeder p-3 w-100 d-flex">
             <a href="{{ url('users/' .$user->id) }}" class="text-secondary">
-              <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded" width="50" height="50">
+              <img src="{{ asset($user->profile_image) }}" class="rounded" width="50" height="50">
             </a>
               <div class="ml-2 d-flex flex-column">
                 <p class="mb-0">{{ $user->name }}</p>

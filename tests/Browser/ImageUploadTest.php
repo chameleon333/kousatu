@@ -21,6 +21,8 @@ class ImageUploadTest extends DuskTestCase
     {
         $user = factory(App\Models\User::class)->create();
         $uploadedFile = UploadedFile::fake()->image('testImage.png');
+        $uploadedFile->move('tests/data');
+        $filename = $uploadedFile->getFilename();
 
         $this->browse(function ($first) use ($user){
             $first->loginAs($user)

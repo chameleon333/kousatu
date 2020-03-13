@@ -18,7 +18,7 @@
       <div class="card">
         <div class="card-haeder p-3 w-100 d-flex">
         <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
-          <img src="{{ asset('storage/profile_image/' .$timeline->user->profile_image) }}" class="rounded" width="50" height="50">
+          <img src="{{ asset($timeline->user->profile_image) }}" class="rounded" width="50" height="50">
         </a>
           <div class="ml-2 d-flex flex-column">
           <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">

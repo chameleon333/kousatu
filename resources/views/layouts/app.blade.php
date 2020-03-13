@@ -70,7 +70,7 @@
                             <li class="nav-item dropdown">
 
                                 <a id="navbarDropdown" class="dropdown-toggle anderline-none" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img src="{{ asset('storage/profile_image/' .auth()->user()->profile_image) }}" class="rounded" width="37" height="37">
+                                    <img src="{{ asset(auth()->user()->profile_image) }}" class="rounded" width="37" height="37">
                                     <span class="caret"></span>
                                 </a>                                    
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

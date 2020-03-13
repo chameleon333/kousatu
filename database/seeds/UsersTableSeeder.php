@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
       User::create([
         'screen_name' => 'test1@test.com',
         'name'           => 'test1',
-        'profile_image'  => 'profile1.jpeg',
+        'profile_image'  => 'storage/profile_image/profile1.jpeg',
         'email'          => 'test1@test.com',
         'password'       => Hash::make('12345678'),
         'remember_token' => Str::random(10),
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
         User::create([
           'screen_name' => $faker->unique()->regexify('\w{8}'),
           'name'           => $faker->name,
-          'profile_image'  => 'profile'.$i.'.jpeg',
+          'profile_image'  => 'storage/profile_image/profile'.$i.'.jpeg',
           'email'          => $faker->email,
           'password'       => Hash::make('12345678'),
           'remember_token' => Str::random(10),
