@@ -1,0 +1,21 @@
+version: 2
+jobs:
+    build:
+        machine: true
+        steps:
+            - checkout
+            - run:
+                name: Setup docker
+                command: |
+                    docker-compose build
+                    docker-compose up -d
+            - run:
+                name: Setup Laravel
+                command: |
+                    cp .env.testing .env
+                    docker-compose run php php artisan migrate: refresh --seed
+            - run:
+                name Run test
+                command: |
+                    docker-compose run php vender/bin/phpunit
+                    docker-compose run php php artisan dusk
