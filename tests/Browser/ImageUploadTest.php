@@ -20,18 +20,18 @@ class ImageUploadTest extends DuskTestCase
     public function testPostImage_in_article_create()
     {
         $user = factory(App\Models\User::class)->create();
-        $uploadedFile = UploadedFile::fake()->image('testImage.png');
+        $uploadedFile = UploadedFile::fake()->image('testImage.jpg');
         $uploadedFile->move('tests/data');
         $filename = $uploadedFile->getFilename();
 
-        $this->browse(function ($first) use ($user){
+        $this->browse(function ($first) use ($user,$filename){
             $first->loginAs($user)
                   ->visit('/articles/create')
                   ->click('#editSection > div > div.te-toolbar-section > div.tui-editor-defaultUI-toolbar > button')
-                  ->attach('.te-image-file-input','/var/www/tests/data/testImage.png')
+                  ->attach('.te-image-file-input','/var/www/tests/data/'.$filename)
                   ->click('#editSection > div > div.tui-popup-wrapper.te-popup-add-image.tui-editor-popup > div.tui-popup-body > div.te-button-section > button.te-ok-button')
                   ->screenshot('test')
-                  ->assertSee('/storage/post_image/');
+                  ->assertSee('post_images/');
         });
     }
 }
