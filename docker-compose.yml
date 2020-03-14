@@ -49,7 +49,7 @@ services:
     image: mysql:5.7
     container_name: db-testing
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_DATABASE: ${DB_DATABASE_TESTING}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
       MYSQL_PASSWORD: ${DB_PASSWORD}
