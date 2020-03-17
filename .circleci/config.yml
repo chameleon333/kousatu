@@ -1,6 +1,7 @@
 version: 2
 jobs:
     build:
+        context: kousatu
         machine: true
         steps:
             - checkout
@@ -11,8 +12,7 @@ jobs:
             - run:
                 name: Setup docker
                 command: |
-                    docker-compose build
-                    docker-compose up -d
+                    docker-compose up -d --build
             - run:
                 name: Setup Laravel
                 command: |
