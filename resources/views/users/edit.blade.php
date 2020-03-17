@@ -12,7 +12,7 @@
             @method('PUT')
             
             <div class="col-md-6 d-flex align-items-center">
-              <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="mr-2 rounded" width="80" height="80" alt="profile_image">
+              <img src="{{ asset($user->profile_image) }}" class="mr-2 rounded" width="80" height="80" alt="profile_image">
               <input type="file" name="profile_image" class="@error('profile_image') is-invalid @enderror" autocomplete="profile_image">
               
               @error('profile_image')

@@ -7,7 +7,7 @@
         <div class="col-md-8 mb-3">
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
-                    <img src="{{ asset('storage/profile_image/' .$article->user->profile_image) }}" class="rounded" width="50" height="50">
+                    <img src="{{ asset($article->user->profile_image) }}" class="rounded" width="50" height="50">
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $article->user->name }}</p>
                         <a href="{{ url('users/' .$article->user->id) }}" class="text-secondary">&#064;{{ $article->user->screen_name }}</a>
@@ -81,7 +81,7 @@
                 @forelse ($comments as $comment)
                     <li class="list-group-item">
                         <div class="py-3 w-100 d-flex">
-                            <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded" width="50" height="50">
+                            <img src="{{ asset($comment->user->profile_image) }}" class="rounded" width="50" height="50">
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $comment->user->name }}</p>
                                 <a href="{{ url('users/' .$comment->user->id) }}" class="text-secondary">&#064;{{ $comment->user->screen_name }}</a>
@@ -108,7 +108,7 @@
 
                                 <div class="form-group row mb-s0">
                                     <div class="col-md-12 p-3 w-100 d-flex">
-                                        <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded" width="50" height="50">
+                                        <img src="{{ asset($user->profile_image) }}" class="rounded" width="50" height="50">
                                         <div class="ml-2 d-flex flex-column">
                                             <p class="mb-0">{{ $user->name }}</p>
                                             <a href="{{ url('users/' .$user->id) }}" class="text-secondary">&#064;{{ $user->screen_name }}</a>

@@ -14,7 +14,7 @@
       <div class="card">
         <div class="p-1 d-sm-flex">
           <div class="m-3 d-flex flex-column">
-            <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded" width="100" height="100">
+            <img src="{{ asset($user->profile_image) }}" class="rounded" width="100" height="100">
             <div class="mt-3 d-flex flex-column">
               <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
               <span class="text-secondary">&#064;{{ $user->screen_name }}</span>
