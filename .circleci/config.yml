@@ -17,15 +17,18 @@ jobs:
                     - composer-v1-{{ checksum "composer.lock" }}
                     - composer-v1-
             - run:
-                name: Setup Laravel
+                name: Install Composer
                 command: |
                     docker-compose run php composer install --prefer-dist
-                    docker-compose run php chmod -R a+w storage/ bootstrap/cache
-                    docker-compose run php php artisan migrate:refresh --seed
             - save_cache:
                 key: composer-v1-{{ checksum "composer.lock" }}
                 paths:
                     - vendor
+            - run:
+                name: Setup Laravel
+                command: |
+                    docker-compose run php chmod -R a+w storage/ bootstrap/cache
+                    docker-compose run php php artisan migrate:refresh --seed
             - run:
                 name: Run test
                 command: |
