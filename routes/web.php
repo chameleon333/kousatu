@@ -20,9 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('articles', 'ArticlesController@index')->name('articles.index');
+Route::get('search', 'SearchController@index')->name('search.index');
 Route::resource('users', 'UsersController',['only' => ['index', 'show']]);
-
-
 
 #ログイン状態
 Route::group(['middleware' => 'auth'], function() {

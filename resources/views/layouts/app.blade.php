@@ -43,7 +43,7 @@
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     <img src="/storage/logo/logo.png" width="130px">
                 </a>
-                <form action="{{ url('/articles') }}">
+                <form action="{{ url('/search') }}">
                     <span><input type="text" name="keyword" value="{{$keyword}}" class="form-control" placeholder="キーワード検索"></span>
                 </form>         
                 <div class="navbar" id="navbarSupportedContent">
