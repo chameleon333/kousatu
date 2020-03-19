@@ -13,21 +13,21 @@
     <div class="col-md-8 mb-3 text-right">
       <a href="{{ url('users') }}">ユーザ一覧 <i class="fas fa-users" class="fa-fw"></i> </a>
     </div>
-    @foreach ($timelines as $timeline)
+    @foreach ($search_articles as $search_article)
     <div class="col-md-8 mb-3">
       <div class="card">
         <div class="card-haeder p-3 w-100 d-flex">
-        <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
-          <img src="{{ asset($timeline->user->profile_image) }}" class="rounded" width="50" height="50">
+        <a href="{{ url('users/' .$search_article->user->id) }}" class="text-secondary">
+          <img src="{{ asset($search_article->user->profile_image) }}" class="rounded" width="50" height="50">
         </a>
           <div class="ml-2 d-flex flex-column">
-          <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
-            <p class="mb-0">{{ $timeline->title }}</p>
+          <a href="{{ route('articles.show', ['article'=>$search_article->id]) }}">
+            <p class="mb-0">{{ $search_article->title }}</p>
           </a>
             <p class="mb-0 text-secondary">
-              <span>by &#064;{{$timeline->user->screen_name}}</span>
-              <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
-              <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
+              <span>by &#064;{{$search_article->user->screen_name}}</span>
+              <span>{{ $search_article->created_at->format('Y-m-d H:i') }}</span>
+              <span><i class="far fa-thumbs-up"></i>{{ count($search_article->favorites) }}</span>
             </p>
           </div>
         </div>
@@ -36,7 +36,7 @@
     @endforeach
   </div>
   <div class="my-4 d-flex justify-content-center">
-    {{ $timelines->links() }}
+    {{ $search_articles->links() }}
   </div>
 </div>
 @endsection

@@ -19,7 +19,7 @@ class SearchController extends Controller
         }
         // dump($articles);
         return view('search.index', [
-            'timelines' => $articles
+            'search_articles' => $articles
         ]);
     }
 }
