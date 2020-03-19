@@ -42,8 +42,10 @@
                 <a class="navbar-brand" href="{{ url('/articles') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     <img src="/storage/logo/logo.png" width="130px">
-                </a>               
-                
+                </a>
+                <form action="{{ url('/articles') }}">
+                    <span><input type="text" name="keyword" value="{{$keyword}}" class="form-control" placeholder="キーワード検索"></span>
+                </form>         
                 <div class="navbar" id="navbarSupportedContent">
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto mr-2 navbar-ori">
