@@ -38,24 +38,32 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-yellow bg-color shadow-sm">
-            <div class="container">
+            <div class="container pl-2">
+
+            <div class="row">
                 <a class="navbar-brand" href="{{ url('/articles') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     <img src="/storage/logo/logo.png" width="130px">
                 </a>
-                <form action="{{ url('/search') }}">
-                    <span><input type="text" name="keyword" value="{{$keyword}}" class="form-control" placeholder="キーワード検索"></span>
-                </form>         
-                <div class="navbar" id="navbarSupportedContent">
+                <div class="btn-group">
+                    <span class="fa fa-search top_seach_icon btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                    <div class="dropdown-menu">
+                <form action="{{ url('/search') }}" class="form-inline mt-10 w-100">
+                    <span class="p-2 w-100"><input type="text" name="keyword" value="{{$keyword}}" class="form-control pl-4 small w-100" placeholder="キーワード検索"></span>
+                </form>  
+                    </div>
+                </div>
+            </div>
+                <div id="navbarSupportedContent" class="py-2">
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto mr-2 navbar-ori">
+                    <ul class="navbar-nav navbar-ori mb-1">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
                                 <a class="btn btn-light" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                     </ul>
-                    <ul class="navbar-nav ml-auto mr-2 navbar-ori">
+                    <ul class="navbar-nav navbar-ori">
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="btn btn-outline-light" href="{{ route('register') }}">{{ __('Register') }}</a>

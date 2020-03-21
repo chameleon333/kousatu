@@ -51,3 +51,33 @@
 .card .h4, h4{
   font-size: 1.1rem!important;
 }
+
+.top_seach_icon {
+  font-size:1.3rem!important;
+  position:relative;
+  color:white!important;
+  top:14px;
+  right:12px;
+  font-size:1rem;
+  cursor: pointer;
+}
+
+.top_seach_icon:hover{
+  opacity: 0.6;
+}
+
+.form-control {
+  font-size:0.8rem!important;
+}
+
+.btn-group > .dropdown-menu {
+  position:fixed!important;
+  top:8%!important;
+  width:90%!important;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.navbar {
+  padding:0 15px !important;
+}
