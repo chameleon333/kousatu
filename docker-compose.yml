@@ -33,7 +33,7 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       TZ: ${TZ}
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
