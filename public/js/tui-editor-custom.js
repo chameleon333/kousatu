@@ -54,7 +54,27 @@ this.editor = new tui.Editor({
         }
     },
     initialEditType: 'markdown',
-    toolbarItems: ['image'],
+    toolbarItems: ['heading',
+    'bold',
+    'italic',
+    'strike',
+    'divider',
+    'hr',
+    'quote',
+    'divider',
+    'ul',
+    'ol',
+    'task',
+    'indent',
+    'outdent',
+    'divider',
+    'table',
+    'image',
+    'link',
+    'divider',
+    'code',
+    'codeblock',
+    'divider',],
     hideModeSwitch:true
 });
 //textareaから取得したデータの改行コードを統一する
@@ -65,6 +85,3 @@ var content = [lines].join('¥n');
 editor.setValue(content);
 
 // ModeSwitch = new ModeSwitch($rootElement,initialType);
-
-
-console.log("test2");
