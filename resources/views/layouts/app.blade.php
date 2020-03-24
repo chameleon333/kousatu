@@ -56,17 +56,15 @@
             </div>
                 <div id="navbarSupportedContent" class="py-2">
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav navbar-ori mb-1">
+                    <ul class="navbar-nav navbar-ori">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a class="btn btn-light" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <li class="nav-item px-1">
+                                <a class="btn btn-light btn-sm" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                    </ul>
-                    <ul class="navbar-nav navbar-ori">
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="btn btn-outline-light btn-sm" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                     </ul>
