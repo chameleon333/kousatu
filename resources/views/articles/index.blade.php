@@ -10,20 +10,25 @@
   @endguest
 
   <div class="row justify-content-center">
-    <div class="col-md-8 mb-3 text-right">
+    <div class="col-md-9 mb-3 text-right">
       <a href="{{ url('users') }}">ユーザ一覧 <i class="fas fa-users" class="fa-fw"></i> </a>
     </div>
+    <div class="col-md-9 mb-3 row">
     @foreach ($timelines as $timeline)
-    <div class="col-md-8 mb-3">
+    <div class="p-2 col-sm-6">
       <div class="card">
-        <div class="card-haeder p-3 w-100 d-flex">
-        <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
-          <img src="{{ asset($timeline->user->profile_image) }}" class="rounded" width="50" height="50">
-        </a>
+        <!-- <div class="w-100" style="background-image: url('https://placehold.jp/500x400.png');height:150px;"></div> -->
+        <img src="https://placehold.jp/500x400.png" alt="" class="w-100">
+        <div class="card-haeder w-100 d-flex p-3">
           <div class="ml-2 d-flex flex-column">
-          <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
-            <p class="mb-0">{{ $timeline->title }}</p>
-          </a>
+            <div class="w-100 d-inline-flex">
+            <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
+                <img src="{{ asset($timeline->user->profile_image) }}" class="rounded" width="39" height="39">
+              </a>
+              <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
+                <p >{{ $timeline->title }}</p>
+              </a>
+            </div>
             <p class="mb-0 text-secondary">
               <span>by &#064;{{$timeline->user->screen_name}}</span>
               <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
@@ -32,8 +37,9 @@
           </div>
         </div>
       </div>
-    </div>
+      </div>
     @endforeach
+    </div>
   </div>
   <div class="my-4 d-flex justify-content-center">
     {{ $timelines->links() }}
