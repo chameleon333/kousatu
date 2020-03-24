@@ -81,3 +81,9 @@
 .navbar {
   padding:0 15px !important;
 }
+
+.text_ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

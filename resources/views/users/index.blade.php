@@ -6,33 +6,35 @@
       <div class="col-md-10">
         @foreach ($all_users as $user)
           <div class="card">
-            <div class="card-haeder p-3 w-100 d-flex">
+            <div class="card-haeder p-3 w-100 d-flex flex-wrap">
             <a href="{{ url('users/' .$user->id) }}" class="text-secondary">
-              <img src="{{ asset($user->profile_image) }}" class="rounded" width="50" height="50">
+              <img src="{{ asset($user->profile_image) }}" class="rounded" width="39" height="39">
             </a>
-              <div class="ml-2 d-flex flex-column">
-                <p class="mb-0">{{ $user->name }}</p>
-                <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{$user->screen_name}}</a>
+              <div class="ml-2 d-flex flex-column w-50">
+                <div class="mb-0 small w-100 text_ellipsis"><a href="{{ url('users/' .$user->id) }}">{{ $user->name }}</a></div>
+                <div class="w-100 d-inline-flex">
+                  <div class="w-25 text_ellipsis"><span class="text-secondary">&#064;{{$user->screen_name}}</span></div>
+                  @if(auth()->user())
+                    @if (auth()->user()->isFollowed($user->id))
+                      <div class="w-75 text_ellipsis"><span class="small pl-2">フォローされてます</span></div>
+                    @endif
+                  @endif
+                </div>
               </div>
-              @if(auth()->user())
-                @if (auth()->user()->isFollowed($user->id))
-                  <div class="px-2">
-                    <span class="px-1 bg-secondary text-light">フォローされてます</span>
-                  </div>
-                @endif
-              @endif
-              <div class="d-flex justify-content-end flex-grow-1">
+
+
+              <div class="d-flex justify-content-end flex-grow-1 w-25">
               @if(auth()->user())
                 @if (auth()->user()->isFollowing($user->id))
                   <form action="{{route('users.unfollow', ['user' => $user->id]) }}" method="POST">
                     {{csrf_field()}}
                     {{method_field('DELETE')}}
-                    <button type="submit" class="btn btn-danger">フォロー解除</button>
+                    <button type="submit" class="btn btn-danger btn-sm">フォロー解除</button>
                   </form>
                 @else
                   <form action="{{route('users.follow', ['user' => $user->id]) }}" method="POST">
                     {{ csrf_field() }}
-                    <button type="submit" class="btn btn-primary">フォローする</button>
+                    <button type="submit" class="btn btn-primary btn-sm">フォロー</button>
                   </form>
                 @endif
               @else
