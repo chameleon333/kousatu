@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Article;
 use App\Models\User;
 
 use Tests\TestCase;
@@ -48,6 +49,13 @@ class PaginationTest extends TestCase
     {
         $response = $this->get('/articles/create');
         $response->assertLocation('/login');
+    }
+
+    #検索時に記事が出るかテスト
+    public function testSearch_articles() {
+        $article = factory(Article::class)->create();
+        $response = $this->post('/search',["keyword"=>$article->title]);
+        $response->assertSee($article->title);
     }
 
 }
