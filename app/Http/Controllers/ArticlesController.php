@@ -66,13 +66,22 @@ class ArticlesController extends Controller
         // 画像のみの投稿の処理
         if(isset($data["image"]))
         {
-            $image = Storage::disk('s3')->putFile('/post_images', $data["image"], 'public');
+            $image = Storage::disk('s3')->putFile('/article_images', $data["image"], 'public');
             $image_path = Storage::disk('s3')->url($image);
             return $image_path;
         } 
         // 記事を投稿する際の処理
         elseif(isset($data["title"]) && isset($data["body"])) 
         {
+            // dump($data);
+            if(!isset($data["header_image"])){
+                $data["header_image"] = "https://placehold.jp/500x400.png";
+            } else {
+                dump("test");
+                dump($data["header_image"]);
+                $image = Storage::disk('s3')->putFile('/header_images', $data["header_image"], 'public');
+                $data["header_image"] = Storage::disk('s3')->url($image);
+            }
             $article->ArticleStore($user->id, $data);
             return redirect('articles');
         }

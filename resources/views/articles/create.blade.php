@@ -10,6 +10,14 @@
             @csrf
             <div class="form-group row mb-0">
               <div class="col-md-12">
+              <div class="input-group">
+                    <label class="input-group-btn">
+                        <span class="btn btn-primary">
+                            Choose File<input type="file" name="header_image" style="display:none">
+                        </span>
+                    </label>
+                    <input type="text" class="form-control" readonly="">
+                </div>
                 <input type="text" name="title" class="form-control">
                 <!-- Create the editor container -->                
                 <div id="editSection" rows="8" cols="40">{{ old('body')}}</div>
@@ -34,6 +42,11 @@
 
             <div class="form-group row mb-0">
               <div class="col-md-12 text-right">
+                <div class="mt-3">
+
+
+                  <!-- <input type="file"> -->
+                </div>
                 <div class="mt-3">
                   <button type="submit" class="btn btn-primary" onclick="callBody();">投稿する</button>
                 </div>

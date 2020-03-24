@@ -22,6 +22,7 @@ class ArticlesTableSeeder extends Seeder
         $title = basename($article_paths[$i-1],'.html');
         Article::create([
           'user_id' => $i,
+          'header_image'  => 'storage/profile_image/profile'.$i.'.jpeg',
           'title' => $title,
           'body' => $body,
           'created_at' => now(),

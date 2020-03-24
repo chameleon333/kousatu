@@ -18,15 +18,16 @@
     <div class="p-2 col-sm-6">
       <div class="card">
         <!-- <div class="w-100" style="background-image: url('https://placehold.jp/500x400.png');height:150px;"></div> -->
-        <img src="https://placehold.jp/500x400.png" alt="" class="w-100">
+        <!-- <img src="https://placehold.jp/500x400.png" alt="" class="w-100"> -->
+        <img src="{{$timeline->header_image}}" alt="" class="w-100">
         <div class="card-haeder w-100 d-flex p-3">
           <div class="ml-2 d-flex flex-column">
             <div class="w-100 d-inline-flex">
-            <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
+              <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
                 <img src="{{ asset($timeline->user->profile_image) }}" class="rounded" width="39" height="39">
               </a>
               <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
-                <p >{{ $timeline->title }}</p>
+                <p class="px-1">{{ $timeline->title }}</p>
               </a>
             </div>
             <p class="mb-0 text-secondary">
