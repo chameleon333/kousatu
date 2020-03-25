@@ -67,9 +67,9 @@
                                 <div class="mb-2">
                                     <input type="file" id="add_profile_image"　class="form-control-file mb-1">
                                 </div>
-                                <!-- <i class="far fa-image fa-4x"></i> -->
                                 <div>
-                                    <canvas id="canvas_profile_image" class="border border-secondary" height="150" width="150" onclick=on_click()></canvas>
+                                    <img id="dispaly_profile_image" src="" class="border" alt="" width="150" height="150">
+                                    <!-- <canvas id="canvas_profile_image" class="border border-secondary" height="150" width="150" onclick=on_click()></canvas> -->
                                 </div>
                             </div>
                         </div>
@@ -95,6 +95,4 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/profile_image_preview.js') }}" defer></script>
-
 @endsection
