@@ -36,6 +36,17 @@
     
 </head>
 <body>
+@guest
+
+    <div class="w-100 text-center p-3 bg-warning">
+    <form action="{{ route('login') }}" method="POST">
+        @csrf
+        <input type="hidden" name="email" value="test1@test.com">
+        <input type="hidden" name="password" value="12345678">
+        <button type="submit" class="btn btn-link text-white">ゲストユーザーとしてログインする(全機能が使用できます。)</button>
+    </form>    
+    </div>
+@endguest
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-yellow bg-color shadow-sm">
             <div class="container pl-2">
