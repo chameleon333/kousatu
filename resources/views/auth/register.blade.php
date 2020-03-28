@@ -8,7 +8,6 @@
                 <h2 class="text-center">新規登録</h2>
                 <hr>
                 <div class="mt-3">
-
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
@@ -68,13 +67,18 @@
                                     <input type="file" id="add_profile_image"　class="form-control-file mb-1">
                                 </div>
                                 <div>
-                                    <img id="dispaly_profile_image" src="" class="border" alt="" width="150" height="150">
-                                    <!-- <canvas id="canvas_profile_image" class="border border-secondary" height="150" width="150" onclick=on_click()></canvas> -->
+                                    <label class="label" data-toggle="tooltip" title="Change your avatar">
+                                        <img class="rounded" id="avatar" src="https://avatars0.githubusercontent.com/u/3456749?s=160" alt="avatar">
+                                        <input type="file" class="sr-only" id="input" name="image" accept="image/*">
+                                    </label>
                                 </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+
+                                <div id="result"></div>
                             </div>
                         </div>
-
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -87,8 +91,54 @@
                                 @endif
                             </div>
                         </div>
-
                     </form>
+
+                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">Crop the image</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="img-container">
+                                <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal -->
+                    <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            
+                        </div>
+                        <div class="modal-body">
+                            <p><img src="" alt="トリミング画像" id="display_profile_image" style="display: none; max-width: 100%;"/></p>
+                        </div>
+                        <div class="modal-footer">
+                            <p><input type="button" id="crop_btn" value="画像をトリミングして送信" /></p>
+                            <button class="btn btn-primary" id="crop_btn">画像をトリミング</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div> -->
                 </div>
                 
             </div>
