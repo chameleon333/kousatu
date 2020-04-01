@@ -46,7 +46,7 @@
               </div>
             </div>
             <div class="d-flex">
-            <span class="mt-2">紹介していきますよ。私は動物園の園長です。</span>
+            <span class="mt-2">{{ $user->self_introduction }}</span>
             </div>
             <div class="d-flex">
               <!-- <div class="p-2 d-flex flex-column align-items-center">

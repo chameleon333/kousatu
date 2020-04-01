@@ -20,6 +20,9 @@
                     @endif
                   @endif
                 </div>
+                <div class="w-100 d-inline-flex">
+                  <div class="text_ellipsis"><span class="text-secondary">{{$user->self_introduction}}</span></div>
+                </div>
               </div>
 
 

@@ -17,8 +17,9 @@ class UsersTableSeeder extends Seeder
     {
       #簡単ログイン用 ユーザー作成
       User::create([
-        'screen_name' => 'test1@test.com',
-        'name'           => 'test1',
+        'screen_name' => 'test1',
+        'name'           => '山田太郎',
+        'self_introduction'  => "私は山田太郎です。映画、小説、漫画。さまざまなコンテンツの考察を投稿します。",
         'profile_image'  => 'storage/profile_image/profile1.jpeg',
         'email'          => 'test1@test.com',
         'password'       => Hash::make('12345678'),
@@ -29,9 +30,11 @@ class UsersTableSeeder extends Seeder
 
       $faker = Faker::create('ja_JP');
       for ($i = 1; $i <= 10; $i++){
+        $name = $faker->name;
         User::create([
           'screen_name' => $faker->unique()->regexify('\w{8}'),
-          'name'           => $faker->name,
+          'name'           => $name,
+          'self_introduction'  =>"私は".$name."です。映画、小説、漫画。さまざまなコンテンツの考察を投稿します。",
           'profile_image'  => 'storage/profile_image/profile'.$i.'.jpeg',
           'email'          => $faker->email,
           'password'       => Hash::make('12345678'),

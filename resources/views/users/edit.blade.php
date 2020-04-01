@@ -102,6 +102,20 @@
                 @enderror
               </div>
             </div>
+
+            <div class="form-group row">
+              <label for="email" class="col-md-4 col-form-label text-md-right">自己紹介</label>
+              
+              <div class="col-md-6">
+                <textarea name="self_introduction" id="self_introduction" class="form-control @error('self_introduction') is-invalid @enderror" cols="30" rows="10">{{ $user->self_introduction }}</textarea>
+                
+                @error('email')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+            </div>
             
             <div class="form-group row mb-0">
               <div class="col-md-6 offset-md-4">

@@ -93,6 +93,7 @@ class User extends Authenticatable
           ->update([
             'screen_name' => $params['screen_name'],
             'name' => $params['name'],
+            'self_introduction' => $params['self_introduction'],
             'profile_image' => $image_path,
             'email' => $params['email'],
           ]);
@@ -101,6 +102,7 @@ class User extends Authenticatable
           ->update([
             'screen_name' => $params['screen_name'],
             'name' => $params['name'],
+            'self_introduction' => $params['self_introduction'],
             'email' => $params['email'],
           ]);
       }
