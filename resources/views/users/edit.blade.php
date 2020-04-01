@@ -1,3 +1,9 @@
+@push('cropper')
+    <link href="{{ asset('css/cropper-custom.css') }}" rel="stylesheet">
+    <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
+    <script src="{{ asset('js/cropper-custom.js') }}" defer></script>
+@endpush
 @extends('layouts.app')
 
 @section('content')
@@ -23,7 +29,7 @@
             </div>
             
             <div class="form-group row">
-              <label for="screen_name" class="col-md-4 col-form-label text-md-right">{{ __('Account Name') }}</label>
+              <label for="screen_name" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
               
               <div class="col-md-6">
                 <input id="screen_name" type="text" class="form-control @error('screen_name') is-invalid @enderror" name="screen_name" value="{{ $user->screen_name }}" required autocomplete="screen_name" autofocus>
@@ -37,7 +43,7 @@
             </div>
             
             <div class="form-group row">
-              <lavel for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</lavel>
+              <lavel for="name" class="col-md-4 col-form-label text-md-right">名前</lavel>
               
               <div class="col-md-6">
                 <input id="name" type="text" class="form-control @error('name') is-valid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
