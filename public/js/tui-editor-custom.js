@@ -6,6 +6,7 @@ function ImageUpload(images){
     var dataimg = new FormData();
     dataimg.append('image', images);
     console.log("dataimg "+dataimg.get('image'));
+    console.log("dataimg2 "+dataimg);
     
     $.ajax({
         headers: {

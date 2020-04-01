@@ -1,5 +1,11 @@
-@extends('layouts.app')
 
+@push('cropper')
+    <link href="{{ asset('css/cropper-custom.css') }}" rel="stylesheet">
+    <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
+    <script src="{{ asset('js/cropper-custom.js') }}" defer></script>
+@endpush
+@extends('layouts.app')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +14,7 @@
                 <h2 class="text-center">新規登録</h2>
                 <hr>
                 <div class="mt-3">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" name="fileinfo">
                         @csrf
 
                         <div class="form-group row">
@@ -63,19 +69,16 @@
                         <div class="form-group row mb-0">
                         <label for="password-confirm" class="col-md-4 col-form-label text-md-right">プロフィール画像</label>
                             <div class="col-md-6 py-2">
-                                <div class="mb-2">
-                                    <input type="file" id="add_profile_image"　class="form-control-file mb-1">
-                                </div>
                                 <div>
-                                    <label class="label" data-toggle="tooltip" title="Change your avatar">
+                                    <label class="label" data-toggle="tooltip" title="画像を追加する">
+                                        <div id="dummy_image" class="border p-5">
+                                            <i class="fas fa-plus fa-2x text-secondary"></i>
+                                        </div>
                                         <img class="rounded" id="avatar" src="https://avatars0.githubusercontent.com/u/3456749?s=160" alt="avatar">
                                         <input type="file" class="sr-only" id="input" name="image" accept="image/*">
+                                        <input type="hidden" id="binary_image" name="binary_image" value="">
                                     </label>
                                 </div>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                                </div>
-
                                 <div id="result"></div>
                             </div>
                         </div>
@@ -104,7 +107,8 @@
                             </div>
                             <div class="modal-body">
                                 <div class="img-container">
-                                <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                                <img id="image" src="">
+                                <!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749"> -->
                                 </div>
                             </div>
                             <div class="modal-footer">
