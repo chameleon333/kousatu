@@ -14,3 +14,7 @@
 .img-container img {
     max-width: 100%;
 }
+
+#avatar {
+    display: none;
+}

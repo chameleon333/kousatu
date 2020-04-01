@@ -3,8 +3,8 @@ $(function(){
     var $avatar = document.getElementById('avatar');
     var $image = document.getElementById('image');
     var $input = document.getElementById('input');
-    var $progress = $('.progress');
-    var $progressBar = $('.progress-bar');
+    var $dummy_image = $('#dummy_image');
+    var $binary_image = $('#binary_image');
     var $alert = $('.alert');
     var $modal = $('#modal');
     var cropper;
@@ -50,6 +50,7 @@ $(function(){
     $('#crop').on('click', function(){
         var initialAvatarURL;
         var canvas;
+        var dataURI;
 
         $modal.modal('hide');
 
@@ -59,8 +60,12 @@ $(function(){
                 height: 160,
             });
             initialAvatarURL = avatar.src;
-            avatar.src = canvas.toDataURL();
-            $progress.show();
+            dataURI = canvas.toDataURL() ;
+            avatar.src = dataURI;
+            $binary_image.val(dataURI.split(",")[1]);
+
+            $dummy_image.hide();
+            $avatar.style.display ="block";
             $alert.removeClass('alert-success alert-warning');
             canvas.toBlob(function(blob) {
                 var formData = new FormData();
