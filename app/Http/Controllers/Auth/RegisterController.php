@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -64,10 +65,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        #base64でエンコードされた画像データを画像ファイルとして保存する
+        $img = $data["binary_image"];
+        $fileData = base64_decode($img);
+        $fileName = '/tmp/profile_image.png';
+        file_put_contents($fileName, $fileData);
+
+        $image = Storage::disk('s3')->putFile('/profile_images', $fileName, 'public');
+        $image_path = Storage::disk('s3')->url($image);
+
         return User::create([
             'screen_name' => $data['screen_name'],
             'name' => "",
             'email' => $data['email'],
+            'profile_image' => $image_path,
             'password' => Hash::make($data['password']),
         ]);
     }
