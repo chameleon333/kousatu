@@ -79,9 +79,14 @@ class User extends Authenticatable
   
     public function updateProfile(Array $params)
     {
-      if(isset($params['profile_image']))
+      if(isset($params['binary_image']))
       {
-        $image = Storage::disk('s3')->putFile('/profile_images', $params['profile_image'], 'public');
+        $img = $params["binary_image"];
+        $fileData = base64_decode($img);
+        $fileName = '/tmp/profile_image.png';
+        file_put_contents($fileName, $fileData);
+
+        $image = Storage::disk('s3')->putFile('/profile_images', $fileName, 'public');
         $image_path = Storage::disk('s3')->url($image);
         
         $this::where('id', $this->id)
