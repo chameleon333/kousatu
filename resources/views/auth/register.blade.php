@@ -69,17 +69,15 @@
                         <div class="form-group row mb-0">
                         <label for="password-confirm" class="col-md-4 col-form-label text-md-right">プロフィール画像</label>
                             <div class="col-md-6 py-2">
-                                <div>
                                     <label class="label" data-toggle="tooltip" title="画像を追加する">
-                                        <div id="dummy_image" class="border p-5">
-                                            <i class="fas fa-plus fa-2x text-secondary"></i>
+                                        <div class="border position-relative square-frame">
+                                            <span id="avatar" class="square_content bg-image rounded" style="background-image:url('')">
+                                                <i id="avatar_plus" class="fas fa-plus fa-2x text-secondary position-absolute h-100 w-100 m-0 d-flex align-items-center justify-content-center"></i>
+                                            </span>
                                         </div>
-                                        <img class="rounded" id="avatar" src="https://avatars0.githubusercontent.com/u/3456749?s=160" alt="avatar">
                                         <input type="file" class="sr-only" id="input" name="image" accept="image/*">
                                         <input type="hidden" id="binary_image" name="binary_image" value="">
                                     </label>
-                                </div>
-                                <div id="result"></div>
                             </div>
                         </div>
                         <div class="form-group row mb-0">
@@ -108,7 +106,6 @@
                             <div class="modal-body">
                                 <div class="img-container">
                                 <img id="image" src="">
-                                <!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749"> -->
                                 </div>
                             </div>
                             <div class="modal-footer">

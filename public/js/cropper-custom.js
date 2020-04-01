@@ -1,9 +1,10 @@
 $(function(){
     
-    var $avatar = document.getElementById('avatar');
     var $image = document.getElementById('image');
     var $input = document.getElementById('input');
-    var $dummy_image = $('#dummy_image');
+    var $avatar = $('#avatar');
+    var $avatar_plus = $('#avatar_plus');
+    
     var $binary_image = $('#binary_image');
     var $alert = $('.alert');
     var $modal = $('#modal');
@@ -48,7 +49,6 @@ $(function(){
     });
 
     $('#crop').on('click', function(){
-        var initialAvatarURL;
         var canvas;
         var dataURI;
 
@@ -59,19 +59,10 @@ $(function(){
                 width: 160,
                 height: 160,
             });
-            initialAvatarURL = avatar.src;
             dataURI = canvas.toDataURL() ;
-            avatar.src = dataURI;
+            $avatar_plus.hide();
+            $avatar.css('background-image', 'url('+dataURI+')');
             $binary_image.val(dataURI.split(",")[1]);
-
-            $dummy_image.hide();
-            $avatar.style.display ="block";
-            $alert.removeClass('alert-success alert-warning');
-            canvas.toBlob(function(blob) {
-                var formData = new FormData();
-
-                formData.append('avatar', blob, 'avatar.jpg');
-            });
         }
     });
 
