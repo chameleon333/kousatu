@@ -67,5 +67,5 @@ services:
       - /var/lib/mysql
       - /var/log/mysql
     ports:
-      - ${DB_PORT_TESTING}:3307
+      - ${DB_PORT_TESTING}:3306
   
