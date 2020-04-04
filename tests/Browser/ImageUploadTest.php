@@ -37,7 +37,7 @@ class ImageUploadTest extends DuskTestCase
     }
 
     #/register内でのプロフィール画像アップロードチェック
-    public function testPostImage_in_register()
+    public function testCropping_in_register()
     {
         #プロフィール画像アップロード後valueに画像データが入っているかチェック
         Storage::fake('post_images');
@@ -61,7 +61,7 @@ class ImageUploadTest extends DuskTestCase
         });
     }
 
-    public function testPostImage_in_users_edit()
+    public function testCropping_in_users_edit()
     {
         Storage::fake('post_images');
         $user = factory(App\Models\User::class)->create();
@@ -71,6 +71,52 @@ class ImageUploadTest extends DuskTestCase
         $this->browse(function ($first) use ($user,$filename){
             $attribute = $first->loginAs($user)
                 ->visit('/users/'.$user->id."/edit")
+                ->click('#avatar')
+                ->attach('.sr-only','storage/framework/testing/disks/post_images/'.$filename)
+                ->waitFor('#crop', 5)
+                ->pause(2000) #cropがクリックできる状態まで待つ
+                ->click('#crop')
+                ->screenshot('test')
+                ->attribute('#avatar', 'style');
+                $attribute = explode(',',$attribute);
+                $attribute = str_replace('");', '', $attribute[1]);
+                $first->assertInputValue('#binary_image', $attribute);
+        });
+    }
+
+    public function testCropping_in_article_create()
+    {
+        Storage::fake('post_images');
+        $user = factory(App\Models\User::class)->create();
+        $uploadedFile = UploadedFile::fake()->image('testImage.jpg');
+        $uploadedFile->move('storage/framework/testing/disks/post_images');
+        $filename = $uploadedFile->getFilename();
+        $this->browse(function ($first) use ($user,$filename){
+            $attribute = $first->loginAs($user)
+                ->visit('/articles/create')
+                ->click('#avatar')
+                ->attach('.sr-only','storage/framework/testing/disks/post_images/'.$filename)
+                ->waitFor('#crop', 5)
+                ->pause(2000) #cropがクリックできる状態まで待つ
+                ->click('#crop')
+                ->screenshot('test')
+                ->attribute('#avatar', 'style');
+                $attribute = explode(',',$attribute);
+                $attribute = str_replace('");', '', $attribute[1]);
+                $first->assertInputValue('#binary_image', $attribute);
+        });
+    }
+
+    public function testCropping_in_article_edit()
+    {
+        Storage::fake('post_images');
+        $article = factory(App\Models\Article::class)->create();
+        $uploadedFile = UploadedFile::fake()->image('testImage.jpg');
+        $uploadedFile->move('storage/framework/testing/disks/post_images');
+        $filename = $uploadedFile->getFilename();
+        $this->browse(function ($first) use ($article,$filename){
+            $attribute = $first->loginAs($article)
+                ->visit('/articles/'.$article->id."/edit")
                 ->click('#avatar')
                 ->attach('.sr-only','storage/framework/testing/disks/post_images/'.$filename)
                 ->waitFor('#crop', 5)
