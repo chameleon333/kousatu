@@ -70,7 +70,7 @@
                         <label for="password-confirm" class="col-md-4 col-form-label text-md-right">プロフィール画像</label>
                             <div class="col-md-6 py-2">
                                     <label class="label" data-toggle="tooltip" title="画像を追加する">
-                                        <div class="border position-relative square-frame">
+                                        <div id="display_cropped_image" class="border position-relative square-frame">
                                             <span id="avatar" class="square_content bg-image rounded" style="background-image:url('')">
                                                 <i id="avatar_plus" class="fas fa-plus fa-2x text-secondary position-absolute h-100 w-100 m-0 d-flex align-items-center justify-content-center"></i>
                                             </span>

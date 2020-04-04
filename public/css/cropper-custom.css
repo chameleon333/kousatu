@@ -28,6 +28,17 @@
 }
 
 .bg-image {
-    /* background-image:url(http://www.nalabo.net/blog/wp-content/uploads/2017/05/IMG_9537.jpg); */
     background-size: cover;
+}
+
+.rectangle-frame {
+    width:175px;
+    border: 1px dotted #999;
+}
+
+.rectangle_content {
+    display: block;
+    height: 0;
+    width: 100%;
+    padding-bottom: 56%;
 }

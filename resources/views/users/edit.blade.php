@@ -23,7 +23,7 @@
 
               <div class="col-md-6 py-2">
                     <label class="label" data-toggle="tooltip" title="画像を追加する">
-                        <div class="border position-relative square-frame">
+                        <div id="display_cropped_image" class="border position-relative square-frame">
                             <span id="avatar" class="square_content bg-image rounded" style="background-image:url('{{ asset($user->profile_image) }}')">
                                 <i id="avatar_plus" class="fas fa-plus fa-2x text-secondary position-absolute h-100 w-100 m-0 d-flex align-items-center justify-content-center"></i>
                             </span>
@@ -33,26 +33,26 @@
                     </label>
               </div>
               <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalLabel">Crop the image</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="img-container">
-                                <img id="image" src="">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="crop">Crop</button>
-                            </div>
-                            </div>
-                        </div>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="modalLabel">Crop the image</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="img-container">
+                          <img id="image" src="">
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                      </div>
                     </div>
+                </div>
+              </div>
               
               @error('profile_image')
                 <span class="invalid-feedback" role="alert">

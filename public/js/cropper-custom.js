@@ -4,11 +4,20 @@ $(function(){
     var $input = document.getElementById('input');
     var $avatar = $('#avatar');
     var $avatar_plus = $('#avatar_plus');
-    
     var $binary_image = $('#binary_image');
     var $alert = $('.alert');
     var $modal = $('#modal');
     var cropper;
+
+    //記載されているクラスを読み取り、cropperの切り取るアスペクト比を決定する
+    var check_frame = document.getElementById("display_cropped_image");
+    check_frame = String(check_frame.className);
+    if(check_frame.match('rectangle')) {
+        aspectRatio = 16/9;
+    } else if (check_frame.match('square')){
+        aspectRatio = 1;
+    }
+
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -37,10 +46,9 @@ $(function(){
             }
         }
     });
-
     $modal.on('shown.bs.modal', function() {
         cropper = new Cropper($image, {
-            aspectRatio: 1,
+            aspectRatio: aspectRatio,
             viewMode: 3,
         });
     }).on('hidden.bs.modal', function() {
