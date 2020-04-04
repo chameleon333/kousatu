@@ -48,7 +48,7 @@
     <div class="w-100 text-center p-3 bg-warning">
     <form action="{{ route('login') }}" method="POST">
         @csrf
-        <input type="hidden" name="email" value="test1">
+        <input type="hidden" name="email" value="test1@test.com">
         <input type="hidden" name="password" value="12345678">
         <button type="submit" class="btn btn-link text-white">ゲストユーザーとしてログインする(全機能をご使用できます。)</button>
     </form>    
