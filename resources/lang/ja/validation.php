@@ -110,7 +110,7 @@ return [
         'array' => ':attributeは:size個にしてください。',
     ],
     'starts_with' => ':attributeを:valuesから始まるよう入力してください。',
-    'string' => ':attributeは門司で入力してください。',
+    'string' => ':attributeは文字で入力してください。',
     'timezone' => ':attributeを正しいタイムゾーンで入力してください。',
     'unique' => ':attributeは既に取得されているため、違うものを入力してください。',
     'uploaded' => ':attributeはアップロードに失敗しました。',
@@ -147,7 +147,9 @@ return [
 
     'attributes' => [
         'email' => 'メールアドレス',
-	'password' => 'パスワード',
+        'password' => 'パスワード',
+        'title' => '記事のタイトル',
+        'body' => '記事の内容',
     ],
 
 ];
