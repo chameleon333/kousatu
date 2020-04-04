@@ -1,6 +1,5 @@
 @push('cropper')
     <link href="{{ asset('css/cropper-custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/profile_edit.css') }}" rel="stylesheet">
     <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
     <script src="{{ asset('js/cropper-custom.js') }}" defer></script>
@@ -13,7 +12,7 @@
     @csrf
     <div class="form-group row mb-0">
       <div class="col-md-12">
-        <input type="text" name="title" class="form-control">
+        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror">
         <!-- Create the editor container -->                
         <div id="editSection" rows="8" cols="40">{{ old('body')}}</div>
         <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;"></textarea>
@@ -36,8 +35,8 @@
     </div>
 
     <div class="form-group row mb-0 text-right">
-      <div class="col-md-12">
-          <label for="profile_image" class="col-form-label text-md-right">アイキャッチ画像</label>
+      <div class="col-md-12 mt-2">
+          <label for="profile_image" class="col-form-label text-md-right">ヘッダー画像</label>
           <div class="">
             <label class="label" data-toggle="tooltip" title="画像を追加する">
                 <div id="display_cropped_image" class="border position-relative rectangle-frame" name="test">
