@@ -80,7 +80,7 @@ class UserTest extends TestCase
         # 正常系テスト
 
         ## アップロードしたプロフィールデータがDBにあるかテスト
-        $factory_userA = factory(App\Models\User::class)->make();
+        $factory_userA = factory(App\Models\User::class)->create();
         $testUserNameA = $factory_userA->screen_name;
         $testEmailA = $factory_userA->email;
 
@@ -94,7 +94,7 @@ class UserTest extends TestCase
 
         ## 不正な形式のユーザー名が登録されないかテスト
         $Bad_testUserName = "testUserばっとてすと@";
-        $factory_userB = factory(App\Models\User::class)->make();
+        $factory_userB = factory(App\Models\User::class)->create();
         $testEmailB = $factory_userB->email;
 
         $this->post('/register', ['screen_name' => $Bad_testUserName, 'email' => $testEmailB, 'password' => $testPassword, 'password_confirmation' => $testPassword]);
@@ -102,7 +102,7 @@ class UserTest extends TestCase
             'screen_name' => $Bad_testUserName,
             'email' => $testEmailB
         ]);
-        $factory_userC = factory(App\Models\User::class)->make();
+        $factory_userC = factory(App\Models\User::class)->create();
         $testUserNameC = $factory_userC->screen_name;
         $Bad_testEmail = "testUserばっとてすと@";
 
@@ -125,29 +125,29 @@ class UserTest extends TestCase
         #アップデート用のプロフィールデータを生成する
         $factory_user_update = factory(App\Models\User::class)->make();
         $testUserName = $factory_user_update->screen_name;
-        $testName = $factory_user_update->screen_name;
+        $testName = $factory_user_update->name;
         $testEmail = $factory_user_update->email;
+        $testSelfIntroduction = $factory_user_update->self_introduction;
 
-        // $testUserName = "testUser";
-        // $testName = "テスト";
-        // $testEmail = "test@test.com";
-        $response->put('/users/'.$user_id, ['screen_name' => $testUserName, 'name' => $testName, 'email' => $testEmail]);
+        $response->put('/users/'.$user_id, ['screen_name' => $testUserName, 'name' => $testName, 'email' => $testEmail, 'self_introduction' => $testSelfIntroduction]);
         $response->assertDatabaseHas('users', [
             'id' => $user_id,
             'screen_name' => $testUserName,
             'name' => $testName,
-            'email' => $testEmail
+            'email' => $testEmail,
+            'self_introduction' => $testSelfIntroduction
         ]);
 
         $Bad_testUserName = "testUserばっとてすと@";
 
         #不正な形式のプロフィールが登録されないかテスト
-        $response->put('/users/'.$user_id, ['screen_name' => $Bad_testUserName, 'name' => $testName, 'email' => $testEmail]);
+        $response->put('/users/'.$user_id, ['screen_name' => $Bad_testUserName, 'name' => $testName, 'email' => $testEmail, 'self_introduction' => $testSelfIntroduction]);
         $response->assertDatabaseMissing('users', [
             'id' => $user_id,
             'screen_name' => $Bad_testUserName,
             'name' => $testName,
-            'email' => $testEmail
+            'email' => $testEmail,
+            'self_introduction' => $testSelfIntroduction
         ]);
     }
 
