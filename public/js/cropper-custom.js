@@ -14,8 +14,10 @@ $(function(){
     check_frame = String(check_frame.className);
     if(check_frame.match('rectangle')) {
         aspectRatio = 16/9;
+        canvas_width = 1000;
     } else if (check_frame.match('square')){
         aspectRatio = 1;
+        canvas_width = 300;
     }
 
 
@@ -64,8 +66,7 @@ $(function(){
 
         if(cropper) {
             canvas = cropper.getCroppedCanvas({
-                width: 160,
-                height: 160,
+                width: canvas_width
             });
             dataURI = canvas.toDataURL() ;
             $avatar_plus.hide();
