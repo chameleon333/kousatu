@@ -61,7 +61,7 @@ class Article extends Model
     public function articleStore(Int $user_id, Array $data)
     {
       $this->user_id = $user_id;
-      $this->header_image = $data['header_image'];
+      $this->header_image = $data['binary_image'];
       $this->title = $data['title'];
       $this->body = $data['body'];
       $this->save();

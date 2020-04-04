@@ -59,6 +59,7 @@ class ArticlesController extends Controller
         $data["article"] = $article;
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
+            'body' => ['string', 'max:10000'],
             'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
         
@@ -74,13 +75,17 @@ class ArticlesController extends Controller
         elseif(isset($data["title"]) && isset($data["body"])) 
         {
             // dump($data);
-            if(!isset($data["header_image"])){
-                $data["header_image"] = "https://placehold.jp/500x400.png";
+            if(!isset($data["binary_image"])){
+                $data["binary_image"] = "https://placehold.jp/500x400.png";
             } else {
-                dump("test");
-                dump($data["header_image"]);
-                $image = Storage::disk('s3')->putFile('/header_images', $data["header_image"], 'public');
-                $data["header_image"] = Storage::disk('s3')->url($image);
+
+                $img = $data["binary_image"];
+                $fileData = base64_decode($img);
+                $fileName = '/tmp/header_image.png';
+                file_put_contents($fileName, $fileData);
+
+                $image = Storage::disk('s3')->putFile('/header_images', $fileName, 'public');
+                $data["binary_image"] = Storage::disk('s3')->url($image);
             }
             $article->ArticleStore($user->id, $data);
             return redirect('articles');
