@@ -11,6 +11,7 @@ $factory->define(Article::class, function (Faker $faker) {
             return factory(App\Models\User::class)->create()->id;
         },
         'title' => $faker->text,
+        'header_image' => "test",
         'body' => $faker->randomHtml(),
     ];
 });
