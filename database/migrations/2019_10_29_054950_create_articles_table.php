@@ -20,9 +20,6 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->text('body')->comment('本文');
             $table->timestamps();
-
-//            $table->index('id');
-//            $table->index('user_id');
             
             $table->foreign('user_id')
               ->references('id')
