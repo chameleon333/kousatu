@@ -76,7 +76,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-8 mb-3">
+        <div id="comment" class="col-md-8 mb-3">
             <ul class="list-group">
                 @forelse ($comments as $comment)
                     <li class="list-group-item">

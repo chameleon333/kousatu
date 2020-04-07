@@ -103,7 +103,7 @@
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <a href="{{ url('articles/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                  <a href="{{ url('articles/' .$timeline->id) }}#comment"><i class="far fa-comment fa-fw"></i></a>
                   <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
                 </div>
 
