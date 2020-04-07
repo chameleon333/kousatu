@@ -59,7 +59,7 @@ class ArticlesController extends Controller
         $data["article"] = $article;
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
-            'body' => ['string', 'max:10000'],
+            'body' => ['string', 'max:20480'],
             'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
         
