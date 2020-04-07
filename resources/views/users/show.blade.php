@@ -63,51 +63,62 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-10 mb-3 row">
     @if (isset($timelines))
     @foreach ($timelines as $timeline)
-    <div class="col-md-10 mb-3">
-      <div class="card">
-
-        <div class="card-body p-3 w-100 d-flex">
-          <div class="ml-2 d-flex flex-column">
+      <div class="p-3 col-sm-6">
+        <div class="card">
           <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
-            <p class="mb-0">{{ $timeline->title }}</p>
+            <img src="{{$timeline->header_image}}" alt="" class="w-100">
           </a>
-            <p class="mb-0 text-secondary">
-              <span>By &#064;{{$timeline->user->name}}</span>
-              <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
-              <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="card-footer py-1 d-flex justify-content-end bg-white">
-          @if ($timeline->user->id === $auth)
-          <div class="dropdown mr-3 d-flex align-items-center">
-            <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-ellipsis-v fa-fw"></i>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <form method="POST" action="{{ url('articles/' .$timeline->id) }}" class="mb-0">
-                @csrf
-                @method('DELETE')
+          <div class="card-haeder w-100 p-3">
+            <div class="ml-2 d-flex flex-column">
+              <div class="w-100 d-inline-flex">
+                <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">
+                  <img src="{{ asset($timeline->user->profile_image) }}" class="rounded" width="39" height="39">
+                </a>
+                <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
+                  <p class="px-1">{{ $timeline->title }}</p>
+                </a>
+              </div>
+              <div class="mt-1 d-flex">
+                <div class="mr-auto text-secondary">
+                  <span>by &#064;{{$timeline->user->screen_name}}</span>
+                  <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
+                  <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
+                </div>
+                <div class="dropdown d-flex align-items-center">
+                  <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-fw"></i>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <form method="POST" action="{{ url('articles/' .$timeline->id) }}" class="mb-0">
+                      @csrf
+                      @method('DELETE')
 
-                <a href="{{ url('articles/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
-                <button type="submit" class="dropdown-item del-btn">削除</button>
-              </form>
+                      <a href="{{ url('articles/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
+                      <button type="submit" class="dropdown-item del-btn">削除</button>
+                    </form>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <a href="{{ url('articles/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                  <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
+                </div>
+
+
+              </div>
             </div>
           </div>
-          @endif
-
-          <div class="mr-3 d-flex align-items-center">
-            <a href="{{ url('articles/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
-            <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
-          </div>
-
         </div>
       </div>
-    </div>
+
+
+
     @endforeach
     @endif
+    </div>
   </div>
   <div class="my-4 d-flex justify-content-center">
     {{ $timelines->links() }}
