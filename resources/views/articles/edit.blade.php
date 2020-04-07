@@ -21,7 +21,7 @@
             @method('PUT')
             <div class="form-group row mb-0">
               <div class="col-md-12">
-                <input type="text" name="title" class="form-control" value="{{$articles->title}}">
+                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{$articles->title}}">
                 <!-- Create the editor container -->
                 
                 <div id="editSection" rows="8" cols="40"></div>
