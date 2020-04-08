@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Search;
 use App\Models\Article;
 
-class SearchController extends Controller
+class SearchesController extends Controller
 {
     //
     public function index(Request $request, Article $article)
