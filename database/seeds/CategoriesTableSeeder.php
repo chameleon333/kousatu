@@ -12,6 +12,12 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $categories = ["小説","映画","漫画","ドラマ"];
+        foreach($categories as $category){
+            Category::create([
+                'name' => $category,
+            ]);
+        }
+  
     }
 }

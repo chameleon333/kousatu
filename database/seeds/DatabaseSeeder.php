@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Articles_Categories;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,16 +12,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-//      $this->call(ArticlesTableSeeder::class);
       $this->call([
-        AccountsTableSeeder::class,
         UsersTableSeeder::class,
         ArticlesTableSeeder::class,
         CommentsTableSeeder::class,
         FavaritesTableSeeder::class,
         FollowersTableSeeder::class,
-        Article_stockTableSeeder::class,
+        CategoriesTableSeeder::class,
+        ArticleCategoriesTableSeeder::class,
       ]);
     }
 }
