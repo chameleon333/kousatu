@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         FavaritesTableSeeder::class,
         FollowersTableSeeder::class,
         CategoriesTableSeeder::class,
-        ArticleCategoriesTableSeeder::class,
+        ArticleCategoryTableSeeder::class,
       ]);
     }
 }
