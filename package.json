@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@johmun/vue-tags-input": "^2.1.0",
+        "hard-source-webpack-plugin": "^0.13.1",
         "marked": "^0.8.0",
         "npm-check-updates": "^4.0.1",
         "tui-editor": "^1.4.10"
