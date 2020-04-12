@@ -28,3 +28,64 @@ $bg-yellow:#ffdd76;
 .navbar-nav .dropdown-menu {
     position: absolute !important;
 }
+
+#preview_marked img {
+    width: 100%;
+    margin-bottom:1.5em;
+  }
+  #preview_marked .h1, h1 {
+    font-size: 1.5rem!important;
+  }
+  #preview_marked .h2, h2 {
+    font-size: 1.3rem!important;
+  }
+  #preview_marked .h3, h3 {
+    font-size: 1.2rem!important;
+  }
+  #preview_marked .h4, h4 {
+    font-size: 1.1rem!important;
+  }
+  #preview_marked .h5, h5 {
+    font-size: 1.0rem!important;
+  }
+  
+  .card .h4, h4{
+    font-size: 1.1rem!important;
+  }
+  
+  .top_seach_icon {
+    font-size:1.3rem!important;
+    position:relative;
+    color:white!important;
+    top:14px;
+    right:12px;
+    font-size:1rem;
+    cursor: pointer;
+  }
+  
+  .top_seach_icon:hover{
+    opacity: 0.6;
+  }
+  
+  .form-control {
+    font-size:0.8rem!important;
+  }
+  
+  .btn-group > .dropdown-menu {
+    position: absolute!important;
+    top:53px!important;
+    width:90%!important;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+  
+  .navbar {
+    padding:0 15px !important;
+  }
+  
+  .text_ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  

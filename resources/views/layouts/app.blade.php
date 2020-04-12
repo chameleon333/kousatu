@@ -64,12 +64,12 @@
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     <img src="/storage/logo/logo.png" width="130px">
                 </a>
-                <div class="btn-group">
+                <div class="btn-group position-static">
                     <span class="fa fa-search top_seach_icon btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
                     <div class="dropdown-menu">
-                <form action="{{ url('/search') }}" class="form-inline mt-10 w-100">
-                    <span class="p-2 w-100"><input type="text" name="keyword" value="{{$keyword}}" class="form-control pl-4 small w-100" placeholder="キーワード検索"></span>
-                </form>  
+                        <form action="{{ url('/search') }}" class="form-inline mt-10 w-100">
+                            <span class="p-2 w-100"><input type="text" name="keyword" value="{{$keyword}}" class="form-control pl-4 small w-100" placeholder="キーワード検索"></span>
+                        </form>  
                     </div>
                 </div>
             </div>
