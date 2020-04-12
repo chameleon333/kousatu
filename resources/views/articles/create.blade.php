@@ -1,9 +1,16 @@
 @push('cropper')
-    <link href="{{ asset('css/cropper-custom.css') }}" rel="stylesheet">
-    <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
-    <script src="{{ asset('js/cropper-custom.js') }}" defer></script>
+  <link href="{{ asset('css/cropper-custom.css') }}" rel="stylesheet">
+  <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
+  <script src="{{ asset('js/cropper-custom.js') }}" defer></script>
 @endpush
+
+@push('tui-editor')
+  <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
+  <script src="{{ asset('js/tui-editor-custom.js') }}"></script>
+@endpush
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,7 +19,8 @@
     @csrf
     <div class="form-group row mb-0">
       <div class="col-md-12">
-        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror">
+        <input type="text" name="title" class="form-control form-control-lg @error('title') is-invalid @enderror">
+        <tags-component></tags-component>
         <!-- Create the editor container -->                
         <div id="editSection" rows="8" cols="40">{{ old('body')}}</div>
         <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;"></textarea>
@@ -80,8 +88,5 @@
     </div>
   </form>
 </div>
-<!-- tui.editor -->
-<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
-<script src="{{ asset('js/tui-editor-custom.js') }}" defer></script>
 
 @endsection
