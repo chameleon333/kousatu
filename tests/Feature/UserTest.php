@@ -2,6 +2,7 @@
 
 use Tests\TestCase;
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -166,12 +167,26 @@ class UserTest extends TestCase
 - テストリスト
 - テストリスト
 - テストリスト";
-
-        $response->post('/articles', ['title' => $testTitle, 'body' => $testBody]);
+        $testTags = ["テスト1","テスト2","テスト3","テスト4","テスト5"];
+        $response->post('/articles', ['title' => $testTitle, 'body' => $testBody,'tags' => $testTags]);
         $response->assertDatabaseHas('articles', [
             'title' => $testTitle,
             'body' => $testBody
         ]);
+
+        #登録したタグ名が登録テーブルに登録されているかテスト
+        foreach($testTags as $testTag){
+            $response->assertDatabaseHas('categories', [
+                'name' => $testTag,
+            ]);
+            $tag_id = Category::select('id')->where("name",$testTag)->first();
+            $tag_ids[] = $tag_id->id;
+        }
+
+        #登録したカテゴリーが中間テーブルに保存されているかテスト
+        foreach($tag_ids as $tag_id){
+            $response->assertDatabaseHas('article_category',['category_id' => $tag_id]);
+        }
 
         #不正な形式の記事が登録されないかテスト
         #タイトル0文字または３1文字以上の記事が投稿されないかテスト
