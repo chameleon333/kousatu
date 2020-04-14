@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Follower;
 use Carbon\Carbon;
@@ -52,11 +53,10 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Article $article)
+    public function store(Request $request, Article $article, Category $category)
     {
         $user = auth()->user();
         $data = $request->all();
-        $data["article"] = $article;
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
             'body' => ['string', 'max:20480'],
@@ -76,9 +76,8 @@ class ArticlesController extends Controller
         {
             // dump($data);
             if(!isset($data["binary_image"])){
-                $data["binary_image"] = "https://placehold.jp/500x400.png";
+                $data["binary_image"] = "https://placehold.jp/379x213.png";
             } else {
-
                 $img = $data["binary_image"];
                 $fileData = base64_decode($img);
                 $fileName = '/tmp/header_image.png';
@@ -87,7 +86,10 @@ class ArticlesController extends Controller
                 $image = Storage::disk('s3')->putFile('/header_images', $fileName, 'public');
                 $data["binary_image"] = Storage::disk('s3')->url($image);
             }
-            $article->ArticleStore($user->id, $data);
+            $article->articleStore($user->id, $data);
+            $category->categoryStore($data["tags"]);
+            $category_ids = $category->getCategoryIds($data["tags"]);
+            $article->articleCategoryStore($category_ids);
             return redirect('articles');
         }
     }

@@ -70,7 +70,6 @@ class Article extends Model
       $this->title = $data['title'];
       $this->body = $data['body'];
       $this->save();
-
       return;
     }
 
@@ -92,6 +91,12 @@ class Article extends Model
     public function articleDestroy(Int $user_id, Int $article_id)
     {
       return $this->where('user_id',$user_id)->where('id',$article_id)->delete();
+    }
+
+    public function articleCategoryStore(Array $category_ids){
+      foreach($category_ids as $category_id) {
+        $this->categories()->attach($category_id);
+      }
     }
 
 }
