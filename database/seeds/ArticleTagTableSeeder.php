@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\ArticleCategory;
+use App\Models\ArticleTag;
 
-class ArticleCategoryTableSeeder extends Seeder
+class ArticleTagTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,12 +12,12 @@ class ArticleCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-      for ($category_num = 1; $category_num <= 4; $category_num++)
+      for ($tag_num = 1; $tag_num <= 4; $tag_num++)
         for ($i = 1; $i <= 10; $i++){
             #body用データ読み込み
-            ArticleCategory::create([
+            ArticleTag::create([
               'article_id' => $i,
-              'category_id' => $category_num,
+              'tag_id' => $tag_num,
             ]);
           }    
     }

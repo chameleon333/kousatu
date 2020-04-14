@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ArticleCategory extends Model
+class ArticleTag extends Model
 {
-    protected $table = 'article_category';
+    protected $table = 'article_tag';
     public $timestamps = false;
 }

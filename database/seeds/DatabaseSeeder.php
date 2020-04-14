@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Articles_Categories;
+use App\Models\Articles_Tags;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         CommentsTableSeeder::class,
         FavaritesTableSeeder::class,
         FollowersTableSeeder::class,
-        CategoriesTableSeeder::class,
-        ArticleCategoryTableSeeder::class,
+        TagsTableSeeder::class,
+        ArticleTagTableSeeder::class,
       ]);
     }
 }

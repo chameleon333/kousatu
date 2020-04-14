@@ -2,7 +2,7 @@
 
 use Tests\TestCase;
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -176,16 +176,16 @@ class UserTest extends TestCase
 
         #登録したタグ名が登録テーブルに登録されているかテスト
         foreach($testTags as $testTag){
-            $response->assertDatabaseHas('categories', [
+            $response->assertDatabaseHas('tags', [
                 'name' => $testTag,
             ]);
-            $tag_id = Category::select('id')->where("name",$testTag)->first();
+            $tag_id = Tag::select('id')->where("name",$testTag)->first();
             $tag_ids[] = $tag_id->id;
         }
 
         #登録したカテゴリーが中間テーブルに保存されているかテスト
         foreach($tag_ids as $tag_id){
-            $response->assertDatabaseHas('article_category',['category_id' => $tag_id]);
+            $response->assertDatabaseHas('article_tag',['tag_id' => $tag_id]);
         }
 
         #不正な形式の記事が登録されないかテスト

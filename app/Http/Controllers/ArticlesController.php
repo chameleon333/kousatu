@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Article;
-use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Comment;
 use App\Models\Follower;
 use Carbon\Carbon;
@@ -53,7 +53,7 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Article $article, Category $category)
+    public function store(Request $request, Article $article, Tag $tag)
     {
         $user = auth()->user();
         $data = $request->all();
@@ -87,9 +87,9 @@ class ArticlesController extends Controller
                 $data["binary_image"] = Storage::disk('s3')->url($image);
             }
             $article->articleStore($user->id, $data);
-            $category->categoryStore($data["tags"]);
-            $category_ids = $category->getCategoryIds($data["tags"]);
-            $article->articleCategoryStore($category_ids);
+            $tag->tagStore($data["tags"]);
+            $tag_ids = $tag->getTagIds($data["tags"]);
+            $article->articleTagStore($tag_ids);
             return redirect('articles');
         }
     }

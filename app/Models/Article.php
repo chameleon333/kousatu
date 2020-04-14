@@ -29,9 +29,9 @@ class Article extends Model
       return $this->hasMany(Comment::class);
     }
 
-    public function categories()
+    public function tags()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Tag::class);
     }
   
     public function getUserTimeLine(Int $user_id)
@@ -93,9 +93,9 @@ class Article extends Model
       return $this->where('user_id',$user_id)->where('id',$article_id)->delete();
     }
 
-    public function articleCategoryStore(Array $category_ids){
-      foreach($category_ids as $category_id) {
-        $this->categories()->attach($category_id);
+    public function articleTagStore(Array $tag_ids){
+      foreach($tag_ids as $tag_id) {
+        $this->tags()->attach($tag_id);
       }
     }
 
