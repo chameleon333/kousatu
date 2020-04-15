@@ -89,7 +89,7 @@ class ArticlesController extends Controller
             $article->articleStore($user->id, $data);
             $tag->tagStore($data["tags"]);
             $tag_ids = $tag->getTagIds($data["tags"]);
-            $article->articleTagStore($tag_ids);
+            $article->articleTagSync($tag_ids);
             return redirect('articles');
         }
     }
@@ -143,7 +143,7 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Article $article, Tag $tag)
     {
         $data = $request->all();
         $validator = Validator::make($data,[
@@ -154,6 +154,14 @@ class ArticlesController extends Controller
 
         $validator->validate();
         $article->articleUpdate($article->id, $data);
+
+        #カテゴリ名の重複登録を防ぐ
+        $storedTagNames = $tag->whereIn('name',$data["tags"])->pluck('name');
+        $newTagNames = array_diff($data["tags"],$storedTagNames->all());
+
+        $tag->tagStore($newTagNames);
+        $tag_ids = $tag->getTagIds($data["tags"]);
+        $article->articleTagSync($tag_ids);
 
         return redirect('articles');
     }

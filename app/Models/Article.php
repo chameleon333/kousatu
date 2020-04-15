@@ -84,7 +84,6 @@ class Article extends Model
       $this->title = $data['title'];
       $this->body = $data['body'];
       $this->update();
-
       return;
     }
 
@@ -97,6 +96,10 @@ class Article extends Model
       foreach($tag_ids as $tag_id) {
         $this->tags()->attach($tag_id);
       }
+    }
+
+    public function articleTagSync(Array $tag_ids){
+        $this->tags()->sync($tag_ids);
     }
 
 }

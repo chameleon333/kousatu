@@ -15,12 +15,14 @@ class Tag extends Model
 
     public function tagStore(Array $_tag_names)
     {
-        #すでにタグ名が登録されている場合、スキップする
-        foreach($_tag_names as $tag_name){
-            $tag_names[] = ['name' => $tag_name];
+        #すでにタグ名が登録されている場合、登録しない
+        if(!empty($_tag_names)) {
+            foreach($_tag_names as $tag_name){
+                $tag_names[] = ['name' => $tag_name];
+            }
+            DB::table('tags')->insert($tag_names);
         }
-        DB::table('tags')->insertOrIgnore($tag_names);
-    }
+    }    
 
     public function getTagIds($tag_names){
         foreach($tag_names as $tag_name){
