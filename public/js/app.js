@@ -164,27 +164,36 @@ __webpack_require__.r(__webpack_exports__);
     VueTagsInput: _johmun_vue_tags_input__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
+    //Viewに表示されたタグ名をvueで受け取る
+    var parameter_tags = new Array();
+    var $display_tags = new Array();
+    $('.parameter_tags').each(function () {
+      $display_tags.push({
+        text: $(this).text()
+      });
+      parameter_tags.push({
+        name: $(this).text()
+      });
+    });
     return {
       tag: '',
-      tags: [],
+      tags: $display_tags,
+      parameter_tags: parameter_tags,
       maxTags: 5,
-      placeholderText: 'タグを追加する'
+      placeholderText: 'タグは5つまで登録できます'
     };
   },
-  methods: {
-    addTagValue: function addTagValue(obj) {
-      var value = obj.tag.text;
-      obj.addTag(); // 要素が存在しなかった場合、追加する
+  watch: {
+    tags: function tags(_tags) {
+      var parameter_tags = new Array();
 
-      if (!$('input[value="' + value + '"][name="tags[]"]').length) {
-        console.log("append");
-        $('.tags').append('<input type="hidden" name="tags[]" value="' + value + '">');
-      }
-    },
-    deleteTagValue: function deleteTagValue(obj) {
-      var value = obj.tag.text;
-      $('input[value="' + value + '"][name="tags[]"]').remove();
-      obj.deleteTag();
+      _tags.forEach(function (tag) {
+        parameter_tags.push({
+          name: tag.text
+        });
+      });
+
+      this.parameter_tags = parameter_tags;
     }
   }
 });
@@ -1378,9 +1387,7 @@ var render = function() {
         on: {
           "tags-changed": function(newTags) {
             return (_vm.tags = newTags)
-          },
-          "before-adding-tag": _vm.addTagValue,
-          "before-deleting-tag": _vm.deleteTagValue
+          }
         },
         model: {
           value: _vm.tag,
@@ -1391,7 +1398,17 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "tags" })
+      _c(
+        "div",
+        { staticClass: "tags" },
+        _vm._l(_vm.parameter_tags, function(parameter_tag) {
+          return _c("input", {
+            attrs: { type: "hidden", name: "tags[]" },
+            domProps: { value: parameter_tag.name }
+          })
+        }),
+        0
+      )
     ],
     1
   )

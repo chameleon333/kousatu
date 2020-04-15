@@ -6,10 +6,10 @@
             :max-tags="maxTags"
             :placeholder="placeholderText"
             @tags-changed="newTags => tags = newTags"
-            @before-adding-tag="addTagValue"
-            @before-deleting-tag="deleteTagValue"
         />
-        <div class="tags"></div>
+        <div class="tags">
+            <input type="hidden" name="tags[]" v-for="parameter_tag in parameter_tags" v-bind:value="parameter_tag.name">
+        </div>
     </div>
 </template>
 
@@ -21,28 +21,29 @@ export default {
         VueTagsInput,
     },
     data(){
+        //Viewに表示されたタグ名をvueで受け取る
+        var parameter_tags = new Array();
+        var $display_tags = new Array();
+        $('.parameter_tags').each(function() {
+            $display_tags.push({text:$(this).text()});
+            parameter_tags.push({name: $(this).text()});
+        });
         return {
             tag: '',
-            tags: [],
+            tags:$display_tags,
+            parameter_tags: parameter_tags,
             maxTags:5,
-            placeholderText:'タグを追加する'
+            placeholderText:'タグは5つまで登録できます'
         };
     },
-    methods:{
-        addTagValue(obj){
-            var value = obj.tag.text;
-            obj.addTag();
-            // 要素が存在しなかった場合、追加する
-            if(!($('input[value="'+value+'"][name="tags[]"]').length)){
-                console.log("append");
-                $('.tags').append('<input type="hidden" name="tags[]" value="'+value+'">');
-            }
+    watch: {
+        tags: function(tags) {
+            var parameter_tags = new Array();
+            tags.forEach(function(tag){
+                parameter_tags.push({name: tag.text}); 
+            });
+            this.parameter_tags = parameter_tags;
         },
-        deleteTagValue(obj){
-            var value = obj.tag.text;
-            $('input[value="'+value+'"][name="tags[]"]').remove();
-            obj.deleteTag();
-        }
     },
 };
 </script>

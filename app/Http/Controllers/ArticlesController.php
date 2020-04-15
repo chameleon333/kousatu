@@ -122,14 +122,17 @@ class ArticlesController extends Controller
     {
         $user = auth()->user();
         $articles = $article->getEditArticle($user->id, $article->id);
-        // dd($articles->body);
+        
         if(!isset($articles)) {
             return redirect('articles');
         }
-        
+        foreach($article->tags as $tag){
+            $tags[] = $tag;
+        }
         return view('articles.edit', [
             'user' => $user,
-            'articles' => $articles
+            'articles' => $articles,
+            'tags'=>$tags
         ]);
     }
 
