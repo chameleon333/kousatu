@@ -12,11 +12,20 @@ class CommentsTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 10; $i++) {
+        Comment::create([
+            'user_id' => 2,
+            'article_id' => 1,
+            'text' => 'すばらしい考察です！',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+
+        for ($i = 2; $i <= 10; $i++) {
             Comment::create([
                 'user_id' => 1,
                 'article_id' => $i,
-                'text' => 'これはテストコメント' .$i,
+                'text' => 'すばらしい考察です！',
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
