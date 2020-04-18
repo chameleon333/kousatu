@@ -126,6 +126,7 @@ class ArticlesController extends Controller
         if(!isset($articles)) {
             return redirect('articles');
         }
+        $tags = [];
         foreach($article->tags as $tag){
             $tags[] = $tag;
         }
