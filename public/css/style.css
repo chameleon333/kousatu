@@ -112,3 +112,7 @@ h4 {
   background-size: cover;
 }
 
+.tag-mark:before {
+  content: "#";
+}
+

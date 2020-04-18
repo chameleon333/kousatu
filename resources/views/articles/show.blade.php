@@ -20,7 +20,7 @@
                 <h1>{!! nl2br(e($article->title)) !!}</h1>
                 <div class="mb-2">
                     @foreach($article->tags as $tag)
-                        <span class="bg-light p-2 text-secondary rounded">{{$tag->name}}</span>
+                        <span class="tag-mark text-secondary">{{$tag->name}}</span>
                     @endforeach
                 </div>
                 <div class="border-top mb-5"></div>

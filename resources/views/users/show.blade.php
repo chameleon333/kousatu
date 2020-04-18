@@ -84,6 +84,11 @@
                   <p class="px-1">{{ $timeline->title }}</p>
                 </a>
               </div>
+              <p class="mb-0 text-secondary">
+                @foreach($timeline->tags as $tag)
+                  <span class="tag-mark">{{$tag->name}}</span>
+                @endforeach
+              </p>
               <div class="mt-1 d-flex">
                 <div class="mr-auto text-secondary">
                   <span>by &#064;{{$timeline->user->screen_name}}</span>

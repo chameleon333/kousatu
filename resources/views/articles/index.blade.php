@@ -28,6 +28,11 @@
               </a>
             </div>
             <p class="mb-0 text-secondary">
+              @foreach($timeline->tags as $tag)
+              <span class="tag-mark">{{$tag->name}}</span>
+              @endforeach
+            </p>
+            <p class="mb-0 text-secondary">
               <span>by &#064;{{$timeline->user->screen_name}}</span>
               <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
               <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
