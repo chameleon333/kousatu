@@ -12,13 +12,22 @@ class ArticleTagTableSeeder extends Seeder
      */
     public function run()
     {
-      for ($tag_num = 1; $tag_num <= 4; $tag_num++)
-        for ($i = 1; $i <= 10; $i++){
-            #body用データ読み込み
-            ArticleTag::create([
-              'article_id' => $i,
-              'tag_id' => $tag_num,
-            ]);
-          }    
+      $articles = [
+        1 => [1,2,5], 2 => [1,6],
+        3 => [1,7], 4 => [1,7], 
+        4 => [1,8], 5 => [1,9], 
+        6 => [1,10], 7 => [1,11], 
+        8 => [1,12], 9 => [1,2,3,13], 
+        10 => [1,14]
+      ];
+
+      foreach($articles as $article_id => $tag_ids) {
+        foreach($tag_ids as $tag_id) {
+          ArticleTag::create([
+            'article_id' => $article_id,
+            'tag_id' => $tag_id,
+          ]);
+        }
+      };
     }
 }
