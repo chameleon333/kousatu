@@ -90,26 +90,26 @@
                   <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
                   <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
                 </div>
-                <div class="dropdown d-flex align-items-center">
-                  <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-fw"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <form method="POST" action="{{ url('articles/' .$timeline->id) }}" class="mb-0">
-                      @csrf
-                      @method('DELETE')
+                @if ($user->id === $auth)
+                  <div class="dropdown d-flex align-items-center">
+                    <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-fw"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <form method="POST" action="{{ url('articles/' .$timeline->id) }}" class="mb-0">
+                        @csrf
+                        @method('DELETE')
 
-                      <a href="{{ url('articles/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
-                      <button type="submit" class="dropdown-item del-btn">削除</button>
-                    </form>
+                        <a href="{{ url('articles/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
+                        <button type="submit" class="dropdown-item del-btn">削除</button>
+                      </form>
+                    </div>
                   </div>
-                </div>
+                @endif
                 <div class="d-flex align-items-center">
                   <a href="{{ url('articles/' .$timeline->id) }}#comment"><i class="far fa-comment fa-fw"></i></a>
                   <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
                 </div>
-
-
               </div>
             </div>
           </div>
