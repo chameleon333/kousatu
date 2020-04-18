@@ -70,7 +70,9 @@
       <div class="p-3 col-sm-6">
         <div class="card">
           <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
-            <img src="{{$timeline->header_image}}" alt="" class="w-100">
+            <div class="header-image-wrapper">
+              <div class="header-image-content" style="background-image:url('{{$timeline->header_image}}');"></div>    
+            </div>
           </a>
           <div class="card-haeder w-100 p-3">
             <div class="ml-2 d-flex flex-column">

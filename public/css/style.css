@@ -97,3 +97,18 @@ h4 {
   overflow: hidden;
 }
 
+.header-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.2005%;
+}
+
+.header-image-content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+}
+
