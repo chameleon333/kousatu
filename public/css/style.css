@@ -112,7 +112,12 @@ h4 {
   background-size: cover;
 }
 
-.tag-mark:before {
+.tag-mark::before {
   content: "#";
+}
+
+.double-quotation-mark:after,
+.double-quotation-mark:before {
+  content: '"';
 }
 

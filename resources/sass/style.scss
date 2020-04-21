@@ -104,6 +104,11 @@ $bg-yellow:#ffdd76;
   background-size:cover;
 }
 
-.tag-mark:before{
+.tag-mark::before{
   content:"#";
+}
+
+$double-quotation-mark:"\22";
+.double-quotation-mark:after,.double-quotation-mark:before {
+  content:$double-quotation-mark;
 }

@@ -29,7 +29,7 @@ class ArticlesController extends Controller
         $timelines = $articles->getTimeLines();
         $popular_tags = $tags->getPopularTags();
         return view('articles.index', [
-        'timelines' => $timelines,
+        'articles' => $timelines,
         'popular_tags' => $popular_tags
         ]);
     }

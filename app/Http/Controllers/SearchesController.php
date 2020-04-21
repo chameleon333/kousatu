@@ -16,11 +16,12 @@ class SearchesController extends Controller
 
         if(!empty($keyword)) {
             #記事タイトルから検索
-            $articles = Article::where('title', 'LIKE', '%'.$keyword.'%')->paginate(5);
+            $search_articles = Article::where('title', 'LIKE', '%'.$keyword.'%')->paginate(5);
         }
         $popular_tags = $tag->getPopularTags();
         return view('search.index', [
-            'search_articles' => $articles,
+            'keyword' => $keyword,
+            'articles' => $search_articles,
             'popular_tags' => $popular_tags,
         ]);
     }

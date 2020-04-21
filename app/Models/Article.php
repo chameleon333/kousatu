@@ -47,14 +47,13 @@ class Article extends Model
     public function getTimeLines()
     {
       //全ての記事を取得する
-      return $this->orderBy('created_at', 'DESC')->paginate(5);
+      return $this->orderBy('created_at', 'DESC')->paginate(6);
     }
 
     public function getFollowedTimeLines(Int $user_id, Array $follow_ids)
     {
       //自身とフォローしているユーザーを結合する
       $follow_ids[] = $user_id;
-      // dd($this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50));
       return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
     }
 
