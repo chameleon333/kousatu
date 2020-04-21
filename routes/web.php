@@ -45,6 +45,10 @@ Route::group(['middleware' => 'auth'], function() {
 
   //いいね関連
   Route::resource('favorites', 'FavoritesController', ['only' => ['store','destroy']]);
+
 });
+
+//タグ関連
+Route::get('tags/{tag}', 'TagsController@show')->name('tags.show');
 
 Route::get('articles/{article}', 'ArticlesController@show')->name('articles.show');

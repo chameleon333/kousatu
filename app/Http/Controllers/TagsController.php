@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class TagsController extends Controller
@@ -45,7 +47,15 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-        //
+        $tag = new Tag;
+        $tag = $tag::find($id);
+        $articles = $tag::find($id)->articles()->paginate(6);
+        $popular_tags = $tag->getPopularTags();
+        return view('tags.show',[
+            'tag' => $tag,
+            'articles' => $articles,
+            'popular_tags' => $popular_tags,
+        ]);
     }
 
     /**

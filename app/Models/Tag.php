@@ -31,4 +31,13 @@ class Tag extends Model
         }
         return $tag_ids;
     }
+
+    public function getPopularTags(){
+        $popular_tags = $this::withCount('articles')
+        ->orderBy('articles_count', 'desc')
+        ->take(5)
+        ->get();
+
+        return $popular_tags;
+    }
 }
