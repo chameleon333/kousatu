@@ -268,9 +268,6 @@ class UserTest extends TestCase
                 'body' => $testBody
             ]);
         }
-
-    } 
-
-
+    }
     
 }
