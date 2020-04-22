@@ -14,5 +14,6 @@ $factory->define(Article::class, function (Faker $faker) {
         'title' => $faker->text,
         'header_image' => "test",
         'body' => $faker->randomHtml(),
+        'status' => 0,
     ];
 });

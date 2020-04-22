@@ -19,7 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('header_image')->comment('ヘッダー画像');
             $table->string('title');
             $table->text('body')->comment('本文');
-            $table->unsignedSmallInteger('status')->comment('1:公開,2:非公開');
+            $table->unsignedSmallInteger('status')->default(0)->comment('0:公開,1:非公開');
             $table->timestamps();
             $table->foreign('user_id')
               ->references('id')
