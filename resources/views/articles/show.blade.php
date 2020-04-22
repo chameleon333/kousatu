@@ -18,6 +18,11 @@
                 </div>
                 <div class="card-body">
                 <h1>{!! nl2br(e($article->title)) !!}</h1>
+                <div class="mb-2">
+                    @foreach($article->tags as $tag)
+                        <span class="tag-mark text-secondary">{{$tag->name}}</span>
+                    @endforeach
+                </div>
                 <div class="border-top mb-5"></div>
                     <div id="preview_marked"></div>
                     <!-- {!! nl2br($article->body) !!} -->
@@ -76,7 +81,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-8 mb-3">
+        <div id="comment" class="col-md-8 mb-3">
             <ul class="list-group">
                 @forelse ($comments as $comment)
                     <li class="list-group-item">

@@ -2,27 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use App\Models\User;
 use App\Models\Article;
-use App\Models\Follower;
+use App\Models\Tag;
+use Illuminate\Http\Request;
 
-class AccountsController extends Controller
+class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
-      $all_users = $user->getAllUsers(auth()->user()->id);
-      
-      return view('accounts.index',[
-        'all_users' => $all_users
-      ]);
+        //
     }
 
     /**
@@ -54,7 +47,15 @@ class AccountsController extends Controller
      */
     public function show($id)
     {
-        //
+        $tag = new Tag;
+        $tag = $tag::find($id);
+        $articles = $tag::find($id)->articles()->paginate(6);
+        $popular_tags = $tag->getPopularTags();
+        return view('tags.show',[
+            'tag' => $tag,
+            'articles' => $articles,
+            'popular_tags' => $popular_tags,
+        ]);
     }
 
     /**

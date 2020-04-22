@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Article;
+use App\Models\Tag;
 use App\Models\Comment;
 use App\Models\Follower;
 use Carbon\Carbon;
@@ -23,12 +24,13 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Article $articles)
+    public function index(Article $articles, Tag $tags)
     {
         $timelines = $articles->getTimeLines();
-
+        $popular_tags = $tags->getPopularTags();
         return view('articles.index', [
-        'timelines' => $timelines
+        'articles' => $timelines,
+        'popular_tags' => $popular_tags
         ]);
     }
 
@@ -52,13 +54,13 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Article $article)
+    public function store(Request $request, Article $article, Tag $tag)
     {
         $user = auth()->user();
         $data = $request->all();
-        $data["article"] = $article;
         $validator = Validator::make($data,[
             'title' => ['string', 'max:30'],
+            'body' => ['string', 'max:20480'],
             'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
         
@@ -66,14 +68,29 @@ class ArticlesController extends Controller
         // 画像のみの投稿の処理
         if(isset($data["image"]))
         {
-            $image = Storage::disk('s3')->putFile('/post_images', $data["image"], 'public');
+            $image = Storage::disk('s3')->putFile('/article_images', $data["image"], 'public');
             $image_path = Storage::disk('s3')->url($image);
             return $image_path;
         } 
         // 記事を投稿する際の処理
         elseif(isset($data["title"]) && isset($data["body"])) 
         {
-            $article->ArticleStore($user->id, $data);
+            // dump($data);
+            if(!isset($data["binary_image"])){
+                $data["binary_image"] = "https://placehold.jp/379x213.png";
+            } else {
+                $img = $data["binary_image"];
+                $fileData = base64_decode($img);
+                $fileName = '/tmp/header_image.png';
+                file_put_contents($fileName, $fileData);
+
+                $image = Storage::disk('s3')->putFile('/header_images', $fileName, 'public');
+                $data["binary_image"] = Storage::disk('s3')->url($image);
+            }
+            $article->articleStore($user->id, $data);
+            $tag->tagStore($data["tags"]);
+            $tag_ids = $tag->getTagIds($data["tags"]);
+            $article->articleTagSync($tag_ids);
             return redirect('articles');
         }
     }
@@ -106,14 +123,18 @@ class ArticlesController extends Controller
     {
         $user = auth()->user();
         $articles = $article->getEditArticle($user->id, $article->id);
-        // dd($articles->body);
+        
         if(!isset($articles)) {
             return redirect('articles');
         }
-        
+        $tags = [];
+        foreach($article->tags as $tag){
+            $tags[] = $tag;
+        }
         return view('articles.edit', [
             'user' => $user,
-            'articles' => $articles
+            'articles' => $articles,
+            'tags'=>$tags
         ]);
     }
 
@@ -124,7 +145,7 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Article $article, Tag $tag)
     {
         $data = $request->all();
         $validator = Validator::make($data,[
@@ -135,6 +156,14 @@ class ArticlesController extends Controller
 
         $validator->validate();
         $article->articleUpdate($article->id, $data);
+
+        #カテゴリ名の重複登録を防ぐ
+        $storedTagNames = $tag->whereIn('name',$data["tags"])->pluck('name');
+        $newTagNames = array_diff($data["tags"],$storedTagNames->all());
+
+        $tag->tagStore($newTagNames);
+        $tag_ids = $tag->getTagIds($data["tags"]);
+        $article->articleTagSync($tag_ids);
 
         return redirect('articles');
     }

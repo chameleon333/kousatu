@@ -28,6 +28,11 @@ class Article extends Model
     {
       return $this->hasMany(Comment::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
   
     public function getUserTimeLine(Int $user_id)
     {
@@ -42,14 +47,13 @@ class Article extends Model
     public function getTimeLines()
     {
       //全ての記事を取得する
-      return $this->orderBy('created_at', 'DESC')->paginate(5);
+      return $this->orderBy('created_at', 'DESC')->paginate(6);
     }
 
     public function getFollowedTimeLines(Int $user_id, Array $follow_ids)
     {
       //自身とフォローしているユーザーを結合する
       $follow_ids[] = $user_id;
-      // dd($this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50));
       return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
     }
 
@@ -61,10 +65,10 @@ class Article extends Model
     public function articleStore(Int $user_id, Array $data)
     {
       $this->user_id = $user_id;
+      $this->header_image = $data['binary_image'];
       $this->title = $data['title'];
       $this->body = $data['body'];
       $this->save();
-
       return;
     }
 
@@ -79,13 +83,22 @@ class Article extends Model
       $this->title = $data['title'];
       $this->body = $data['body'];
       $this->update();
-
       return;
     }
 
     public function articleDestroy(Int $user_id, Int $article_id)
     {
       return $this->where('user_id',$user_id)->where('id',$article_id)->delete();
+    }
+
+    public function articleTagStore(Array $tag_ids){
+      foreach($tag_ids as $tag_id) {
+        $this->tags()->attach($tag_id);
+      }
+    }
+
+    public function articleTagSync(Array $tag_ids){
+        $this->tags()->sync($tag_ids);
     }
 
 }

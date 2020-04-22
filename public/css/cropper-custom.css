@@ -1,0 +1,44 @@
+.label {
+    cursor: pointer;
+}
+
+.progress {
+    display: none;
+    margin-bottom: 1rem;
+}
+
+.alert {
+    display: none;
+}
+
+.img-container img {
+    max-width: 100%;
+}
+
+.square-frame {
+    width:150px;
+    border: 1px dotted #999;
+}
+
+.square_content {
+    display: block;
+    height: 0;
+    width: 100%;
+    padding-bottom: 100%;
+}
+
+.bg-image {
+    background-size: cover;
+}
+
+.rectangle-frame {
+    width:175px;
+    border: 1px dotted #999;
+}
+
+.rectangle_content {
+    display: block;
+    height: 0;
+    width: 100%;
+    padding-bottom: 56%;
+}

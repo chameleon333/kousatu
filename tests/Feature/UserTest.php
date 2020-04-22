@@ -2,6 +2,7 @@
 
 use Tests\TestCase;
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -80,7 +81,7 @@ class UserTest extends TestCase
         # 正常系テスト
 
         ## アップロードしたプロフィールデータがDBにあるかテスト
-        $factory_userA = factory(App\Models\User::class)->make();
+        $factory_userA = factory(App\Models\User::class)->create();
         $testUserNameA = $factory_userA->screen_name;
         $testEmailA = $factory_userA->email;
 
@@ -94,7 +95,7 @@ class UserTest extends TestCase
 
         ## 不正な形式のユーザー名が登録されないかテスト
         $Bad_testUserName = "testUserばっとてすと@";
-        $factory_userB = factory(App\Models\User::class)->make();
+        $factory_userB = factory(App\Models\User::class)->create();
         $testEmailB = $factory_userB->email;
 
         $this->post('/register', ['screen_name' => $Bad_testUserName, 'email' => $testEmailB, 'password' => $testPassword, 'password_confirmation' => $testPassword]);
@@ -102,7 +103,7 @@ class UserTest extends TestCase
             'screen_name' => $Bad_testUserName,
             'email' => $testEmailB
         ]);
-        $factory_userC = factory(App\Models\User::class)->make();
+        $factory_userC = factory(App\Models\User::class)->create();
         $testUserNameC = $factory_userC->screen_name;
         $Bad_testEmail = "testUserばっとてすと@";
 
@@ -125,33 +126,33 @@ class UserTest extends TestCase
         #アップデート用のプロフィールデータを生成する
         $factory_user_update = factory(App\Models\User::class)->make();
         $testUserName = $factory_user_update->screen_name;
-        $testName = $factory_user_update->screen_name;
+        $testName = $factory_user_update->name;
         $testEmail = $factory_user_update->email;
+        $testSelfIntroduction = $factory_user_update->self_introduction;
 
-        // $testUserName = "testUser";
-        // $testName = "テスト";
-        // $testEmail = "test@test.com";
-        $response->put('/users/'.$user_id, ['screen_name' => $testUserName, 'name' => $testName, 'email' => $testEmail]);
+        $response->put('/users/'.$user_id, ['screen_name' => $testUserName, 'name' => $testName, 'email' => $testEmail, 'self_introduction' => $testSelfIntroduction]);
         $response->assertDatabaseHas('users', [
             'id' => $user_id,
             'screen_name' => $testUserName,
             'name' => $testName,
-            'email' => $testEmail
+            'email' => $testEmail,
+            'self_introduction' => $testSelfIntroduction
         ]);
 
         $Bad_testUserName = "testUserばっとてすと@";
 
         #不正な形式のプロフィールが登録されないかテスト
-        $response->put('/users/'.$user_id, ['screen_name' => $Bad_testUserName, 'name' => $testName, 'email' => $testEmail]);
+        $response->put('/users/'.$user_id, ['screen_name' => $Bad_testUserName, 'name' => $testName, 'email' => $testEmail, 'self_introduction' => $testSelfIntroduction]);
         $response->assertDatabaseMissing('users', [
             'id' => $user_id,
             'screen_name' => $Bad_testUserName,
             'name' => $testName,
-            'email' => $testEmail
+            'email' => $testEmail,
+            'self_introduction' => $testSelfIntroduction
         ]);
     }
 
-    public function testPostArticle()
+    public function testCreateArticle()
     {
         #アップロードした記事データがDBにあるかテスト
         $factory_user = factory(App\Models\User::class)->create();
@@ -166,12 +167,26 @@ class UserTest extends TestCase
 - テストリスト
 - テストリスト
 - テストリスト";
-
-        $response->post('/articles', ['title' => $testTitle, 'body' => $testBody]);
+        $testTags = ["テスト1","テスト2","テスト3","テスト4","テスト5"];
+        $response->post('/articles', ['title' => $testTitle, 'body' => $testBody,'tags' => $testTags]);
         $response->assertDatabaseHas('articles', [
             'title' => $testTitle,
             'body' => $testBody
         ]);
+
+        #登録したタグ名が登録テーブルに登録されているかテスト
+        foreach($testTags as $testTag){
+            $response->assertDatabaseHas('tags', [
+                'name' => $testTag,
+            ]);
+            $tag_id = Tag::select('id')->where("name",$testTag)->first();
+            $tag_ids[] = $tag_id->id;
+        }
+
+        #登録したカテゴリーが中間テーブルに保存されているかテスト
+        foreach($tag_ids as $tag_id){
+            $response->assertDatabaseHas('article_tag',['tag_id' => $tag_id]);
+        }
 
         #不正な形式の記事が登録されないかテスト
         #タイトル0文字または３1文字以上の記事が投稿されないかテスト
@@ -188,5 +203,71 @@ class UserTest extends TestCase
 
     } 
 
+    public function testUpdateArticle()
+    {
+        #更新した記事データがDBにあるかテスト
+        $factory_user = factory(App\Models\User::class)->create();
+
+        $factory_article = factory(Article::class)
+        ->create(["user_id" => $factory_user->id,])
+        ->each(function(Article $article){
+            $article->tags()->saveMany(factory(Tag::class, rand(0,5)))->create();
+
+            $tags = Tag::all();
+            $tag_ids = [];
+            foreach($tags as $tag) {
+                $tag_ids[] = $tag->id;
+            }
+            $article->articleTagSync($tag_ids);
+        });
+
+        $response = $this->actingAs($factory_user);
+
+        $user_id = $factory_user->id;
+        $testTitle = "テストタイトル";
+        $testBody = "# テストh1
+## テストタイトルh2
+- テストリスト
+- テストリスト
+- テストリスト
+- テストリスト";
+
+        $testTags = ["テスト1","テスト2","テスト3","テスト4","テスト5"];
+        $response->put("/articles/{$factory_article}", [ 'title' => $testTitle, 'body' => $testBody,'tags' => $testTags]);
+        $response->assertDatabaseHas('articles', [
+            'title' => $testTitle,
+            'body' => $testBody,
+        ]);
+        
+        #登録したタグ名が登録テーブルに登録されているかテスト
+        foreach($testTags as $testTag){
+            $response->assertDatabaseHas('tags', [
+                'name' => $testTag,
+            ]);
+            $tag_id = Tag::select('id')->where("name",$testTag)->first();
+            $tag_ids[] = $tag_id->id;
+        }
+
+        #登録したカテゴリーが中間テーブルに保存されているかテスト
+        foreach($tag_ids as $tag_id){
+            $response->assertDatabaseHas('article_tag',[
+                'article_id' => $factory_article,
+                'tag_id' => $tag_id
+            ]);
+        }
+
+        #不正な形式の記事が登録されないかテスト
+        #タイトル0文字または３1文字以上の記事が投稿されないかテスト
+        $lengths = [0,31];
+        foreach($lengths as $length) {
+            $Bad_testTitle = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', $length)), 0, $length);
+
+            $response->post('/articles', ['title' => $Bad_testTitle, 'body' => $testBody]);
+            $response->assertDatabaseMissing('articles', [
+                'title' => $Bad_testTitle,
+                'body' => $testBody
+            ]);
+        }
+    }
     
 }
