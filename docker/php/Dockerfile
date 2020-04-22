@@ -25,5 +25,7 @@ ADD . /var/www
 
 WORKDIR /var/www
 
+RUN npm run prod
+
 RUN chmod -R a+w storage/ bootstrap/cache
 
