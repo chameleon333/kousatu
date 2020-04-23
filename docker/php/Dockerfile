@@ -13,7 +13,6 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
 RUN apt-get install -y nodejs
 RUN apt-get install -y git
-RUN npm install npm@latest -g
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
@@ -25,6 +24,7 @@ ADD . /var/www
 
 WORKDIR /var/www
 
+RUN npm install npm@latest -g
 RUN npm run prod
 
 RUN chmod -R a+w storage/ bootstrap/cache
