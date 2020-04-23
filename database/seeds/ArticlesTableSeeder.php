@@ -25,6 +25,7 @@ class ArticlesTableSeeder extends Seeder
           'header_image'  => '/storage/profile_image/profile'.$i.'.jpeg',
           'title' => $title,
           'body' => $body,
+          'status' => 0,
           'created_at' => now(),
           'updated_at' => now(),
         ]);
