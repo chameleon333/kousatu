@@ -26,8 +26,5 @@ WORKDIR /var/www
 
 RUN npm install npm@latest -g
 
-RUN npm install
-RUN npm run prod
-
 RUN chmod -R a+w storage/ bootstrap/cache
 
