@@ -32,12 +32,13 @@ http://the-kousatu.com
 - CircleCI
 
 - AWS
-    - ECR/ECS
+    - CloudWatch
     - EC2/ALB
+    - ECR/ECS
     - RDS
+    - Route 53
     - S3
     - VPC
-    - CloudWatch
 
 ## クラウドアーキテクチャー
-![kousatu](https://user-images.githubusercontent.com/46510584/80435353-3d20fc80-8937-11ea-9523-e9cbbf5b7665.png)
+![kousatu](https://user-images.githubusercontent.com/46510584/80483318-d7615e80-8990-11ea-8676-d11f3189ed2b.png)
