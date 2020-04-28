@@ -9,7 +9,7 @@
 ですが、毎回「〜 考察」と検索するのも手間で、またいろんな方の考察を比較しにくいと感じ、できるだけその手間をなくすため「kousatu」を作成しました。
 
 ## リンク
-http://kousatu-load-balancer-880006891.ap-northeast-1.elb.amazonaws.com/
+the-kousatu.com
 
 ## 使用技術
 
