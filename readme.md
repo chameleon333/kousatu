@@ -37,3 +37,6 @@ http://kousatu-load-balancer-880006891.ap-northeast-1.elb.amazonaws.com/
     - S3
     - VPC
     - CloudWatch
+
+## クラウドアーキテクチャー
+![kousatu](https://user-images.githubusercontent.com/46510584/80435353-3d20fc80-8937-11ea-9523-e9cbbf5b7665.png)
