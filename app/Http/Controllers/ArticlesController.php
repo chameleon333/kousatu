@@ -26,7 +26,8 @@ class ArticlesController extends Controller
      */
     public function index(Article $articles, Tag $tags)
     {
-        $timelines = $articles->getTimeLines();
+        $status_id = 0;
+        $timelines = $articles->getTimeLines($status_id);
         $popular_tags = $tags->getPopularTags();
         return view('articles.index', [
         'articles' => $timelines,
@@ -77,7 +78,7 @@ class ArticlesController extends Controller
         {
             // dump($data);
             if(!isset($data["binary_image"])){
-                $data["binary_image"] = "https://placehold.jp/379x213.png";
+                $data["binary_image"] = "/storage/etc/default-header-image.png";
             } else {
                 $img = $data["binary_image"];
                 $fileData = base64_decode($img);
@@ -88,9 +89,11 @@ class ArticlesController extends Controller
                 $data["binary_image"] = Storage::disk('s3')->url($image);
             }
             $article->articleStore($user->id, $data);
-            $tag->tagStore($data["tags"]);
-            $tag_ids = $tag->getTagIds($data["tags"]);
-            $article->articleTagSync($tag_ids);
+            if(isset($data["tags"])) {
+                $tag->tagStore($data["tags"]);
+                $tag_ids = $tag->getTagIds($data["tags"]);
+                $article->articleTagSync($tag_ids);    
+            }
             return redirect('articles');
         }
     }
