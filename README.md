@@ -11,6 +11,25 @@
 ## リンク
 http://the-kousatu.com
 
+## 使用画面
+| 記事一覧　| 記事詳細  |
+| :----: | :----: |
+| <img src="https://user-images.githubusercontent.com/46510584/80677075-2a532700-8af3-11ea-8069-3a2948b9c426.png">   | <img src="https://user-images.githubusercontent.com/46510584/80677196-7605d080-8af3-11ea-8b33-547c23efd120.png">   |
+<br>
+
+| 記事作成 | ヘッダー画像投稿 |
+| :----: | :----: |
+| <img src="https://user-images.githubusercontent.com/46510584/80681131-01cf2b00-8afb-11ea-9145-92366bf580cd.png"> | <img src="https://user-images.githubusercontent.com/46510584/80681229-3642e700-8afb-11ea-884a-f4bf92823972.png"> |
+<br>
+
+| フォロー | タグ検索 |
+| :----: | :----: |
+| <img src="https://user-images.githubusercontent.com/46510584/80681683-1c55d400-8afc-11ea-9120-f5869b41ae96.png"> | <img src="https://user-images.githubusercontent.com/46510584/80681883-81112e80-8afc-11ea-9d7e-9e338e999b80.png"> |
+
+| プロフィール詳細 | プロフィール編集 |
+| :----: | :----: |
+| <img src="https://user-images.githubusercontent.com/46510584/80681397-989be780-8afb-11ea-8a97-3e9c7354ab5c.png"> | <img src="https://user-images.githubusercontent.com/46510584/80681489-c41ed200-8afb-11ea-80d1-fa9f968cdcf0.png"> |
+<br>
 
 ## 使用技術
 
