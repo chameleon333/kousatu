@@ -20,7 +20,7 @@ class Tag extends Model
             foreach($_tag_names as $tag_name){
                 $tag_names[] = ['name' => $tag_name];
             }
-            DB::table('tags')->insert($tag_names);
+            DB::table('tags')->insertOrIgnore($tag_names);
         }
     }    
 
