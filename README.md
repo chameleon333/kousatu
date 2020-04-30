@@ -3,13 +3,19 @@
 ## アプリ概要
 アニメ、映画、漫画、小説などの**自身の考察**をシェア、意見を交換するアプリです。
 ユーザーをフォローしたり、いいねなどができ、お気に入りの考察を探すことができます。
+<br>
+<br>
 
 ## 作成した経緯
 僕自身、小説や映画などが好きで見終わったあとによく考察などを見ます。
 ですが、毎回「〜 考察」と検索するのも手間で、またいろんな方の考察を比較しにくいと感じ、できるだけその手間をなくすため「kousatu」を作成しました。
+<br>
+<br>
 
 ## リンク
 http://the-kousatu.com
+<br>
+<br>
 
 ## 使用画面
 | 記事一覧　| 記事詳細  |
@@ -29,6 +35,7 @@ http://the-kousatu.com
 | プロフィール詳細 | プロフィール編集 |
 | :----: | :----: |
 | <img src="https://user-images.githubusercontent.com/46510584/80681397-989be780-8afb-11ea-8a97-3e9c7354ab5c.png"> | <img src="https://user-images.githubusercontent.com/46510584/80681489-c41ed200-8afb-11ea-80d1-fa9f968cdcf0.png"> |
+<br>
 <br>
 
 ## 使用技術
@@ -58,6 +65,9 @@ http://the-kousatu.com
     - Route 53
     - S3
     - VPC
+
+<br>
+<br>
 
 ## クラウドアーキテクチャー
 ![kousatu](https://user-images.githubusercontent.com/46510584/80483318-d7615e80-8990-11ea-8676-d11f3189ed2b.png)
