@@ -33,8 +33,3 @@ resource "aws_security_group_rule" "outbound" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.kousatu.id
 }
-
-output "security_group_id" {
-  value = aws_security_group.kousatu.id
-}
-

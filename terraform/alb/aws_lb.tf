@@ -21,10 +21,6 @@ resource "aws_lb" "kousatu" {
 
 }
 
-output "alb_dns_name" {
-  value = aws_lb.kousatu.dns_name
-}
-
 data "terraform_remote_state" "vpc" {
   backend = "s3"
   config = {

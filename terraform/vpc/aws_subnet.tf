@@ -46,19 +46,3 @@ resource "aws_subnet" "private-c" {
   }
   timeouts {}
 }
-
-output "public-a-id" {
-  value = aws_subnet.public-a.id
-}
-
-output "public-c-id" {
-  value = aws_subnet.public-c.id
-}
-
-output "private-a-id" {
-  value = aws_subnet.private-a.id
-}
-
-output "private-c-id" {
-  value = aws_subnet.private-c.id
-}

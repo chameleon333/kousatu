@@ -42,7 +42,3 @@ resource "aws_lb_listener_rule" "kousatu" {
 
 }
 
-output "lb_target_group_arn" {
-  value = aws_lb_target_group.kousatu.arn
-}
-

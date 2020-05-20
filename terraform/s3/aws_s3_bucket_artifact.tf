@@ -9,7 +9,3 @@ resource "aws_s3_bucket" "artifact" {
     }
   }
 }
-
-output "artifact_id" {
-  value = aws_s3_bucket.artifact.id
-}

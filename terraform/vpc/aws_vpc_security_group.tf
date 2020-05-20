@@ -44,7 +44,3 @@ resource "aws_security_group_rule" "kousatu-3" {
   security_group_id = aws_security_group.kousatu.id
 }
 
-output "security_group_id" {
-  value = aws_security_group.kousatu.id
-}
-
