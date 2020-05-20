@@ -1,7 +1,7 @@
 resource "aws_security_group" "kousatu" {
-    name = "EC2ContainerService-kousatu-cluster-EcsSecurityGroup-Q6QP84LCOFA1"
-    vpc_id = aws_vpc.kousatu.id
-    description = "ECS Allowed Ports"
+  name        = "EC2ContainerService-kousatu-cluster-EcsSecurityGroup-Q6QP84LCOFA1"
+  vpc_id      = aws_vpc.kousatu.id
+  description = "ECS Allowed Ports"
 }
 
 # #80ポートを許可
@@ -16,13 +16,12 @@ resource "aws_security_group_rule" "kousatu" {
 
 # #全ポートを許可
 resource "aws_security_group_rule" "kousatu-1" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 65535
-  protocol          = "tcp"
-#   cidr_blocks       = []
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 65535
+  protocol                 = "tcp"
   source_security_group_id = "sg-0143775b724cc6164"
-  security_group_id = aws_security_group.kousatu.id
+  security_group_id        = aws_security_group.kousatu.id
 }
 
 # #22ポートを許可

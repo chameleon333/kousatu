@@ -33,8 +33,8 @@ data "aws_iam_policy_document" "artifact" {
   }
 
   statement {
-    effect = "Allow"
-    actions = ["s3:GetBucketAcl"]
+    effect    = "Allow"
+    actions   = ["s3:GetBucketAcl"]
     resources = ["arn:aws:s3:::${aws_s3_bucket.private.id}"]
     principals {
       type        = "Service"

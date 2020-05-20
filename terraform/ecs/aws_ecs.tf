@@ -29,9 +29,9 @@ resource "aws_ecs_service" "kousatu" {
 
 
 resource "aws_launch_configuration" "kousatu" {
-  image_id = "ami-00c408a8b71d5c614"
+  image_id                    = "ami-00c408a8b71d5c614"
   instance_type               = "t2.micro"
-  user_data = file("./user_data.sh")
+  user_data                   = file("./user_data.sh")
   iam_instance_profile        = data.terraform_remote_state.iam.outputs.aws_iam_instance_profile_arn
   security_groups             = [data.terraform_remote_state.vpc.outputs.security_group_id]
   associate_public_ip_address = true
@@ -43,32 +43,7 @@ resource "aws_autoscaling_group" "kousatu" {
   min_size                  = 0
   health_check_grace_period = 0
   health_check_type         = "EC2"
-  launch_configuration = aws_launch_configuration.kousatu.id
-  # tag {
-  #     key                 = "Description"
-  #     propagate_at_launch = true
-  #     value               = "This instance is the part of the Auto Scaling group which was created through ECS Console"
-  #   }
-  # tag {
-  #     key                 = "Name"
-  #     propagate_at_launch = true
-  #     value               = "ECS Instance - EC2ContainerService-kousatu-cluster"
-  #   }
-  # tag {
-  #     key                 = "aws:cloudformation:logical-id"
-  #     propagate_at_launch = true
-  #     value               = "EcsInstanceAsg"
-  #   }
-  # tag {
-  #     key                 = "aws:cloudformation:stack-id"
-  #     propagate_at_launch = true
-  #     value               = "arn:aws:cloudformation:ap-northeast-1:636153449311:stack/EC2ContainerService-kousatu-cluster/c1263090-5d4a-11ea-8894-0693e5f01c30"
-  #   }
-  # tag {
-  #     key                 = "aws:cloudformation:stack-name"
-  #     propagate_at_launch = true
-  #     value               = "EC2ContainerService-kousatu-cluster"
-  #   }
+  launch_configuration      = aws_launch_configuration.kousatu.id
 }
 
 resource "aws_appautoscaling_target" "kousatu" {
@@ -81,11 +56,11 @@ resource "aws_appautoscaling_target" "kousatu" {
 
 
 resource "aws_appautoscaling_policy" "kousatu" {
-  name = "tracking"
-  service_namespace = aws_appautoscaling_target.kousatu.service_namespace
+  name               = "tracking"
+  service_namespace  = aws_appautoscaling_target.kousatu.service_namespace
   scalable_dimension = aws_appautoscaling_target.kousatu.scalable_dimension
-  resource_id = aws_appautoscaling_target.kousatu.resource_id
-  policy_type = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.kousatu.resource_id
+  policy_type        = "TargetTrackingScaling"
 
   target_tracking_scaling_policy_configuration {
     disable_scale_in   = false
@@ -94,8 +69,8 @@ resource "aws_appautoscaling_policy" "kousatu" {
     target_value       = 75
 
     predefined_metric_specification {
-        predefined_metric_type = "ECSServiceAverageCPUUtilization"
-      }
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
   }
 
 }
