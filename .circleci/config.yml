@@ -63,7 +63,7 @@ workflows:
             - test:  
                 requires:
                     - build                  
-                    context: kousatu
+                context: kousatu
             # - deplay:
             #     requires:
             #         - test
