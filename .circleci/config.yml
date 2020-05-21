@@ -39,14 +39,30 @@ jobs:
                 paths:
                     - node_modules
 
+    test:
+        machine: true
+            - checkout
             - run:
                 name: Run test
                 command: |
                     docker-compose run php php artisan dusk
                     docker-compose run php vendor/bin/phpunit
+
+    # deplay:
+    #     machine:
+    #         - checkout
+
+
 workflows:
     version: 2
-    build_and_test:
+    build_test_and_deploy:
         jobs:
             - build:
                 context: kousatu
+            - test:  
+                requires:
+                    - build                  
+                    context: kousatu
+            # - deplay:
+            #     requires:
+            #         - test
