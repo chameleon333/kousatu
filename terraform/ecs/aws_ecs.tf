@@ -77,6 +77,16 @@ resource "aws_appautoscaling_policy" "kousatu" {
 
 data "template_file" "service_container_definition" {
   template = file("./task-definitions/service.json")
+  vars = {
+    bucket_name = var.bucket_name
+    app_key = var.app_key
+    db_host = var.db_host
+    db_username = var.db_username
+    aws_access_key_id = var.aws_access_key_id 
+    aws_secret_access_key = var.aws_secret_access_key
+    db_database = var.db_database
+    db_password = var.db_password
+  }
 }
 
 resource "aws_ecs_task_definition" "kousatu" {

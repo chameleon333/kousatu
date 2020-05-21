@@ -1,0 +1,127 @@
+[
+  {
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "/ecs/kousatu-task",
+              "awslogs-region": "ap-northeast-1",
+              "awslogs-stream-prefix": "ecs"
+          }
+      },
+      "portMappings": [
+          {
+              "hostPort": 0,
+              "protocol": "tcp",
+              "containerPort": 80
+          },
+          {
+              "hostPort": 0,
+              "protocol": "tcp",
+              "containerPort": 443
+          }
+      ],
+      "cpu": 0,
+      "environment": [],
+      "mountPoints": [
+          {
+              "containerPath": "/var/www",
+              "sourceVolume": "src"
+          }
+      ],
+      "volumesFrom": [],
+      "image": "636153449311.dkr.ecr.ap-northeast-1.amazonaws.com/kousatu_nginx:latest",
+      "essential": true,
+      "links": [
+          "php"
+      ],
+      "name": "nginx"
+  },
+  {
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "/ecs/kousatu-task",
+              "awslogs-region": "ap-northeast-1",
+              "awslogs-stream-prefix": "ecs"
+          }
+      },
+      "portMappings": [
+          {
+              "hostPort": 0,
+              "protocol": "tcp",
+              "containerPort": 3000
+          }
+      ],
+      "cpu": 0,
+      "environment": [
+          {
+              "name": "APP_ENV",
+              "value": "local"
+          },
+          {
+              "name": "TZ",
+              "value": "Asia/Tokyo"
+          },
+          {
+              "name": "AWS_SECRET_ACCESS_KEY",
+              "value": "${aws_secret_access_key}"
+          },
+          {
+              "name": "APP_NAME",
+              "value": "kousatu"
+          },
+          {
+              "name": "AWS_DEFAULT_REGION",
+              "value": "ap-northeast-1"
+          },
+          {
+              "name": "AWS_BUCKET",
+              "value": "${bucket_name}"
+          },
+          {
+              "name": "APP_KEY",
+              "value": "${app_key}"
+          },
+          {
+              "name": "DB_HOST",
+              "value": "${db_host}"
+          },
+          {
+              "name": "DB_USERNAME",
+              "value": "${db_username}"
+          },
+          {
+              "name": "AWS_ACCESS_KEY_ID",
+              "value": "${aws_access_key_id}"
+          },
+          {
+              "name": "DB_CONNECTION",
+              "value": "mysql"
+          },
+          {
+              "name": "APP_URL",
+              "value": "https://localhost"
+          },
+          {
+              "name": "APP_DEBUG",
+              "value": "false"
+          },
+          {
+              "name": "DB_DATABASE",
+              "value": "${db_database}"
+          },
+          {
+              "name": "DB_PASSWORD",
+              "value": "${db_password}"
+          }
+      ],
+      "mountPoints": [],
+      "workingDirectory": "/var/www",
+      "volumesFrom": [],
+      "image": "636153449311.dkr.ecr.ap-northeast-1.amazonaws.com/kousatu_php:latest",
+      "essential": true,
+      "user": "root",
+      "privileged": true,
+      "name": "php"
+  }
+]
