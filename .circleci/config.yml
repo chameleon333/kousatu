@@ -41,6 +41,7 @@ jobs:
 
     test:
         machine: true
+        steps:
             - checkout
             - run:
                 name: Run test
