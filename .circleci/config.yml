@@ -16,7 +16,7 @@ jobs:
             - DB_CONNECTION: circle_testing
             - MYSQL_ALLOW_EMPTY_PASSWORD: true
             - APP_URL: http://localhost:8000
-            
+
         steps:
             - run: git config --global core.quotepath false
             
@@ -52,16 +52,16 @@ jobs:
             - run: php artisan migrate
             - run: npm run production
             - run: ./vendor/bin/phpunit
-            - run: php artisan dusk:chrome-driver
+            - run: sudo php artisan dusk:chrome-driver
             
             - run:
                 name: Start Chrome Driver
-                command: ./vendor/laravel/dusk/bin/chromedriver-linux
+                command: sudo ./vendor/laravel/dusk/bin/chromedriver-linux
                 background: true
 
             - run:
                 name: Run Laravel Server
-                command: php artisan serve
+                command: sudo php artisan serve
                 background: true
 
             # - run:
@@ -69,7 +69,7 @@ jobs:
             #     command: docker run -d -p 4444:4444 selenium/standalone-chrome
             - run: 
                 name: start browser test
-                command: php artisan dusk
+                command: sudo php artisan dusk
             - store_artifacts:
                 path: tests/Browser/screenshots/
             # - run:
