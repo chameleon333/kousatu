@@ -20,6 +20,7 @@ jobs:
             - run: git config --global core.quotepath false
             
             - checkout
+            - setup_remote_docker
 
             - run: echo "${APP_KEY}"
             - run:
@@ -57,6 +58,11 @@ jobs:
             - run:
                 name: run selenium　
                 command: docker run -d -p 4444:4444 selenium/standalone-chrome
+
+            - run:
+                name: Run Laravel Server
+                command: php artisan serve
+                background: true
 
             - run: 
                 name: start browser test
