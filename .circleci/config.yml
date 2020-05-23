@@ -10,7 +10,7 @@ jobs:
                     - DB_CONNECTION: circle_testing
                     - APP_KEY: $APP_KEY 
 
-            - image: circleci/mysql:5.6.39-ram
+            - image: circleci/mysql:5.7
               environment:
                     - MYSQL_ALLOW_EMPTY_PASSWORD: true
 
@@ -21,13 +21,13 @@ jobs:
         steps:
             - run: git config --global core.quotepath false
             - checkout
-            - run:
-                name: setup
-                command: |
-                    sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
-                    sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
-                    sudo docker-php-ext-install zip pdo_mysql gd
-                    sudo composer self-update
+            # - run:
+            #     name: setup
+            #     command: |
+            #         sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
+            #         sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
+            #         sudo docker-php-ext-install zip pdo_mysql gd
+            #         sudo composer self-update
             # - run: sudo apt update
             # - run: sudo apt install -y libsqlite3-dev zlib1g-dev
             # - run: sudo docker-php-ext-install zip gd
