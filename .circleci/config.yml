@@ -15,7 +15,8 @@ jobs:
             - APP_DEBUG: true
             - DB_CONNECTION: circle_testing
             - MYSQL_ALLOW_EMPTY_PASSWORD: true
-
+            - APP_URL: http://localhost:8000
+            
         steps:
             - run: git config --global core.quotepath false
             
