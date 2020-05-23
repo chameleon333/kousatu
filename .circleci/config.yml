@@ -12,7 +12,7 @@ jobs:
         working_direcotry: /laravel
         steps:
             - checkout
-            - run: sudo apt install -y libsqlite3-dev zlib 1g-dev
+            - run: sudo apt install -y libsqlite3-dev zlib1g-dev
             - run: sudo docker-php-ext-install zip
             - run: sudo composer self-update
             - restore_cache:
