@@ -5,10 +5,17 @@ jobs:
         docker:
             - image: circleci/php:7.3-stretch-node-browsers
               environment:
-                APP_ENV: circleci
-                APP_DEBUG: true
-                DB_CONNECTION: sqlite
-                APP_KEY: $APP_KEY 
+                    - APP_ENV: circleci
+                    - APP_DEBUG: true
+                    - DB_CONNECTION: sqlite
+                    - APP_KEY: $APP_KEY 
+
+            - image: circleci/mysql:5.6.39-ram
+              environment:
+                    - MYSQL_ROOT_PASSWORD=circleci
+                    - MYSQL_DATABASE=circleci
+                    - MYSQL_USER=circleci
+                    - MYSQL_PASSWORD=circleci
 
             # duskテスト用
             - image: circleci/node:7.10-browsers
@@ -20,12 +27,12 @@ jobs:
             # sudo docker-php-ext-install pdo_mysql gd
 
         steps:
-            - checkout
+            # - checkout
             - run: 
                 command: |
-                    sudo apt update && sudo apt install -y libsqlite3-dev libpng-dev libjpeg-dev zlib1g-dev |
+                    sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
                     sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
-                    sudo docker-php-ext-install zip gd
+                    sudo docker-php-ext-install zip pdo_mysql gd
                     sudo composer self-update
             # - run: sudo apt update
             # - run: sudo apt install -y libsqlite3-dev zlib1g-dev
@@ -44,12 +51,12 @@ jobs:
                 keys:
                     - node-v1-{{ checksum "package-lock.json" }}
                     - node-v1-
-            - run: yarn install
+            - run: npm install
             - save_cache:
                 key: node-v1-{{ checksum "package-lock.json" }}
                 paths:
                     - node_modules
-            - run: touch database/database.sqlite
+            # - run: touch database/database.sqlite
             - run: php artisan migrate
             - run: ./vendor/bin/phpunit
             - run: php artisan dusk
