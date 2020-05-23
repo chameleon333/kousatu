@@ -52,16 +52,16 @@ jobs:
             - run: php artisan migrate
             - run: npm run production
             - run: ./vendor/bin/phpunit
-            - run: sudo php artisan dusk:chrome-driver
+            - run: php artisan dusk:chrome-driver
             
             - run:
                 name: Start Chrome Driver
-                command: sudo ./vendor/laravel/dusk/bin/chromedriver-linux
+                command: ./vendor/laravel/dusk/bin/chromedriver-linux
                 background: true
 
             - run:
                 name: Run Laravel Server
-                command: sudo php artisan serve
+                command: php artisan serve
                 background: true
 
             # - run:
