@@ -49,6 +49,7 @@ jobs:
                 paths:
                     - node_modules
             - run: php artisan migrate
+            - run: npm run production
             - run: ./vendor/bin/phpunit
             - run: php artisan dusk:chrome-driver
             
