@@ -56,14 +56,18 @@ jobs:
             - run: ./vendor/bin/phpunit
 
             - run:
-                name: run selenium　
-                command: docker run -d -p 4444:4444 selenium/standalone-chrome
+                name: Start Chrome Driver
+                command: ./vendor/laravel/dusk/bin/chromedriver-linux
+                background: true
 
             - run:
                 name: Run Laravel Server
                 command: php artisan serve
                 background: true
 
+            # - run:
+            #     name: run selenium　
+            #     command: docker run -d -p 4444:4444 selenium/standalone-chrome
             - run: 
                 name: start browser test
                 command: php artisan dusk
