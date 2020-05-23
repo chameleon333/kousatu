@@ -22,6 +22,12 @@ jobs:
             - run: git config --global core.quotepath false
             - checkout
             # - run:
+                name: setup
+                command: |
+                    sudo apt update
+                    sudo docker-php-ext-install zip pdo_mysql gd
+                    sudo composer self-update
+            # - run:
             #     name: setup
             #     command: |
             #         sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
