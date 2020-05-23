@@ -27,7 +27,7 @@ jobs:
             # sudo docker-php-ext-install pdo_mysql gd
 
         steps:
-            # - checkout
+            - checkout
             - run: 
                 command: |
                     sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
@@ -44,7 +44,7 @@ jobs:
                     - composer-v1-
             - run: composer install -n --prefer-dist
             - save_cache:
-                key: composer-v1-{{ checkout "composer.lock" }}
+                key: composer-v1-{{ checksum "composer.lock" }}
                 paths:
                     - vendor
             - restore_cache:
