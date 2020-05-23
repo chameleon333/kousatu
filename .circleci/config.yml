@@ -30,10 +30,6 @@ jobs:
                     sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
                     sudo docker-php-ext-install zip pdo_mysql gd
                     sudo composer self-update
-            # - run: sudo apt update
-            # - run: sudo apt install -y libsqlite3-dev zlib1g-dev
-            # - run: sudo docker-php-ext-install zip gd
-            # - run: sudo composer self-update
             - restore_cache:
                 keys:
                     - composer-v1-{{ checksum "composer.lock" }}
@@ -57,7 +53,7 @@ jobs:
 
             - run:
                 name: Start Chrome Driver
-                command: ./vendor/laravel/dusk/bin/chromedriver-linux
+                command: chromedriver
                 background: true
 
             - run:
