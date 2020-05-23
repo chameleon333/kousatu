@@ -7,7 +7,7 @@ jobs:
               environment:
                     - APP_ENV: circleci
                     - APP_DEBUG: true
-                    - DB_CONNECTION: mysql
+                    - DB_CONNECTION: circle_testing
                     - APP_KEY: $APP_KEY 
 
             - image: circleci/mysql:5.6.39-ram
@@ -21,7 +21,8 @@ jobs:
         steps:
             - run: git config --global core.quotepath false
             - checkout
-            - run: 
+            - run:
+                name: setup
                 command: |
                     sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
                     sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
