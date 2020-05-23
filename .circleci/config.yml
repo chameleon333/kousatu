@@ -13,7 +13,6 @@ jobs:
             - image: circleci/node:7.10-browsers
             - image: selenium/standalone-chrome
 
-        # working_directory: /project
         steps:
             - checkout
             - run: sudo apt install -y libsqlite3-dev zlib1g-dev
@@ -38,8 +37,9 @@ jobs:
                 paths:
                     - node_modules
             - run: touch storage/testing.sqlite
-            - run: php artisan migrate --env=testing --database=test_kousatu --force
+            - run: php artisan migrate
             - run: ./vendor/bin/phpunit
+            - run: php artisan dusk
             # - run: ./vendor/bin/codecept build
             # - run: .vendor/bin/codecept run
 
