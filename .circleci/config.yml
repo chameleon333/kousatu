@@ -14,7 +14,6 @@ jobs:
             - APP_ENV: testing
             - APP_DEBUG: true
             - DB_CONNECTION: circle_testing
-            - APP_KEY: ${APP_KEY}
             - MYSQL_ALLOW_EMPTY_PASSWORD: true
 
         steps:
