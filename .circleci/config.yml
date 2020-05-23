@@ -14,12 +14,23 @@ jobs:
             - image: circleci/node:7.10-browsers
             - image: selenium/standalone-chrome
 
+            # command: |
+            # sudo apt-get update && sudo apt-get install -y libpng-dev libjpeg-dev |
+            # sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
+            # sudo docker-php-ext-install pdo_mysql gd
+
         steps:
             - checkout
-            - run: sudo apt update
-            - run: sudo apt install -y libsqlite3-dev zlib1g-dev
-            - run: sudo docker-php-ext-install zip gd
-            - run: sudo composer self-update
+            - run: 
+                command: |
+                    sudo apt update && sudo apt install -y libsqlite3-dev libpng-dev libjpeg-dev zlib1g-dev |
+                    sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
+                    sudo docker-php-ext-install zip gd
+                    sudo composer self-update
+            # - run: sudo apt update
+            # - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+            # - run: sudo docker-php-ext-install zip gd
+            # - run: sudo composer self-update
             - restore_cache:
                 keys:
                     - composer-v1-{{ checksum "composer.lock" }}
