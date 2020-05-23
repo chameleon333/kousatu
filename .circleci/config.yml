@@ -18,7 +18,10 @@ jobs:
 
         steps:
             - run: git config --global core.quotepath false
+            
             - checkout
+            - setup_remote_docker
+
             - run: echo "${APP_KEY}"
             - run:
                 name: setup
@@ -51,7 +54,14 @@ jobs:
                     - node_modules
             - run: php artisan migrate
             - run: ./vendor/bin/phpunit
-            - run: php artisan dusk
+
+            - run:
+                name: run selenium　
+                command: docker run -d -p 4444:4444 selenium/standalone-chrome
+
+            - run: 
+                name: start browser test
+                command: php artisan dusk
 
             # - run:
             #     name: Setup Environment Variable
