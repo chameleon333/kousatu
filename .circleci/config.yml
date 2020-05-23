@@ -3,7 +3,7 @@ jobs:
     build:
         # machine: true
         docker:
-            - image: circleci/php:7.1-node-browsers
+            - image: circleci/php:7.3-stretch-node-browsers
             
             # duskテスト用
             - image: circleci/node:7.10-browsers
