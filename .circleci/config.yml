@@ -50,7 +50,8 @@ jobs:
                     - node_modules
             - run: php artisan migrate
             - run: ./vendor/bin/phpunit
-
+            - run: php artisan dusk:chrome-driver
+            
             - run:
                 name: Start Chrome Driver
                 command: ./vendor/laravel/dusk/bin/chromedriver-linux
