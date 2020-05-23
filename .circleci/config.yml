@@ -7,7 +7,7 @@ jobs:
               environment:
                     - APP_ENV: circleci
                     - APP_DEBUG: true
-                    - DB_CONNECTION: sqlite
+                    - DB_CONNECTION: mysql
                     - APP_KEY: $APP_KEY 
 
             - image: circleci/mysql:5.6.39-ram
