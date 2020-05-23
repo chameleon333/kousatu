@@ -4,7 +4,11 @@ jobs:
         # machine: true
         docker:
             - image: circleci/php:7.3-stretch-node-browsers
-            
+              environment:
+                APP_ENV: circleci
+                APP_DEBUG: true
+                DB_CONNECTION: sqlite
+
             # duskテスト用
             - image: circleci/node:7.10-browsers
             - image: selenium/standalone-chrome
