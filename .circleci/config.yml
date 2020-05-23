@@ -69,7 +69,8 @@ jobs:
             - run: 
                 name: start browser test
                 command: php artisan dusk
-
+            - store_artifacts:
+                path: tests/Browser/screenshots/
             # - run:
             #     name: Setup Environment Variable
             #     command: |
