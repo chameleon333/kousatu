@@ -1,69 +1,104 @@
-version: 2
+version: 2.1
 jobs:
     build:
-        machine: true
+        # machine: true
+        docker:
+            - image: circleci/php:7.1-node-browsers
+            
+            # duskテスト用
+            - image: circleci/node:7.10-browsers
+            - image: selenium/standalone-chrome
+
+            working_direcotry: /var/www
         steps:
             - checkout
-            - run:
-                name: Setup Environment Variable
-                command: |
-                    cp .env.testing .env
-            - run:
-                name: Setup docker
-                command: |
-                    docker-compose up -d --build
+            - run: sudo apt install -y libsqlite3-dev zlib 1g-dev
+            - run: sudo docker-php-ext-install zip
+            - run: sudo composer self-update
             - restore_cache:
                 keys:
                     - composer-v1-{{ checksum "composer.lock" }}
                     - composer-v1-
-            - run:
-                name: Install Composer
-                command: |
-                    docker-compose run php composer install --prefer-dist
+            - run: composer install -n --prefer-dist
             - save_cache:
-                key: composer-v1-{{ checksum "composer.lock" }}
+                key: composer-v1-{{ checkout "composer.lock" }}
                 paths:
                     - vendor
-            - run:
-                name: Setup Laravel
-                command: |
-                    docker-compose run php chmod -R a+w storage/ bootstrap/cache
-                    docker-compose run php php artisan migrate:refresh --seed
-            - run:
-                name: Install npm
-                command: |
-                    docker-compose run php npm install
-                    docker-compose run php npm run prod
-            - save_cache: # special step to save the dependency cache with the `package.json` cache key template
-                key: node-v1-{{ checksum "package.json" }}
+            - restore_cache:
+                keys:
+                    - node-v1-{{ checksum "package-lock.json" }}
+                    - node-v1-
+            - run: yarn install
+            - save_cache:
+                key: node-v1-{{ checksum "package-lock.json" }}
                 paths:
                     - node_modules
+            - run: touch storage/testing.sqlite
+            - run: php artisan migrate --env=testing --database=sqlite_testing --force
+            - run: ./vendor/bin/phpunit
+            # - run: ./vendor/bin/codecept build
+            # - run: .vendor/bin/codecept run
 
-    test:
-        machine: true
-        steps:
-            - checkout
-            - run:
-                name: Run test
-                command: |
-                    docker-compose run php php artisan dusk
-                    docker-compose run php vendor/bin/phpunit
+            # - run:
+            #     name: Setup Environment Variable
+            #     command: |
+            #         cp .env.testing .env
+            # - run:
+            #     name: Setup docker
+            #     command: |
+            #         docker-compose up -d --build
+            # - restore_cache:
+            #     keys:
+            #         - composer-v1-{{ checksum "composer.lock" }}
+            #         - composer-v1-
+            # - run:
+            #     name: Install Composer
+            #     command: |
+            #         docker-compose run php composer install --prefer-dist
+            # - save_cache:
+            #     key: composer-v1-{{ checksum "composer.lock" }}
+            #     paths:
+            #         - vendor
+            # - run:
+            #     name: Setup Laravel
+            #     command: |
+            #         docker-compose run php chmod -R a+w storage/ bootstrap/cache
+            #         docker-compose run php php artisan migrate:refresh --seed
+            # - run:
+            #     name: Install npm
+            #     command: |
+            #         docker-compose run php npm install
+            #         docker-compose run php npm run prod
+            # - save_cache: # special step to save the dependency cache with the `package.json` cache key template
+            #     key: node-v1-{{ checksum "package.json" }}
+            #     paths:
+            #         - node_modules
 
-    # deplay:
-    #     machine:
-    #         - checkout
+#     test:
+#         machine: true
+#         steps:
+#             - checkout
+#             - run:
+#                 name: Run test
+#                 command: |
+#                     docker-compose run php php artisan dusk
+#                     docker-compose run php vendor/bin/phpunit
+
+#     # deplay:
+#     #     machine:
+#     #         - checkout
 
 
-workflows:
-    version: 2
-    build_test_and_deploy:
-        jobs:
-            - build:
-                context: kousatu
-            - test:  
-                requires:
-                    - build                  
-                context: kousatu
-            # - deplay:
-            #     requires:
-            #         - test
+# workflows:
+#     version: 2
+#     build_test_and_deploy:
+#         jobs:
+#             - build:
+#                 context: kousatu
+#             - test:  
+#                 requires:
+#                     - build                  
+#                 context: kousatu
+#             # - deplay:
+#             #     requires:
+#             #         - test
