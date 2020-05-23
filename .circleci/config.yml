@@ -38,7 +38,7 @@ jobs:
                 paths:
                     - node_modules
             - run: touch storage/testing.sqlite
-            - run: php artisan migrate --env=testing --database=sqlite_testing --force
+            - run: php artisan migrate --env=testing --database=test_kousatu --force
             - run: ./vendor/bin/phpunit
             # - run: ./vendor/bin/codecept build
             # - run: .vendor/bin/codecept run
