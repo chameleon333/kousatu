@@ -8,6 +8,7 @@ jobs:
                 APP_ENV: circleci
                 APP_DEBUG: true
                 DB_CONNECTION: sqlite
+                APP_KEY: $APP_KEY 
 
             # duskテスト用
             - image: circleci/node:7.10-browsers
