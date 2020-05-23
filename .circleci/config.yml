@@ -9,7 +9,7 @@ jobs:
             - image: circleci/node:7.10-browsers
             - image: selenium/standalone-chrome
 
-            working_direcotry: /laravel
+        working_direcotry: /laravel
         steps:
             - checkout
             - run: sudo apt install -y libsqlite3-dev zlib 1g-dev
