@@ -69,7 +69,7 @@ jobs:
             #     command: docker run -d -p 4444:4444 selenium/standalone-chrome
             - run: 
                 name: start browser test
-                command: php artisan dusk
+                command: php artisan dusk --env=circleci
             - store_artifacts:
                 path: tests/Browser/screenshots/
             # - run:
