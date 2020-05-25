@@ -14,7 +14,7 @@ jobs:
             - APP_DEBUG: true
             - APP_ENV: testing
             - APP_KEY: base64:XOrH3Y+mrgWbcanrysRacUeB65LqheafmfhJ2bI8nJ4=
-            - DB_CONNECTION: circle_test
+            - DB_CONNECTION: circle_testing
             - APP_URL: http://localhost:8000
             - MYSQL_ALLOW_EMPTY_PASSWORD: true
 
