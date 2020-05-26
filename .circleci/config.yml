@@ -52,19 +52,7 @@ jobs:
             - run: php artisan migrate
             - run: npm run production
             - run: cp .env.testing .env
-            - run: sudo apt install vim
-            # - run: ./vendor/bin/phpunit
-            # - run: php artisan dusk:chrome-driver
-            
-            # - run:
-            #     name: Start Chrome Driver
-            #     command: ./vendor/laravel/dusk/bin/chromedriver-linux
-            #     background: true
-
-            - run:
-                name: Run Laravel Server
-                command: php artisan serve
-                background: true
+            - run: ./vendor/bin/phpunit
 
             - run:
                 name: run selenium　
@@ -72,8 +60,6 @@ jobs:
             - run: 
                 name: start browser test
                 command: php artisan dusk --env=circleci
-                # environment:
-                #     APP_URL: http://localhost:8000
 
             - store_artifacts:
                 path: tests/Browser/screenshots/
