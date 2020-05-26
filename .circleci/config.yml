@@ -24,7 +24,6 @@ jobs:
             - checkout
             - setup_remote_docker
 
-            - run: echo "${APP_KEY}"
             - run:
                 name: setup
                 command: |
