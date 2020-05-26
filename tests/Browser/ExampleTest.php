@@ -19,7 +19,7 @@ class ExampleTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/articles')
                   ->screenshot('testBasicExample')
-                  ->dump($browser)
+                //   ->dump($browser)
                 //   ->waitForText('ユーザ一覧')
                   ->assertSee('ユーザ一覧');
         });
