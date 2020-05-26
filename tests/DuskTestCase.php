@@ -18,10 +18,10 @@ abstract class DuskTestCase extends BaseTestCase
      * @return void
      */
 
-    protected function baseUrl()
-    {
-        return 'http://nginx';
-    }
+    // protected function baseUrl()
+    // {
+    //     return 'http://nginx';
+    // }
 
     public static function prepare()
     {
