@@ -26,8 +26,8 @@ jobs:
             - run:
                 name: setup
                 command: |
-                    sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev |
-                    sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include |
+                    sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev
+                    sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include
                     sudo docker-php-ext-install zip pdo_mysql gd
                     sudo composer self-update
 
