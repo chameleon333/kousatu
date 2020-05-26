@@ -52,6 +52,7 @@ jobs:
                     - node_modules
             - run: php artisan migrate
             - run: npm run production
+            - run: sudo apt install vim
             # - run: ./vendor/bin/phpunit
             # - run: php artisan dusk:chrome-driver
             
@@ -60,10 +61,10 @@ jobs:
             #     command: ./vendor/laravel/dusk/bin/chromedriver-linux
             #     background: true
 
-            # - run:
-            #     name: Run Laravel Server
-            #     command: php artisan serve
-            #     background: true
+            - run:
+                name: Run Laravel Server
+                command: php artisan serve
+                background: true
 
             - run:
                 name: run selenium　

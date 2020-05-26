@@ -21,7 +21,7 @@ abstract class DuskTestCase extends BaseTestCase
     protected function baseUrl()
     {
         // return 'http://nginx';
-        return 'http://localhost';
+        return 'http://localhost:8000';
     }
 
     public static function prepare()
