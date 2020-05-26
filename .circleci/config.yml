@@ -55,6 +55,11 @@ jobs:
             - run: ./vendor/bin/phpunit
 
             - run:
+                name: Run Laravel Server
+                command: php artisan serve
+                background: true
+
+            - run:
                 name: run selenium　
                 command: docker run -d -p 4444:4444 selenium/standalone-chrome
             - run: 
