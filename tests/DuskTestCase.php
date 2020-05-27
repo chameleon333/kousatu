@@ -20,12 +20,15 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function baseUrl()
     {
-        return 'http://nginx';
+        // return 'http://nginx';
+        // return 'http://localhost';
+        // dd(config('app.base_url'));
+        return config('app.base_url');
     }
 
     public static function prepare()
     {
-        static::startChromeDriver();
+        // static::startChromeDriver();
     }
 
     /**
@@ -40,10 +43,12 @@ abstract class DuskTestCase extends BaseTestCase
             '--headless',
             '--window-size=1920,1080',
         ]);
-
+        // dd();
         return RemoteWebDriver::create(
             // 'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
-            'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()->setCapability(
+            // 'http://localhost:4444/wd/hub', DesiredCapabilities::chrome()->setCapability(
+            // 'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()->setCapability(
+                config('app.remote_webdriver_url'), DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             )
         );

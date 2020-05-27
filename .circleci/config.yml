@@ -1,52 +1,120 @@
 version: 2
+orbs:
+    aws-ecr: circleci/aws-ecr@6.8.2
+    aws-ecs: circleci/aws-ecs@1.1.0
+
 jobs:
     build:
-        machine: true
+        docker:
+            - image: circleci/php:7.3-stretch-node-browsers
+            - image: circleci/mysql:5.7
+
+            # duskテスト用
+            - image: circleci/node:7.10-browsers
+            - image: selenium/standalone-chrome
+
+        environment:
+            - APP_DEBUG: true
+            - APP_ENV: testing
+            - APP_KEY: base64:XOrH3Y+mrgWbcanrysRacUeB65LqheafmfhJ2bI8nJ4=
+            - DB_CONNECTION: circle_testing
+            - MYSQL_ALLOW_EMPTY_PASSWORD: true
+
         steps:
+            - run: git config --global core.quotepath false
+            
             - checkout
+            - setup_remote_docker
+
             - run:
-                name: Setup Environment Variable
+                name: setup
                 command: |
-                    cp .env.testing .env
-            - run:
-                name: Setup docker
-                command: |
-                    docker-compose up -d --build
+                    sudo apt update && sudo apt install -y mariadb-client libpng-dev libjpeg-dev zlib1g-dev
+                    sudo docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include
+                    sudo docker-php-ext-install zip pdo_mysql gd
+                    sudo composer self-update
+
             - restore_cache:
                 keys:
                     - composer-v1-{{ checksum "composer.lock" }}
                     - composer-v1-
-            - run:
-                name: Install Composer
-                command: |
-                    docker-compose run php composer install --prefer-dist
+            - run: composer install -n --prefer-dist
             - save_cache:
                 key: composer-v1-{{ checksum "composer.lock" }}
                 paths:
                     - vendor
-            - run:
-                name: Setup Laravel
-                command: |
-                    docker-compose run php chmod -R a+w storage/ bootstrap/cache
-                    docker-compose run php php artisan migrate:refresh --seed
-            - run:
-                name: Install npm
-                command: |
-                    docker-compose run php npm install
-                    docker-compose run php npm run prod
-            - save_cache: # special step to save the dependency cache with the `package.json` cache key template
-                key: node-v1-{{ checksum "package.json" }}
+            - restore_cache:
+                keys:
+                    - node-v1-{{ checksum "package-lock.json" }}
+                    - node-v1-
+            - run: npm install
+            - save_cache:
+                key: node-v1-{{ checksum "package-lock.json" }}
                 paths:
                     - node_modules
 
             - run:
-                name: Run test
+                name: Run unit test
+                command: | 
+                    php artisan migrate
+                    ./vendor/bin/phpunit
+
+            - run:
+                name: Run Laravel Server
+                command: php artisan serve
+                background: true
+
+            - run:
+                name: Run browser
+                command: docker run -d -p 4444:4444 selenium/standalone-chrome
+            - run: 
+                name: Run dusk
+                command: | 
+                    npm run production
+                    cp .env.testing .env
+                    php artisan dusk --env=circleci
+
+            - store_artifacts:
+                path: tests/Browser/screenshots/
+
+    deploy:
+        docker:
+            - image: circleci/php:7.3-stretch-node-browsers
+            - image: docker:19.03
+
+        steps:
+            - checkout
+            - setup_remote_docker
+
+            - run:
+                name: install aws cli
                 command: |
-                    docker-compose run php php artisan dusk
-                    docker-compose run php vendor/bin/phpunit
+                    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+                    unzip awscli-bundle.zip
+                    sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+
+            - run:
+                name: build image
+                command: |
+                    $(aws ecr get-login --no-include-email --region ap-northeast-1)
+                    docker build -f ./docker/php/Dockerfile -t ${ECR_DOMAIN_APP}:latest .
+                    docker build -f ./docker/nginx/Dockerfile -t ${ECR_DOMAIN_NGINX}:latest .
+
+            - run:
+                name: Push docker image
+                command: |
+                    docker push ${ECR_DOMAIN_APP}:latest
+                    docker push ${ECR_DOMAIN_NGINX}:latest
+
+
 workflows:
     version: 2
-    build_and_test:
+    build_and_deploy:
         jobs:
-            - build:
-                context: kousatu
+            - build
+            - deploy:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only: master

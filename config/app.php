@@ -2,6 +2,9 @@
 
 return [
 
+    'remote_webdriver_url' => env('REMOTE_WEBDRIVER_URL','localhost'),
+    'base_url' => env('BASE_URL','localhost'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

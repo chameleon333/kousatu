@@ -9,3 +9,6 @@ npm-debug.log
 yarn-error.log
 docker/db/data
 .DS_Store
+terraform.tfstate*
+.terraform
+**/terraform.tfvars
