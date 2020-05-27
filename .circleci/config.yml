@@ -101,6 +101,12 @@ jobs:
                     docker build -f ./docker/nginx/Dockerfile -t ${AWS_ECR_DOMAIN_NGINX}:latest .
 
             - run:
+                name: tag image
+                command: |
+                    docker tag ${AWS_ECR_DOMAIN_APP}:latest ${AWS_ECR_ACCOUNT_URL}/${AWS_ECR_DOMAIN_APP}:latest
+                    docker tag ${AWS_ECR_DOMAIN_NGINX}:latest ${AWS_ECR_ACCOUNT_URL}/${AWS_ECR_DOMAIN_NGINX}:latest
+
+            - run:
                 name: Push docker image
                 command: |
                     docker push ${AWS_ECR_ACCOUNT_URL}/${AWS_ECR_DOMAIN_APP}:latest
