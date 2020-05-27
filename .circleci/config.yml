@@ -126,16 +126,12 @@ jobs:
 #     #         - checkout
 
 
-# workflows:
-#     version: 2
-#     build_test_and_deploy:
-#         jobs:
-#             - build:
-#                 context: kousatu
-#             - test:  
-#                 requires:
-#                     - build                  
-#                 context: kousatu
+workflows:
+    version: 2
+    build_test_and_deploy:
+        jobs:
+            - build:
+                context: kousatu         
 #             # - deplay:
 #             #     requires:
 #             #         - test
