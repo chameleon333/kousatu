@@ -1,2 +1,12 @@
 *
 !.gitignore
+!profile_image
+!profile_image/*
+!post_image/
+!post_image/*
+!logo/
+!logo/*
+!etc/
+!etc/*
+!header_image/
+!header_image/*
