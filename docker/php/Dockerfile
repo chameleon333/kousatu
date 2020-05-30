@@ -1,4 +1,8 @@
 FROM php:7.3-fpm
+
+ADD . /var/www
+WORKDIR /var/www
+
 COPY ./docker/php/php.ini /usr/local/etc/php/
 
 RUN curl -sS https://getcomposer.org/installer | php
@@ -19,9 +23,7 @@ ENV PATH $PATH:/composer/vender/bin
 
 RUN composer global require "laravel/installer"
 
-ADD . /var/www
-
-WORKDIR /var/www
+RUN composer install -n --prefer-dist
 
 RUN npm install npm@latest -g
 
