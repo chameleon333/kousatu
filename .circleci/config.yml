@@ -1,7 +1,4 @@
 version: 2
-# orbs:
-#     aws-ecr: circleci/aws-ecr@6.8.2
-#     aws-ecs: circleci/aws-ecs@1.1.0
 
 jobs:
     build:
@@ -111,6 +108,20 @@ jobs:
                 command: |
                     docker push ${AWS_ECR_ACCOUNT_URL}/${AWS_ECR_DOMAIN_APP}:latest
                     docker push ${AWS_ECR_ACCOUNT_URL}/${AWS_ECR_DOMAIN_NGINX}:latest
+
+            - run:
+                name: download jq
+                command: |
+                    wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+                    mv jq-linux64 jq
+
+            - run:
+                name: deploy
+                command: |
+                    aws ecs describe-task-definition --task-definition ${AWS_ECS_TASK_NAME} | jq '.taskDefinition | {containerDefinitions: .containerDefinitions}' > task-definition.json
+                    aws ecs register-task-definition --family ${AWS_ECS_TASK_NAME} --cli-input-json file://task_definition.json
+                    aws ecs update-service --cluster ${AWS_ECS_CLUSTER_NAME} --service ${AWS_ECS_SERVICE_NAME} --task-definition ${AWS_ECS_TASK_NAME}
+
 workflows:
     version: 2
     build_and_deploy:
@@ -119,33 +130,6 @@ workflows:
             - deploy:
                 requires:
                     - build
-                # filters:
-                #     branches:
-                #         only: master
-
-
-            # - aws-ecr/build-and-push-image:
-            #     requires:
-            #         - build
-            #     aws-access-key-id: AWS_ACCESS_KEY_ID
-            #     aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-            #     account-url: AWS_ECR_ACCOUNT_URL
-            #     repo: "${AWS_RESOURCE_NAME_PREFIX}"
-            #     region: AWS_DEFAULT_REGION
-            #     tag: latest
-            #     filters:
-            #         branches:
-            #             only: master
-            # - aws-ecs/deploy-service-update:
-            #     requires:
-            #         - aws-ecr/build-and-push-image
-            #     verify-revision-is-deplayed: true
-            #     aws-region: ${AWS_DEFAULT_REGION}
-            #     family: "{AWS_RESOURCE_NAME_PREFIX}-task"
-            #     cluster-name: '${AWS_RESOURCE_NAME_PREFIX}-cluster'
-            #     service-name: '${AWS_RESOURCE_NAME_PREFIX}-service'
-            #     container-image-name-updates: 'container=${AWS_RESOURCE_NAME_PREFIX},tag=latest'
-            #     filters:
-            #         branches:
-            #             only: master
-
+                filters:
+                    branches:
+                        only: master
