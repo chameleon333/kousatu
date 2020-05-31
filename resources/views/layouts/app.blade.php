@@ -62,7 +62,7 @@
             <div class="row">
                 <a class="navbar-brand" href="{{ url('/articles') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
-                    <img src="/storage/logo/logo.png" width="130px">
+                    <img src="/images/logo/logo.png" width="130px">
                 </a>
                 <div class="btn-group position-static">
                     <span class="fa fa-search top_seach_icon btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>

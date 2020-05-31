@@ -78,7 +78,7 @@ class ArticlesController extends Controller
         {
             // dump($data);
             if(!isset($data["binary_image"])){
-                $data["binary_image"] = "/storage/etc/default-header-image.png";
+                $data["binary_image"] = "/images/etc/default-header-image.png";
             } else {
                 $img = $data["binary_image"];
                 $fileData = base64_decode($img);
