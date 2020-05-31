@@ -119,7 +119,7 @@ jobs:
                 name: deploy
                 command: |
                     aws ecs describe-task-definition --task-definition ${AWS_ECS_TASK_NAME} | jq '.taskDefinition | {containerDefinitions: .containerDefinitions}' > task-definition.json
-                    aws ecs register-task-definition --family ${AWS_ECS_TASK_NAME} --cli-input-json file://task_definition.json
+                    aws ecs register-task-definition --family ${AWS_ECS_TASK_NAME} --cli-input-json file://task-definition.json
                     aws ecs update-service --cluster ${AWS_ECS_CLUSTER_NAME} --service ${AWS_ECS_SERVICE_NAME} --task-definition ${AWS_ECS_TASK_NAME}
 
 workflows:
