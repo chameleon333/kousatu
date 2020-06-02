@@ -40,16 +40,14 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Article $article)
     {
-        $article_status_texts = ["kousatuに投稿する","下書きに保存する"];
-        $article_status_texts = json_encode($article_status_texts);
+        $article_status_texts = $article->getPostArticleStatusTexts();
         $user = auth()->user();
         return view('articles.create',[
             'user' => $user,
             'article_status_texts' => $article_status_texts,
         ]);
-
     }
 
     /**
@@ -127,6 +125,7 @@ class ArticlesController extends Controller
      */
     public function edit(Article $article)
     {
+        $article_status_texts = $article->getPostArticleStatusTexts();
         $user = auth()->user();
         $articles = $article->getEditArticle($user->id, $article->id);
         
@@ -140,7 +139,8 @@ class ArticlesController extends Controller
         return view('articles.edit', [
             'user' => $user,
             'articles' => $articles,
-            'tags'=>$tags
+            'tags'=>$tags,
+            'article_status_texts' => $article_status_texts,
         ]);
     }
 
@@ -156,7 +156,7 @@ class ArticlesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data,[
             'title' => ['required', 'string', 'max:30'],
-            // 'body' => ['required', 'string', 'max:150'],
+            'body' => ['string', 'max:20480'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 
