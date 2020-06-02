@@ -24,10 +24,10 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Article $articles, Tag $tags)
+    public function index(Article $article, Tag $tags)
     {
         $status_id = 0;
-        $timelines = $articles->getTimeLines($status_id);
+        $timelines = $article->getTimeLines($status_id);
         $popular_tags = $tags->getPopularTags();
         return view('articles.index', [
         'articles' => $timelines,
