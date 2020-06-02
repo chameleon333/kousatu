@@ -42,9 +42,12 @@ class ArticlesController extends Controller
      */
     public function create()
     {
+        $article_status_texts = ["kousatuに投稿する","下書きに保存する"];
+        $article_status_texts = json_encode($article_status_texts);
         $user = auth()->user();
         return view('articles.create',[
-            'user' => $user
+            'user' => $user,
+            'article_status_texts' => $article_status_texts,
         ]);
 
     }
