@@ -160,7 +160,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     changePostArticleStatus: function changePostArticleStatus(status_text, index) {
       $("#post-aritcle-button").text(status_text);
-      $('input[name="article-status"]').val(index);
+      $('input[name="article_status_id"]').val(index);
     }
   },
   data: function data() {
@@ -1434,7 +1434,7 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("input", {
-      attrs: { type: "hidden", name: "article-status" },
+      attrs: { type: "hidden", name: "article_status_id" },
       domProps: { value: _vm.status_num }
     }),
     _vm._v(" "),
