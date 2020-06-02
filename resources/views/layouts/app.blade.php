@@ -65,7 +65,7 @@
                 </a>
                 <div class="btn-group position-static">
                     <span class="fa fa-search top_seach_icon btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu search-box">
                         <form action="{{ url('/search') }}" class="form-inline mt-10 w-100">
                             <span class="p-2 w-100"><input type="text" name="keyword" value="{{$keyword}}" class="form-control pl-4 small w-100" placeholder="キーワード検索"></span>
                         </form>  
@@ -99,7 +99,7 @@
                                     <img src="{{ asset(auth()->user()->profile_image) }}" class="rounded" width="37" height="37">
                                     <span class="caret"></span>
                                 </a>                                    
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right user-menu-box" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('users.show',['user'=>auth()->user()->id]) }}">
                                         プロフィール
                                     </a>
