@@ -167,11 +167,12 @@ class UserTest extends TestCase
 - テストリスト
 - テストリスト
 - テストリスト";
+
         $testTags = ["テスト1","テスト2","テスト3","テスト4","テスト5"];
-        $response->post('/articles', ['title' => $testTitle, 'body' => $testBody,'tags' => $testTags]);
+        $response->post('/articles', ['title' => $testTitle, 'body' => $testBody,'tags' => $testTags, 'article_status_id' => 0]);
         $response->assertDatabaseHas('articles', [
             'title' => $testTitle,
-            'body' => $testBody
+            'body' => $testBody,
         ]);
 
         #登録したタグ名が登録テーブルに登録されているかテスト
