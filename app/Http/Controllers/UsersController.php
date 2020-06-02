@@ -60,9 +60,28 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, Article $article, Follower $follower)
+    public function show(User $user, Article $article, Follower $follower, Request $request)
     {
+      $status_list = ['公開中','下書き'];
+      if(!isset($request["status"])) {
+        $request["status"] = 0;
+      }
+
       $login_user = auth()->user();
+
+      if(isset($login_user)){
+        $login_user_id = $login_user->id;
+      } else {
+        $login_user_id = "";
+      }
+
+      #ログインユーザーじゃないユーザーが下書きページに遷移した際、リダイレクトして閲覧を防ぐ
+      if($request["status"] == 1){
+        if($login_user_id != $user->id) {
+            return redirect($request->path());
+        }
+      }
+
       if($login_user) {
         $is_following = $login_user->isFollowing($user->id);
         $is_followed = $login_user->isFollowed($user->id);  
@@ -70,13 +89,15 @@ class UsersController extends Controller
         $is_following = false;
         $is_followed = false;
       }
-      $timelines = $article->getUserTimeLine($user->id);
+      $timelines = $article->getUserTimeLine($user->id,$request["status"]);
       $article_count = $article->getArticleCount($user->id);
       $follow_count = $follower->getFollowCount($user->id);
       $follower_count = $follower->getFollowerCount($user->id);
 
       return view('users.show',[
         'user' => $user,
+        'request_status_id' => $request["status"],
+        'status_list' => $status_list,
         'is_following' => $is_following,
         'is_followed' => $is_followed,
         'timelines' => $timelines,

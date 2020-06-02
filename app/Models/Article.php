@@ -34,9 +34,9 @@ class Article extends Model
         return $this->belongsToMany(Tag::class);
     }
   
-    public function getUserTimeLine(Int $user_id)
+    public function getUserTimeLine(Int $user_id, $status_id)
     {
-      return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
+      return $this->where('user_id', $user_id)->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(50);
     }
   
     public function getArticleCount(Int $user_id)
@@ -44,10 +44,10 @@ class Article extends Model
       return $this->where('user_id', $user_id)->count();
     }
   
-    public function getTimeLines()
+    public function getTimeLines($status_id)
     {
       //全ての記事を取得する
-      return $this->orderBy('created_at', 'DESC')->paginate(6);
+      return $this->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
     }
 
     public function getFollowedTimeLines(Int $user_id, Array $follow_ids)
@@ -68,6 +68,7 @@ class Article extends Model
       $this->header_image = $data['binary_image'];
       $this->title = $data['title'];
       $this->body = $data['body'];
+      $this->status = $data['article_status_id'];
       $this->save();
       return;
     }
@@ -82,6 +83,7 @@ class Article extends Model
       $this->id = $article_id;
       $this->title = $data['title'];
       $this->body = $data['body'];
+      $this->status = $data['article_status_id'];
       $this->update();
       return;
     }
@@ -99,6 +101,13 @@ class Article extends Model
 
     public function articleTagSync(Array $tag_ids){
         $this->tags()->sync($tag_ids);
+    }
+
+    public function getPostArticleStatusTexts() {
+      $article_status_texts = ["kousatuに投稿する","下書きに保存する"];
+      $article_status_texts = json_encode($article_status_texts);
+
+      return $article_status_texts;
     }
 
 }
