@@ -19,7 +19,7 @@
     @csrf
     <div class="form-group row mb-0">
       <div class="col-md-12">
-        <input type="text" name="title" class="form-control form-control-lg @error('title') is-invalid @enderror">
+        <input type="text" name="title" placeholder="タイトル" class="form-control form-control-lg @error('title') is-invalid @enderror">
         <tags-component></tags-component>
         <!-- Create the editor container -->                
         <div id="editSection" rows="8" cols="40">{{ old('body')}}</div>
@@ -56,6 +56,7 @@
                 <input type="hidden" id="binary_image" name="binary_image" value="">
             </label>
           </div>
+          <post-article-button-component v-bind:status-texts="{{ ($article_status_texts) }}"></post-article-button-component>
 
           <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -77,12 +78,6 @@
                 </div>
             </div>
           </div>
-      </div>
-    </div>
-
-    <div class="form-group row mb-0 text-right">
-      <div class="col-md-12">
-        <button type="submit" class="btn btn-primary" onclick="callBody();">投稿する</button>
       </div>
     </div>
   </form>
