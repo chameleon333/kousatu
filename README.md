@@ -58,6 +58,7 @@ https://the-kousatu.com
 - CircleCI
 
 - AWS
+    - ACM
     - CloudWatch
     - EC2/ALB
     - ECR/ECS
