@@ -25,7 +25,7 @@ $bg-yellow:#ffdd76;
     text-decoration: none !important;
 }
 
-.navbar-nav .dropdown-menu {
+.user-menu-box {
     position: absolute !important;
 }
 
@@ -67,11 +67,11 @@ $bg-yellow:#ffdd76;
   opacity: 0.6;
 }
 
-.btn-group > .dropdown-menu {
+.search-box {
   position: absolute!important;
   top:53px!important;
   width:90%!important;
-  left: 50%;
+  left: 50%!important;
   transform: translate(-50%, 0%);
 }
 

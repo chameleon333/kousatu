@@ -19,14 +19,14 @@ use Illuminate\Http\UploadedFile;
 
 $factory->define(User::class, function (Faker $faker) {
     $uploadedFile = UploadedFile::fake()->image('testImage.jpg');
-    $uploadedFile->move('images/framework/testing/disks/post_images');
+    $uploadedFile->move('storage/framework/testing/disks/post_images');
     $filename = $uploadedFile->getFilename();
 
     return [
         'screen_name' => $faker->unique()->regexify('\w{8}'),
         'name' => $faker->name,
         'self_introduction' => $faker->text,
-        'profile_image' => 'images/framework/testing/disks/post_images/'.$filename,
+        'profile_image' => 'storage/framework/testing/disks/post_images/'.$filename,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

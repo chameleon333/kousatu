@@ -45,6 +45,8 @@
           @enderror
         </div>
       </div>
+
+
       <div class="form-group row mb-0 text-right">
         <div class="col-md-12 mt-2">
             <label for="profile_image" class="col-form-label text-md-right">ヘッダー画像</label>
@@ -59,6 +61,8 @@
                   <input type="hidden" id="binary_image" name="binary_image" value="">
               </label>
             </div>
+            
+            <post-article-button-component v-bind:status-texts="{{ ($article_status_texts) }}"></post-article-button-component>
 
             <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -81,13 +85,6 @@
                   </div>
               </div>
             </div>
-        </div>
-      </div>
-      <div class="form-group row mb-0">
-        <div class="col-md-12 text-right">
-          <div class="mt-3">
-            <button type="submit" class="btn btn-primary" onclick="callBody();">更新する</button>
-          </div>
         </div>
       </div>
     </form>

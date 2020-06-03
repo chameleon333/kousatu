@@ -8,6 +8,7 @@
     $auth = null;
   }
 ?>
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-10 mb-3">
@@ -49,9 +50,6 @@
             <span class="mt-2">{{ $user->self_introduction }}</span>
             </div>
             <div class="d-flex">
-              <!-- <div class="p-2 d-flex flex-column align-items-center">
-                <p class="font-weight-bold"><span>{{ $article_count }}</span>記事</p>
-              </div> -->
               <div class="d-flex flex-column">                
                 <p class="font-weight-bold"><a href="{{ url('users/' .$user->id .'/following_users') }}"><span>{{ $follow_count }}</span>フォロー中</a></p>
               </div>
@@ -63,7 +61,19 @@
         </div>
       </div>
     </div>
-
+    
+    @if ($user->id === $auth)
+    <div class="col-md-10 mb-3">
+      <div class="col-md-4">
+        <select class="form-control" name="select" onChange="location.href=value;">
+          @foreach ($status_list as $status_id => $status_text)
+          <option @if($request_status_id == $status_id) selected @endif value="{{ url()->current() }}?status={{ $status_id }}">{{ $status_text }}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+    @endif
+    
     <div class="col-md-10 mb-3 row">
     @if (isset($timelines))
     @foreach ($timelines as $timeline)
