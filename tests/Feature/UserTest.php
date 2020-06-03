@@ -32,7 +32,6 @@ class UserTest extends TestCase
         $user_id = $factory_user->id;
         $article_id = $article->id;
         $response = $this->actingAs($factory_user);
-        // $response->get('/articles/'.$id);
         $response->post('/favorites', ['article_id' => $article_id]);
         $response->assertDatabaseHas('favorites', [
             'user_id' => $user_id,
@@ -234,7 +233,7 @@ class UserTest extends TestCase
 - テストリスト";
 
         $testTags = ["テスト1","テスト2","テスト3","テスト4","テスト5"];
-        $response->put("/articles/{$factory_article}", [ 'title' => $testTitle, 'body' => $testBody,'tags' => $testTags]);
+        $response->put("/articles/{$factory_article}", [ 'title' => $testTitle, 'body' => $testBody,'tags' => $testTags,'article_status_id' => 0]);
         $response->assertDatabaseHas('articles', [
             'title' => $testTitle,
             'body' => $testBody,
@@ -269,6 +268,68 @@ class UserTest extends TestCase
                 'body' => $testBody
             ]);
         }
+    }
+
+    public function testCheckIsArticlePublic(){
+        $user = factory(App\Models\User::class)->create();
+        $article = factory(App\Models\Article::class)->create([
+            "user_id" => $user->id,
+            'status' => 0,
+        ]);
+
+        $response = $this->actingAs($user);
+        $response = $this->get('/articles');
+        $response->assertSee($article->title);
+        $response = $this->get('users/'.$article->user_id);
+        $response->assertSee($article->title);  
+
+        # 下書きに表示されないことをチェック
+        $response = $this->get('users/'.$article->user_id."?status=1");
+        $response->assertDontSee($article->title);
+
+    }
+
+    public function testCheckIsArticleDraft(){
+        $user = factory(App\Models\User::class)->create();
+        $article = factory(App\Models\Article::class)->create([
+            "user_id" => $user->id,
+            'status' => 1,
+        ]);
+
+        $response = $this->actingAs($user);
+        $response = $this->get('users/'.$article->user_id."?status=1");
+        $response->assertSee($article->title);
+
+        # 記事が公開されていないようチェック
+        $response = $this->get('/articles');
+        $response->assertDontSee($article->title);
+        $response = $this->get('users/'.$article->user_id);
+        $response->assertDontSee($article->title);
+
+    }
+
+    # 記事を第三者からチェック
+    public function testCheckIsArticleByOutsider(){
+        $creater_user = factory(App\Models\User::class)->create();
+        $outsider_user = factory(App\Models\User::class)->create();
+
+        # 公開記事が確認できるか
+        $public_artile = factory(App\Models\Article::class)->create([
+            "user_id" => $creater_user->id,
+            'status' => 0,
+        ]);
+        $response = $this->actingAs($outsider_user);
+        $response = $this->get('users/'.$public_artile->user_id);
+        $response->assertSee($public_artile->title);
+
+        # 下書き記事が見れないようになっているか
+        $draft_article = factory(App\Models\Article::class)->create([
+            "user_id" => $creater_user->id,
+            'status' => 1,
+        ]);
+        $response = $this->actingAs($outsider_user);
+        $response = $this->get('users/'.$draft_article->user_id."?status=1");
+        $response->assertDontSee($draft_article->title);
     }
     
 }
