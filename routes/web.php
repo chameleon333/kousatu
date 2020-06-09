@@ -50,5 +50,5 @@ Route::group(['middleware' => 'auth'], function() {
 
 //タグ関連
 Route::get('tags/{tag}', 'TagsController@show')->name('tags.show');
-
+Route::get('/fetch', 'ArticlesController@fetch')->name('article.fetch');
 Route::get('articles/{article}', 'ArticlesController@show')->name('articles.show');

@@ -19,6 +19,15 @@ class ArticlesController extends Controller
     {
 //        $this->middleware('auth');
     }
+
+    public function fetch(Article $article)
+    {
+        $status_id = 0;
+        $timelines = Article::with(['user','tags','favorites'])->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
+        return $timelines;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -30,8 +39,8 @@ class ArticlesController extends Controller
         $timelines = $article->getTimeLines($status_id);
         $popular_tags = $tags->getPopularTags();
         return view('articles.index', [
-        'articles' => $timelines,
-        'popular_tags' => $popular_tags
+            'articles' => $timelines,
+            'popular_tags' => $popular_tags
         ]);
     }
 

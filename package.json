@@ -28,6 +28,7 @@
         "hard-source-webpack-plugin": "^0.13.1",
         "marked": "^0.8.0",
         "npm-check-updates": "^4.0.1",
-        "tui-editor": "^1.4.10"
+        "tui-editor": "^1.4.10",
+        "vue-infinite-loading": "^2.4.5"
     }
 }
