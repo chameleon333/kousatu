@@ -35,6 +35,7 @@
         </div>
         <infinite-loading @infinite="infiniteHandler">
             <div slot="no-more">これ以上記事はありません</div>
+            <div slot="no-results">該当する記事がありません</div>
         </infinite-loading>
     </div>
 </template>
@@ -62,7 +63,6 @@ export default {
                     per_page: 1
                 },
             }).then(( {data} ) => {
-                console.log(this.api);
                 if (this.page < data.data.length) {
                     this.page += 1
                     this.list.push(...data.data)
