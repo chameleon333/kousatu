@@ -49,11 +49,11 @@ class TagsController extends Controller
     {
         $tag = new Tag;
         $tag = $tag::find($id);
-        $articles = $tag::find($id)->articles()->paginate(6);
         $popular_tags = $tag->getPopularTags();
+        $api = "//localhost/fetch?mode=tag&tag_id={$tag->id}";
         return view('tags.show',[
             'tag' => $tag,
-            'articles' => $articles,
+            'api' => $api,
             'popular_tags' => $popular_tags,
         ]);
     }

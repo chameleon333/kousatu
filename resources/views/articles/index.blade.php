@@ -13,7 +13,7 @@
     <div class="row col-md-12">
     
       <div class="col-md-9 mb-3 order-md-2">
-        <article-list-component api="fetch"></article-list-component>
+        <article-list-component api="{{ url('fetch') }}"></article-list-component>
       </div>
 
       <div class="col-md-3 order-md-1">
