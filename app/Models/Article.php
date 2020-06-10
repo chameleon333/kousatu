@@ -44,7 +44,7 @@ class Article extends Model
       return $this->where('user_id', $user_id)->count();
     }
   
-    public function getTimeLines($status_id)
+    public function getTimeLines(Int $status_id)
     {
       //全ての記事を取得する
       return $this->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
