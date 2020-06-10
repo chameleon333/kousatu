@@ -33,11 +33,12 @@ class Tag extends Model
     }
 
     public function getPopularTags(){
-        $popular_tags = $this::withCount('articles')
+        $popular_tags = $this::withCount([ 'articles' => function($query) {
+            $query->where('status',0);
+        }])
         ->orderBy('articles_count', 'desc')
         ->take(5)
         ->get();
-
         return $popular_tags;
     }
 }
