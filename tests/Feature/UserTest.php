@@ -90,8 +90,6 @@ class UserTest extends TestCase
             'email' => $testEmailA
         ]);
 
-        # 異常系テスト
-
         ## 不正な形式のユーザー名が登録されないかテスト
         $Bad_testUserName = "testUserばっとてすと@";
         $factory_userB = factory(App\Models\User::class)->create();
