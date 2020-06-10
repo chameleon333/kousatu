@@ -3,7 +3,7 @@
         <div class="row">
             <div class="p-3 col-sm-6" v-for="article in list" :key="article.index">
                 <div class="card">
-                    <a v-bind:href="`articles/${article.id}`">
+                    <a v-bind:href="`/articles/${article.id}`">
                         <div class="header-image-wrapper">
                         <div class="header-image-content" v-bind:style="{ 'background-image':'url(' + article.header_image + ')' }"></div>    
                         </div>
@@ -11,10 +11,10 @@
                     <div class="card-haeder w-100 d-flex p-3">
                         <div class="ml-2 d-flex flex-column">
                             <div class="w-100 d-inline-flex">
-                                <a v-bind:href="`users/${article.user_id}`" class="text-secondary">
+                                <a v-bind:href="`/users/${article.user_id}`" class="text-secondary">
                                     <img v-bind:src="`${article.user.profile_image}`" class="rounded" width="39" height="39">
                                 </a>
-                                <a v-bind:href="`articles/${article.id}`">
+                                <a v-bind:href="`/articles/${article.id}`">
                                     <p class="px-1">{{ article.title }}</p>
                                 </a>
                             </div>
