@@ -268,43 +268,6 @@ class UserTest extends TestCase
         }
     }
 
-    public function testCheckIsArticlePublic(){
-        $user = factory(App\Models\User::class)->create();
-        $article = factory(App\Models\Article::class)->create([
-            "user_id" => $user->id,
-            'status' => 0,
-        ]);
-
-        $response = $this->actingAs($user);
-        $response = $this->get('/articles');
-        $response->assertSee($article->title);
-        $response = $this->get('users/'.$article->user_id);
-        $response->assertSee($article->title);  
-
-        # 下書きに表示されないことをチェック
-        $response = $this->get('users/'.$article->user_id."?status=1");
-        $response->assertDontSee($article->title);
-
-    }
-
-    public function testCheckIsArticleDraft(){
-        $user = factory(App\Models\User::class)->create();
-        $article = factory(App\Models\Article::class)->create([
-            "user_id" => $user->id,
-            'status' => 1,
-        ]);
-
-        $response = $this->actingAs($user);
-        $response = $this->get('users/'.$article->user_id."?status=1");
-        $response->assertSee($article->title);
-
-        # 記事が公開されていないようチェック
-        $response = $this->get('/articles');
-        $response->assertDontSee($article->title);
-        $response = $this->get('users/'.$article->user_id);
-        $response->assertDontSee($article->title);
-
-    }
 
     # 記事を第三者からチェック
     public function testCheckIsArticleByOutsider(){
