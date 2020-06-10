@@ -50,7 +50,7 @@ class TagsController extends Controller
         $tag = new Tag;
         $tag = $tag::find($id);
         $popular_tags = $tag->getPopularTags();
-        $api = "//localhost/fetch?mode=tag&tag_id={$tag->id}";
+        $api = "/fetch?mode=tag&tag_id={$tag->id}";
         return view('tags.show',[
             'tag' => $tag,
             'api' => $api,
