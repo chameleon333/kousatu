@@ -44,7 +44,7 @@ class Article extends Model
       return $this->where('user_id', $user_id)->count();
     }
   
-    public function getTimeLines($status_id)
+    public function getTimeLines(Int $status_id)
     {
       //全ての記事を取得する
       return $this->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
@@ -109,5 +109,25 @@ class Article extends Model
 
       return $article_status_texts;
     }
+
+
+    public function getTwitterSharaParam($article) {
+      $hash_tag = "";
+      foreach($article->tags as $tag) {
+          $hash_tag.=$tag->name.",";
+      }
+
+      $url = "url=".url()->current();
+      $text = "text=".$article->title;
+      $via = "via=".config('app.name'); 
+      $hashtags = "hashtags=".rtrim($hash_tag, ',');
+
+      $param = implode('&',[$url,$text,$via,$hashtags]);
+
+      return $param;
+
+    }
+
+
 
 }

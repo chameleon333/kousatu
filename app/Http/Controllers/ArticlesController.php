@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -19,6 +19,25 @@ class ArticlesController extends Controller
     {
 //        $this->middleware('auth');
     }
+
+    public function fetch(Request $request,Article $article)
+    {
+        $status_id = 0;
+        switch($request["mode"]) {
+
+            case "tag":
+                $timelines = Article::with(['tags','user','favorites'])->whereHas('tags',function(Builder $query) use ($request){
+                    $query->where('tag_id',$request["tag_id"]);
+                })->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
+            break;
+
+            default:
+                $timelines = Article::with(['tags','user','favorites'])->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
+        }
+        return $timelines;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -27,11 +46,16 @@ class ArticlesController extends Controller
     public function index(Article $article, Tag $tags)
     {
         $status_id = 0;
-        $timelines = $article->getTimeLines($status_id);
+        $request["tag_id"] = 15;
+        $timelines = Article::with(['tags','user','favorites'])->whereHas('tags',function(Builder $query) use ($request){
+            $query->where('tag_id',$request["tag_id"]);
+        })->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
+
+
         $popular_tags = $tags->getPopularTags();
         return view('articles.index', [
-        'articles' => $timelines,
-        'popular_tags' => $popular_tags
+            'popular_tags' => $popular_tags,
+            'timelines' => $timelines,
         ]);
     }
 
@@ -110,10 +134,14 @@ class ArticlesController extends Controller
         $user = auth()->user();
         $article = $article->getArticle($article->id);
         $comments = $comment->getComments($article->id);
+
+        $twitter_share_param = $article->getTwitterSharaParam($article);
+
         return view('articles.show',[
             'user' => $user,
             'article' => $article,
-            'comments' => $comments
+            'comments' => $comments,
+            'twitter_share_param' => $twitter_share_param,
         ]);
     }
 
