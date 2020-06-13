@@ -110,4 +110,24 @@ class Article extends Model
       return $article_status_texts;
     }
 
+
+    public function getTwitterSharaParam($article) {
+      $hash_tag = "";
+      foreach($article->tags as $tag) {
+          $hash_tag.=$tag->name.",";
+      }
+
+      $url = "url=".url()->current();
+      $text = "text=".$article->title;
+      $via = "via=".config('app.name'); 
+      $hashtags = "hashtags=".rtrim($hash_tag, ',');
+
+      $param = implode('&',[$url,$text,$via,$hashtags]);
+
+      return $param;
+
+    }
+
+
+
 }

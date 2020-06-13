@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-
+    <h3>{{$twitter_share_param}}</h3>
     <div class="row justify-content-center mb-5">
         <div class="col-md-8 mb-3">
             <div class="card">
@@ -29,6 +29,11 @@
                 </div>
                 <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;">{{$article->body}}</textarea>
                 <div class="card-footer py-1 d-flex justify-content-end bg-white">
+                    <div class="mr-3 d-flex mr-auto align-items-center">                    
+                        <a href="https://twitter.com/share?{{$twitter_share_param}}" target="_blank" rel="noopener noreferrer" id="twitterShare">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
                 @if ($user)
                     @if ($article->user->id === Auth::user()->id)
                         <div class="dropdown mr-3 d-flex align-items-center">
@@ -47,12 +52,14 @@
                         </div>
                     @endif
                 @endif
-
+                    
                     <div class="mr-3 d-flex align-items-center">
                         <a href="{{ url('articles/' .$article->id) }}"><i class="far fa-comment fa-fw"></i></a>
                         <p class="mb-0 text-secondary">{{ count($article->comments) }}</p>
                     </div>
+
                     <div class="d-flex align-items-center">
+
                     @if ($user)
                         @if (!in_array($user->id, array_column($article->favorites->toArray(),'user_id')))
                             <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">

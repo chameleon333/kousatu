@@ -134,10 +134,14 @@ class ArticlesController extends Controller
         $user = auth()->user();
         $article = $article->getArticle($article->id);
         $comments = $comment->getComments($article->id);
+
+        $twitter_share_param = $article->getTwitterSharaParam($article);
+
         return view('articles.show',[
             'user' => $user,
             'article' => $article,
-            'comments' => $comments
+            'comments' => $comments,
+            'twitter_share_param' => $twitter_share_param,
         ]);
     }
 
