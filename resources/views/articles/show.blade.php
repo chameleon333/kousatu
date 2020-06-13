@@ -70,14 +70,14 @@
                             <form method="POST" action="{{ url('favorites/' .array_column($article->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
+                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-thumbs-up"></i></i></button>
                             </form>
                         @endif
                     @else
                         <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
                             @csrf
                             <input type="hidden" name="article_id" value="{{ $article->id }}">
-                            <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
+                            <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-thumbs-up"></i></i></button>
                         </form>                    
                     @endif
                         <p class="mb-0 text-secondary">{{ count($article->favorites) }}</p>
