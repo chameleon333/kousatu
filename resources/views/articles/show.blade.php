@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid">
-    <h3>{{$twitter_share_param}}</h3>
     <div class="row justify-content-center mb-5">
         <div class="col-md-8 mb-3">
             <div class="card">
