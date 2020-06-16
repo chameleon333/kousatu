@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Favorite;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\User;
@@ -59,6 +60,29 @@ class PaginationTest extends TestCase
         $response = $this->post('/search',["keyword"=>$article->title]);
         $response->assertSee($article->title);
     }
+
+    #ユーザーが人気順に出るかテスト
+    public function testPopularUsers() {
+        factory(Favorite::class,10)->create();
+
+        for($i=0; $i < 5; $i++) {
+            factory(Favorite::class,5-$i)->create([
+                'article_id' => 1+$i,
+            ]);
+        }
+
+        $user = User::all()->first();
+
+
+        $popular_users = $user->getPopularUsers();
+        foreach($popular_users as $popular_user) {
+            $popular_user_name[] = $popular_user->name;
+        }
+
+        $response = $this->get('/articles');
+        $response->assertSeeTextInOrder($popular_user_name);
+    }
+
 
 }
 
