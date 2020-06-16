@@ -63,7 +63,7 @@ export default {
                     per_page: 1
                 },
             }).then(( {data} ) => {
-                if (this.page < data.data.length) {
+                if (this.page <= data.data.length) {
                     this.page += 1
                     this.list.push(...data.data)
                     $state.loaded()
