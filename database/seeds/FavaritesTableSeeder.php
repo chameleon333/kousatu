@@ -17,6 +17,10 @@ class FavaritesTableSeeder extends Seeder
           'user_id' => 1,
           'article_id' => $i,
         ]);
+        Favorite::create([
+          'user_id' => $i,
+          'article_id' => 2,
+        ]);
       }
     }
 }

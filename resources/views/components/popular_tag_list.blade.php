@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
     <div class="card-header tag-mark">話題のタグ</div>
     <div class="card-body">
     @foreach ($popular_tags as $tag)

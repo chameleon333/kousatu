@@ -9,6 +9,8 @@ use App\Models\Article;
 use App\Models\Tag;
 use App\Models\Comment;
 use App\Models\Follower;
+use App\Models\Favorite;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,7 +45,7 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Article $article, Tag $tags)
+    public function index(Article $article, Tag $tags, User $user)
     {
         $status_id = 0;
         $request["tag_id"] = 15;
@@ -53,8 +55,11 @@ class ArticlesController extends Controller
 
 
         $popular_tags = $tags->getPopularTags();
+        $popular_users = $user->getPopularUsers();
+
         return view('articles.index', [
             'popular_tags' => $popular_tags,
+            'popular_users' => $popular_users,
             'timelines' => $timelines,
         ]);
     }
