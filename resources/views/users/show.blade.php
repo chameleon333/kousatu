@@ -18,7 +18,7 @@
           <div class="m-3 d-flex flex-column justify-content-between">
             <div class="d-flex">
               <div>
-                @if (auth()->user())
+                @if (auth()->user()->id == $user->id)
                 <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
                 @else
                   @if ($is_following)
@@ -56,7 +56,7 @@
       </div>
     </div>
     
-    @if (auth()->user())
+    @if (auth()->user()->id == $user->id)
       <div class="col-md-10 mb-3">
         <div class="col-md-4">
           <select class="form-control" name="select" onChange="location.href=value;">
@@ -99,7 +99,7 @@
                     <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
                     <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
                   </div>
-                  @if (auth()->user())
+                  @if (auth()->user()->id == $user->id)
                     <div class="dropdown d-flex align-items-center">
                       <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v fa-fw"></i>
