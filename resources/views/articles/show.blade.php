@@ -24,8 +24,13 @@
                     </a>
                     @endforeach
                 </div>
-                <div class="border-top mb-5"></div>
-                    <div id="preview_marked"></div>
+                <div class="mb-2">
+                    <div class="header-image-wrapper">
+                        <div class="header-image-content" style="background-image: url( {{ $article->header_image }} );"></div>
+                    </div>
+                </div>
+                <hr>
+                <div id="preview_marked"></div>
                     <!-- {!! nl2br($article->body) !!} -->
                 </div>
                 <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;">{{$article->body}}</textarea>
