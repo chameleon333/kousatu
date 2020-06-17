@@ -56,7 +56,7 @@
           <div class="col-md-4">
             <select class="form-control" name="select" onChange="location.href=value;">
               @foreach ($status_list as $status_id => $status_text)
-              <option @if($request_status_id == $status_id) selected @endif value="{{ url()->current() }}?status={{ $status_id }}">{{ $status_text }}</option>
+                <option @if($request_status_id == $status_id) selected @endif value="{{ url()->current() }}?status={{ $status_id }}">{{ $status_text }}</option>
               @endforeach
             </select>
           </div>
@@ -82,9 +82,11 @@
                           <p class="px-1">{{ $timeline->title }}</p>
                         </a>
                       </div>
-                      <p class="mb-0 text-secondary">
+                      <p class="mb-0">
                         @foreach($timeline->tags as $tag)
-                          <span class="tag-mark">{{$tag->name}}</span>
+                          <a class="text-secondary" href="/tags/{{ $tag->id }}">
+                            <span class="tag-mark">{{$tag->name}}</span>
+                          </a>
                         @endforeach
                       </p>
                       <div class="mt-1 d-flex">
