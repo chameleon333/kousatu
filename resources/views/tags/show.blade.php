@@ -5,9 +5,6 @@
 
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-12 mb-3 text-right">
-      <a href="{{ url('users') }}">ユーザ一覧 <i class="fas fa-users" class="fa-fw"></i> </a>
-    </div>
 
     <div class="row col-md-12">
     
