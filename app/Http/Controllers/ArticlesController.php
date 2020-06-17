@@ -25,18 +25,23 @@ class ArticlesController extends Controller
     public function fetch(Request $request,Article $article)
     {
         $status_id = 0;
+        
         switch($request["mode"]) {
-
             case "tag":
-                $timelines = Article::with(['tags','user','favorites'])->whereHas('tags',function(Builder $query) use ($request){
+                $articles = Article::with(['tags','user','favorites'])->whereHas('tags',function(Builder $query) use ($request){
                     $query->where('tag_id',$request["tag_id"]);
                 })->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
             break;
 
+            case "popular":
+                $articles = $article->getPopularArticles();
+                $articles = $articles->with(['tags','user','favorites'])->where('status',$status_id)->paginate(6);
+            break;
+
             default:
-                $timelines = Article::with(['tags','user','favorites'])->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
+                $articles = Article::with(['tags','user','favorites'])->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
         }
-        return $timelines;
+        return $articles;
     }
 
 
@@ -45,22 +50,24 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Article $article, Tag $tags, User $user)
+    public function index(Request $request,Article $article, Tag $tags, User $user)
     {
-        $status_id = 0;
-        $request["tag_id"] = 15;
-        $timelines = Article::with(['tags','user','favorites'])->whereHas('tags',function(Builder $query) use ($request){
-            $query->where('tag_id',$request["tag_id"]);
-        })->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
-
-
+        switch($request["mode"]) {
+            case "popular":
+                $api = "/fetch?mode=popular";
+            break;
+            default:
+                $api = "/fetch";
+        }
         $popular_tags = $tags->getPopularTags();
         $popular_users = $user->getPopularUsers();
+        $tab_info_list = $article->getTabInfoList();
 
         return view('articles.index', [
             'popular_tags' => $popular_tags,
             'popular_users' => $popular_users,
-            'timelines' => $timelines,
+            'api' => $api,
+            'tab_info_list' => $tab_info_list,
         ]);
     }
 

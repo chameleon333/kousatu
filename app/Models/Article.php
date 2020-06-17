@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Database\Eloquent\softDeletes;
-
+use Illuminate\Support\Facades\DB;
 class Article extends Model
 {
     // use SoftDeletes;
@@ -126,6 +126,42 @@ class Article extends Model
 
       return $param;
 
+    }
+
+    public function getPopularArticles() {
+      $favorite_list = Favorite::all();
+      foreach($favorite_list as $favorite_item) {
+        $article_id_list[] = $favorite_item->article()->value('id');
+      }
+
+      
+      if(empty($article_id_list)) {
+        $popular_articles = [];
+      } else {
+        $rank_list = array_count_values($article_id_list);
+        arsort($rank_list); 
+        $rank_keys = array_keys($rank_list);
+        $ids_order = implode(',', $rank_keys);
+
+        $popular_articles = $this->whereIn('id',$rank_keys)->orderByRaw(DB::raw("FIELD(id, $ids_order)"));
+      }
+
+      return $popular_articles;
+    }
+
+    public function getTabInfoList(){
+      $tab_info_list = [
+        'タイムライン' => [
+            'param' => '',
+            'icon_class' => 'fas fa-stream'
+        ], 
+        '人気' => [
+            'param' => '?mode=popular',
+            'icon_class' => 'fas fa-fire'
+        ], 
+      ];
+
+      return $tab_info_list;
     }
 
 

@@ -61,7 +61,7 @@ class PaginationTest extends TestCase
         $response->assertSee($article->title);
     }
 
-    #ユーザーが人気順に出るかテスト
+    #総合いいね数が多い順にユーザーが出るかテスト
     public function testPopularUsers() {
         factory(Favorite::class,10)->create();
 
@@ -83,6 +83,27 @@ class PaginationTest extends TestCase
         $response->assertSeeTextInOrder($popular_user_name);
     }
 
+    #いいねが多い順に記事が出るかテスト
+    public function testPopularArticles() {
+        factory(Favorite::class,6)->create();
+
+        $create_count = 5;
+        for($i=0; $i < $create_count; $i++) {
+            factory(Favorite::class,$create_count-$i)->create([
+                'article_id' => 1+$i,
+            ]);
+        }
+
+        $article = Article::all()->first();
+
+        $popular_articles = $article->getPopularArticles();
+        foreach($popular_articles->get() as $popular_article) {
+            $popular_article_title[] = $popular_article->title;
+        }
+
+        $response = $this->get('/fetch?mode=popular');
+        $response->assertSeeTextInOrder($popular_article_title);
+    }
 
 }
 

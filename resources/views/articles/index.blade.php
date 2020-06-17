@@ -13,7 +13,8 @@
     <div class="row col-md-12">
     
       <div class="col-md-9 mb-3 order-md-2">
-        <article-list-component api="{{ url('fetch') }}"></article-list-component>
+        @include('components.tab_list')
+        <article-list-component api="{{ $api }}"></article-list-component>
       </div>
 
       
