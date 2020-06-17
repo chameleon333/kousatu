@@ -98,11 +98,28 @@ class PaginationTest extends TestCase
 
         $popular_articles = $article->getPopularArticles();
         foreach($popular_articles->get() as $popular_article) {
-            $popular_article_title[] = $popular_article->title;
+            $popular_article_titles[] = $popular_article->title;
         }
 
         $response = $this->get('/fetch?mode=popular');
-        $response->assertSeeTextInOrder($popular_article_title);
+        $response->assertSeeTextInOrder($popular_article_titles);
+    }
+
+
+    #最新順に記事が出るかテスト
+    public function testTimelineArticles() {
+        for($i=0; $i < 6; $i++){
+            usleep(100000);
+            factory(Article::class)->create();
+        }
+        $articles = Article::latest()->get();
+        foreach($articles as $article) {
+            $article_titles[] = $article->title;
+        }
+
+        $response = $this->get('/fetch');
+        $response->assertSeeTextInOrder($article_titles);
+
     }
 
 }
