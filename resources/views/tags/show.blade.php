@@ -16,10 +16,7 @@
         <hr>
         <article-list-component api="{{ $api }}"></article-list-component>
       </div>
-      <div class="col-md-3 order-md-1">
-        @include('components.popular_tag_list')
-        @include('components.popular_user_list')
-      </div>
+      @include('components.side_navi')
     </div>
   </div>
   

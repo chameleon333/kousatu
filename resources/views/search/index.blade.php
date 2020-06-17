@@ -14,10 +14,7 @@
         <hr>
         @include('components.article_list')
       </div>
-      <div class="col-md-3 order-md-1">
-        @include('components.popular_tag_list')
-      </div>
-
+      @include('components.side_navi')
     </div>
     
   </div>
