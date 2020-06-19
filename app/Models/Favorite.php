@@ -8,6 +8,11 @@ class Favorite extends Model
 {
     public $timestamps = false;
 
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
+
     //いいねしているかどうかの判定処理
     public function isFavorite(Int $user_id, Int $article_id)
     {

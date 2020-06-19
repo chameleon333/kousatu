@@ -104,6 +104,13 @@ $bg-yellow:#ffdd76;
   content:"#";
 }
 
+.user-mark::before{
+  font-family: "Font Awesome 5 Free";
+  content:"\f007";
+  margin: 3px;
+}
+
+
 $double-quotation-mark:"\22";
 .double-quotation-mark:after,.double-quotation-mark:before {
   content:$double-quotation-mark;

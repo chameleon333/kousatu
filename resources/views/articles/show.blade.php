@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid">
-    <h3>{{$twitter_share_param}}</h3>
     <div class="row justify-content-center mb-5">
         <div class="col-md-8 mb-3">
             <div class="card">
@@ -20,11 +19,18 @@
                 <h1>{!! nl2br(e($article->title)) !!}</h1>
                 <div class="mb-2">
                     @foreach($article->tags as $tag)
-                        <span class="tag-mark text-secondary">{{$tag->name}}</span>
+                    <a class="text-secondary" href="/tags/{{ $tag->id }}">
+                        <span class="tag-mark">{{$tag->name}}</span>
+                    </a>
                     @endforeach
                 </div>
-                <div class="border-top mb-5"></div>
-                    <div id="preview_marked"></div>
+                <div class="mb-2">
+                    <div class="header-image-wrapper">
+                        <div class="header-image-content" style="background-image: url( {{ $article->header_image }} );"></div>
+                    </div>
+                </div>
+                <hr>
+                <div id="preview_marked"></div>
                     <!-- {!! nl2br($article->body) !!} -->
                 </div>
                 <textarea id="edit_content" class="editor mt-2 form-control @error('body') is-invalid @enderror" required autocomplete="body" name="body" style="display: none;">{{$article->body}}</textarea>
@@ -71,14 +77,14 @@
                             <form method="POST" action="{{ url('favorites/' .array_column($article->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
+                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-thumbs-up"></i></i></button>
                             </form>
                         @endif
                     @else
                         <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
                             @csrf
                             <input type="hidden" name="article_id" value="{{ $article->id }}">
-                            <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
+                            <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-thumbs-up"></i></i></button>
                         </form>                    
                     @endif
                         <p class="mb-0 text-secondary">{{ count($article->favorites) }}</p>

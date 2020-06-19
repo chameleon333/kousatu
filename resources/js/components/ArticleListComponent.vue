@@ -18,10 +18,12 @@
                                     <p class="px-1">{{ article.title }}</p>
                                 </a>
                             </div>
-                            <p class="mb-0 text-secondary">
-                                <span class="tag-mark" v-for="tags in article.tags" :key="tags.index">
-                                    {{ tags.name }}
-                                </span>
+                            <p class="mb-0">
+                                <a class="text-secondary" v-bind:href="`/tags/${ tags.id }`" v-for="tags in article.tags" :key="tags.index">
+                                    <span class="tag-mark">
+                                        {{ tags.name }}
+                                    </span>
+                                </a>
                             </p>
                             <p class="mb-0 text-secondary">
                                 <span>by &#064;{{ article.user.screen_name }}</span>
@@ -63,7 +65,7 @@ export default {
                     per_page: 1
                 },
             }).then(( {data} ) => {
-                if (this.page < data.data.length) {
+                if (this.page <= data.data.length) {
                     this.page += 1
                     this.list.push(...data.data)
                     $state.loaded()

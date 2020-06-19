@@ -119,4 +119,27 @@ class User extends Authenticatable
       return $this->followers()->where('followed_id', $user_id)->paginate(5);
     }
 
+    public function getPopularUsers() {
+      $favorite_list = Favorite::all();
+
+      foreach($favorite_list as $favorite_item) {
+        $user_id_list[] = $favorite_item->article()->value('user_id');
+      }
+      
+      if(empty($user_id_list)) {
+        $popular_users = [];
+      } else {
+        $rank_list = array_count_values($user_id_list);
+
+        $rank_keys = array_keys($rank_list);
+        $rank_keys = array_slice($rank_keys, 0, 5);
+  
+        $popular_users = $this->whereIn('id',$rank_keys)->get();
+  
+      }
+
+
+
+      return $popular_users;
+    }
 }
