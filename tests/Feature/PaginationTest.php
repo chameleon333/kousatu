@@ -31,13 +31,6 @@ class PaginationTest extends TestCase
         // $response->assertStatus(302);
     }
 
-    public function testArticle()
-    {
-        $response = $this->get('/articles');
-        $response->assertSee('ユーザ一覧');
-        // $response->dump();
-    }
-
     // //ログイン時、記事投稿画面に遷移する
     public function testPostFormInLogin()
     {
