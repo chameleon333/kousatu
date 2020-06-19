@@ -16,7 +16,7 @@
           <div class="m-3 d-flex flex-column justify-content-between">
             <div class="d-flex">
               <div>
-                @if (auth()->user()->id == $user->id)
+                @if (isset(auth()->user()->id) == $user->id)
                 <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
                 @else
                   @if ($is_following)
@@ -52,7 +52,7 @@
           </div>
         </div>
 
-        @if (auth()->user()->id == $user->id)
+        @if (isset(auth()->user()->id) == $user->id)
           <div class="col-md-4">
             <select class="form-control" name="select" onChange="location.href=value;">
               @foreach ($status_list as $status_id => $status_text)
@@ -63,9 +63,9 @@
         @endif
 
         <div class="row p-3">
-          @if (isset($timelines))
+          @if ($timelines->count())
             @foreach ($timelines as $timeline)
-              <div class="col-sm-6">
+              <div class="col-sm-6 mb-3">
                 <div class="card">
                   <a href="{{ route('articles.show', ['article'=>$timeline->id]) }}">
                     <div class="header-image-wrapper">
@@ -95,7 +95,7 @@
                           <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
                           <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
                         </div>
-                        @if (auth()->user()->id == $user->id)
+                        @if (isset(auth()->user()->id) == $user->id)
                           <div class="dropdown d-flex align-items-center">
                             <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-ellipsis-v fa-fw"></i>
@@ -120,6 +120,8 @@
                 </div>
               </div>
             @endforeach
+          @else
+            <div class="mx-auto p-5">対象の記事がありません。</div>  
           @endif
         </div>
       </div>
