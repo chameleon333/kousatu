@@ -16,24 +16,26 @@
           <div class="m-3 d-flex flex-column justify-content-between">
             <div class="d-flex">
               <div>
-                @if (isset(auth()->user()->id) == $user->id)
-                <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
-                @else
-                  @if ($is_following)
-                  <form action="{{ route('users.unfollow', ['user' => $user->id]) }}" method="POST">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
+                @if (isset(auth()->user()->id))
+                  @if (auth()->user()->id == $user->id)
+                  <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
+                  @else
+                    @if ($is_following)
+                      <form action="{{ route('users.unfollow', ['user' => $user->id]) }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
 
-                    <button type="submit" class="btn btn-danger">フォロー解除</button>
-                  </form>
-                @else
-                  <form action="{{ route('users.follow', ['user' => $user->id]) }}" method="POST">
-                    {{ csrf_field() }}
-                    <button type="submit" class="btn btn-sm page-link text-dark d-inline-block">フォローする</button>
-                  </form>
-                @endif
-                  @if ($is_followed)
-                    <span class="mt-2 px-1 bg-white text-dark">フォローされています</span>
+                        <button type="submit" class="btn btn-danger">フォロー解除</button>
+                      </form>
+                    @else
+                      <form action="{{ route('users.follow', ['user' => $user->id]) }}" method="POST">
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-sm page-link text-dark d-inline-block">フォローする</button>
+                      </form>
+                    @endif
+                    @if ($is_followed)
+                      <span class="mt-2 px-1 bg-white text-dark">フォローされています</span>
+                    @endif
                   @endif
                 @endif
               </div>
@@ -51,15 +53,16 @@
             </div>
           </div>
         </div>
-
-        @if (isset(auth()->user()->id) == $user->id)
-          <div class="col-md-4">
-            <select class="form-control" name="select" onChange="location.href=value;">
-              @foreach ($status_list as $status_id => $status_text)
-                <option @if($request_status_id == $status_id) selected @endif value="{{ url()->current() }}?status={{ $status_id }}">{{ $status_text }}</option>
-              @endforeach
-            </select>
-          </div>
+        @if (isset(auth()->user()->id))
+          @if ((auth()->user()->id) == $user->id)
+            <div class="col-md-4">
+              <select class="form-control" name="select" onChange="location.href=value;">
+                @foreach ($status_list as $status_id => $status_text)
+                  <option @if($request_status_id == $status_id) selected @endif value="{{ url()->current() }}?status={{ $status_id }}">{{ $status_text }}</option>
+                @endforeach
+              </select>
+            </div>
+          @endif
         @endif
 
         <div class="row p-3">
@@ -95,20 +98,22 @@
                           <span>{{ $timeline->created_at->format('Y-m-d H:i') }}</span>
                           <span><i class="far fa-thumbs-up"></i>{{ count($timeline->favorites) }}</span>
                         </div>
-                        @if (isset(auth()->user()->id) == $user->id)
-                          <div class="dropdown d-flex align-items-center">
-                            <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="fas fa-ellipsis-v fa-fw"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <form method="POST" action="{{ url('articles/' .$timeline->id) }}" class="mb-0">
-                                @csrf
-                                @method('DELETE')
-                                <a href="{{ url('articles/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
-                                <button type="submit" class="dropdown-item del-btn">削除</button>
-                              </form>
+                        @if (isset(auth()->user()->id))
+                          @if (auth()->user()->id == $user->id)
+                            <div class="dropdown d-flex align-items-center">
+                              <a href="{{ url('articles/' .$timeline->id. '/edit') }}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-fw"></i>
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <form method="POST" action="{{ url('articles/' .$timeline->id) }}" class="mb-0">
+                                  @csrf
+                                  @method('DELETE')
+                                  <a href="{{ url('articles/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
+                                  <button type="submit" class="dropdown-item del-btn">削除</button>
+                                </form>
+                              </div>
                             </div>
-                          </div>
+                          @endif
                         @endif
                         <div class="d-flex align-items-center">
                           <a href="{{ url('articles/' .$timeline->id) }}#comment"><i class="far fa-comment fa-fw"></i></a>
