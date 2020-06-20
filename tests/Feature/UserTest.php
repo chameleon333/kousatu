@@ -293,4 +293,37 @@ class UserTest extends TestCase
         $response->assertDontSee($draft_article->title);
     }
     
+    public function testIsDisplayUserEditByLoginUser() {
+        $user_a = factory(App\Models\User::class)->create();
+        $user_b = factory(App\Models\User::class)->create();
+
+        $user_ids = [$user_a->id,$user_b->id];
+
+        foreach($user_ids as $user_id) {
+            $article = factory(App\Models\Article::class)->create([
+                "user_id" => $user_id,
+            ]);    
+        }
+        $this->actingAs($user_a)
+             ->get("/users/{$user_a->id}")
+             ->assertSee("プロフィールを編集する")
+             ->assertSee("公開中")
+             ->assertSee("fa-ellipsis-v");
+
+        $this->actingAs($user_a)
+             ->get("/users/{$user_b->id}")
+             ->assertDontSee("プロフィールを編集する")
+             ->assertDontSee("公開中")
+             ->assertDontSee("fa-ellipsis-v");
+    }
+
+    public function testIsDisplayUserEditByNoLoginUser() {
+        $user = factory(App\Models\User::class)->create();
+        $this->get("/users/{$user->id}")
+             ->assertDontSee("プロフィールを編集する")
+             ->assertDontSee("公開中")
+             ->assertDontSee("fa-ellipsis-v");
+    }
+
+
 }
