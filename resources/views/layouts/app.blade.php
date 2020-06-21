@@ -93,7 +93,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-auto mr-2 navbar-ori">
                         <li class="nav-item">
-                            <a class="btn btn-light" role="button" href="{{ url('articles/create') }}" target="_blank"><i class="far fa-edit"></i></i><span class="d-none d-sm-inline ml-1">投稿する</span></a>
+                            <a class="btn btn-light" role="button" href="{{ url('articles/create') }}"><i class="far fa-edit"></i></i><span class="d-none d-sm-inline ml-1">投稿する</span></a>
                         </li>
                     </ul>
                             <li class="nav-item dropdown">

@@ -36,7 +36,6 @@ class ArticlesTableSeeder extends Seeder
       for ($i = 11; $i <= 20; $i++){
         $status=0;
         if($i >= 18){
-          dump("stauts");
           $status = 1;
         }
         #body用データ読み込み
