@@ -171,21 +171,4 @@ class UsersController extends Controller
       return view('users.favorite', $user_info_list);
     }
 
-    public function favorited(User $user, Article $article) 
-    {
-      $timelines = $article->getFavoritedArticles($user->id);
-      $tab_info_list = $user->getTabInfoList($follower);
-      $follow_count = $follower->getFollowCount($user->id);
-      $follower_count = $follower->getFollowerCount($user->id);
-
-      return view('users.show', [
-        'user' => $user,
-        'timelines' => $timelines,
-        'follow_count' => $follow_count,
-        'follower_count' => $follower_count,
-        'tab_info_list' => $tab_info_list,
-        ]);
-    }
-
-
 }

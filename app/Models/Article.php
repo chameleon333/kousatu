@@ -164,14 +164,6 @@ class Article extends Model
       return $tab_info_list;
     }
 
-    public function getFavoritedArticles(Int $user_id){
-      $article_ids = $this::all()->where('user_id',$user_id)->pluck('id');
-      $favorited_articles = $this->whereHas('favorites', function($query) use ($article_ids) {
-        $query->whereIn('article_id', $article_ids);
-      })->where('status', 0)->paginate(6);
-
-      return $favorited_articles;
-    }
 
     public function getFavoriteArticles(Int $user_id){
       $favorite_articles = $this->whereHas('favorites', function($query) use ($user_id) {
