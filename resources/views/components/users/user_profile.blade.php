@@ -1,12 +1,18 @@
+<div class="d-flex flex-column text-right pt-2 pr-3">
+  <div>
+    <i class="far fa-thumbs-up"></i>
+    <span class="text-secondary">Total {{ $total_favorited_count }}</span>
+  </div>
+</div>
 <div class="p-1 d-sm-flex">
-  <div class="m-3 d-flex flex-column">
+  <div class="mx-3 d-flex flex-column">
     <img src="{{ asset($user->profile_image) }}" class="rounded" width="100" height="100">
-    <div class="mt-3 d-flex flex-column">
+    <div class="my-3 d-flex flex-column">
       <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
       <span class="text-secondary">&#064;{{ $user->screen_name }}</span>
     </div>
   </div>
-  <div class="m-3 d-flex flex-column">
+  <div class="mx-3 mb-3 d-flex flex-column">
     <div class="d-flex">
         @if (isset(auth()->user()->id))
           @if (auth()->user()->id == $user->id)
