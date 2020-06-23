@@ -160,14 +160,9 @@ class User extends Authenticatable
         "フォロワー ".$follower_count => [
           "link" => "/users/{$user_id}/followers",
         ], 
-        "いいね ".$favorite_count => [
+        "いいねした記事 ".$favorite_count => [
           "link" => "/users/{$user_id}/favorite",
         ],
-        "貢献 ".$favorite_count => [
-          "link" => "/users/{$user_id}/favorite",
-        ], 
-
-        
       ];
 
       return $tab_info_list;
