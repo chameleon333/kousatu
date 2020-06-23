@@ -146,12 +146,12 @@ class UsersController extends Controller
       }
     }
     
-    public function following_users(User $user)
+    public function following(User $user)
     {
       $following_users = $user->getFollowingUsers($user->id);
       $user_info_list = $user->getUserInfoList();
       $user_info_list["all_users"] = $following_users;
-      return view('users.index', $user_info_list);
+      return view('users.follow', $user_info_list);
     }
 
     public function followers(User $user) 
@@ -159,7 +159,7 @@ class UsersController extends Controller
       $followers = $user->getFollowers($user->id);
       $user_info_list = $user->getUserInfoList();
       $user_info_list["all_users"] = $followers;
-      return view('users.index', $user_info_list);
+      return view('users.follow', $user_info_list);
 
     }
 

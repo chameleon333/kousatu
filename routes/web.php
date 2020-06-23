@@ -26,7 +26,7 @@ Route::get('search', 'SearchesController@index')->name('search.index');
 Route::resource('users', 'UsersController',['only' => ['index', 'show']]);
 
 // フォロー/フォロワー
-Route::get('users/{user}/following_users', 'UsersController@following_users')->name('users.following_users');
+Route::get('users/{user}/following', 'UsersController@following')->name('users.following');
 Route::get('users/{user}/followers', 'UsersController@followers')->name('users.followers');
 Route::get('users/{user}/favorite', 'UsersController@favorite')->name('users.favorite');
 ######

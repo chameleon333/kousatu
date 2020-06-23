@@ -155,7 +155,7 @@ class User extends Authenticatable
             "link" => "/users/{$user_id}",
         ],
         "フォロー ".$follow_count => [
-            "link" => "/users/{$user_id}/following_users",
+            "link" => "/users/{$user_id}/following",
         ], 
         "フォロワー ".$follower_count => [
           "link" => "/users/{$user_id}/followers",
