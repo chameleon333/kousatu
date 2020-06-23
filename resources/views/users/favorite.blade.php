@@ -7,8 +7,7 @@
       <div class="card">
         @include('components.users.user_profile')
         @include('components.users.user_tab_list')
-        @include('components.users.article_status_tab')
-        
+
         <div class="row p-3">
           @if ($timelines->count())
             @foreach ($timelines as $timeline)

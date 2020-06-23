@@ -36,7 +36,7 @@ class Article extends Model
   
     public function getUserTimeLine(Int $user_id, $status_id)
     {
-      return $this->where('user_id', $user_id)->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(50);
+      return $this->where('user_id', $user_id)->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
     }
   
     public function getArticleCount(Int $user_id)
@@ -162,6 +162,23 @@ class Article extends Model
       ];
 
       return $tab_info_list;
+    }
+
+    public function getFavoritedArticles(Int $user_id){
+      $article_ids = $this::all()->where('user_id',$user_id)->pluck('id');
+      $favorited_articles = $this->whereHas('favorites', function($query) use ($article_ids) {
+        $query->whereIn('article_id', $article_ids);
+      })->where('status', 0)->paginate(6);
+
+      return $favorited_articles;
+    }
+
+    public function getFavoriteArticles(Int $user_id){
+      $favorite_articles = $this->whereHas('favorites', function($query) use ($user_id) {
+          $query->where('user_id', $user_id);
+      })->where('status', 0)->paginate(6);
+
+      return $favorite_articles;
     }
 
 

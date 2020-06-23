@@ -62,49 +62,18 @@ class UsersController extends Controller
      */
     public function show(User $user, Article $article, Follower $follower, Request $request)
     {
-      $status_list = ['公開中','下書き'];
       if(!isset($request["status"])) {
         $request["status"] = 0;
       }
 
-      $login_user = auth()->user();
-
-      if(isset($login_user)){
-        $login_user_id = $login_user->id;
-      } else {
-        $login_user_id = "";
-      }
-
-      #ログインユーザーじゃないユーザーが下書きページに遷移した際、リダイレクトして閲覧を防ぐ
-      if($request["status"] == 1){
-        if($login_user_id != $user->id) {
-            return redirect($request->path());
-        }
-      }
-
-      if($login_user) {
-        $is_following = $login_user->isFollowing($user->id);
-        $is_followed = $login_user->isFollowed($user->id);  
-      } else {
-        $is_following = false;
-        $is_followed = false;
-      }
       $timelines = $article->getUserTimeLine($user->id,$request["status"]);
-      $article_count = $article->getArticleCount($user->id);
-      $follow_count = $follower->getFollowCount($user->id);
-      $follower_count = $follower->getFollowerCount($user->id);
+      $user_info_list = $user->getUserInfoList();
+      $user_info_list["timelines"] = $timelines;
+      $user_info_list["article_status_list"] = ['公開中','下書き'];
+      $user_info_list["request_status_id"] = $request["status"];
 
-      return view('users.show',[
-        'user' => $user,
-        'request_status_id' => $request["status"],
-        'status_list' => $status_list,
-        'is_following' => $is_following,
-        'is_followed' => $is_followed,
-        'timelines' => $timelines,
-        'article_count' => $article_count,
-        'follow_count' => $follow_count,
-        'follower_count' => $follower_count
-      ]);
+      return view('users.show', $user_info_list);
+
     }
 
     /**
@@ -176,19 +145,47 @@ class UsersController extends Controller
         return back();
       }
     }
+    
     public function following_users(User $user)
     {
       $following_users = $user->getFollowingUsers($user->id);
-      return view('users.index', [
-        'all_users' => $following_users
-      ]); 
+      $user_info_list = $user->getUserInfoList();
+      $user_info_list["all_users"] = $following_users;
+      return view('users.index', $user_info_list);
     }
-    public function followers(User $user)
+
+    public function followers(User $user) 
     {
       $followers = $user->getFollowers($user->id);
-      return view('users.index', [
-        'all_users' => $followers
-      ]); 
+      $user_info_list = $user->getUserInfoList();
+      $user_info_list["all_users"] = $followers;
+      return view('users.index', $user_info_list);
+
     }
+
+    public function favorite(User $user, Article $article) 
+    {
+      $timelines = $article->getFavoriteArticles($user->id);
+      $user_info_list = $user->getUserInfoList();
+      $user_info_list["timelines"] = $timelines;
+      return view('users.favorite', $user_info_list);
+    }
+
+    public function favorited(User $user, Article $article) 
+    {
+      $timelines = $article->getFavoritedArticles($user->id);
+      $tab_info_list = $user->getTabInfoList($follower);
+      $follow_count = $follower->getFollowCount($user->id);
+      $follower_count = $follower->getFollowerCount($user->id);
+
+      return view('users.show', [
+        'user' => $user,
+        'timelines' => $timelines,
+        'follow_count' => $follow_count,
+        'follower_count' => $follower_count,
+        'tab_info_list' => $tab_info_list,
+        ]);
+    }
+
 
 }
