@@ -46,7 +46,7 @@ class ShareTweetTest extends DuskTestCase
                     ->switchTo()
                     ->window($window);
             // Check if the path is correct
-            sleep(2);
+            sleep(5);
             $browser->assertPathIs('/intent/tweet');
         });
 
