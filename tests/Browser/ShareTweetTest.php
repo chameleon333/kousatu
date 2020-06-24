@@ -45,9 +45,9 @@ class ShareTweetTest extends DuskTestCase
             $browser->driver
                     ->switchTo()
                     ->window($window);
-            // Check if the path is correct
-            sleep(5);
-            $browser->assertPathIs('/intent/tweet');
+            // Check if the title is correct
+            $browser->assertTitleContains('Twitter');
+            
         });
 
 
