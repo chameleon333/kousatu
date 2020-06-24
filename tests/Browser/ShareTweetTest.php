@@ -34,21 +34,8 @@ class ShareTweetTest extends DuskTestCase
 
             $browser->waitFor($selector)
                     ->assertSourceHas("hashtags={$tag->name}")
-                    ->assertSourceHas("text={$article->title}")
-                    ->click($selector);
+                    ->assertSourceHas("text={$article->title}");
 
-
-            // Get the last opened tab
-            $window = collect($browser->driver->getWindowHandles())->last();
-
-            // Switch to the tab
-            $browser->driver
-                    ->switchTo()
-                    ->window($window);
-            // Check if the title is correct
-            sleep(4);
-            $browser->assertTitleContains('Twitter');
-            
         });
 
 
