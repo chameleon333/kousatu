@@ -79,4 +79,33 @@ class FavoriteTest extends TestCase
         }
     }
 
+    public function testDisplayTotalFavoritedCountInUsers()
+    {
+        $user_id = 1;
+
+        $user = factory(App\Models\User::class)->create([
+            'id' => $user_id,
+        ]);
+
+        $articles = factory(App\Models\Article::class,5)->create([
+            'user_id' => $user_id,
+        ]);
+        $articles = factory(App\Models\Article::class,5)->create();
+
+
+        $article_ids = Article::where('user_id',$user_id)->pluck('id');
+
+        foreach($article_ids as $article_id) {
+            $favorite = factory(App\Models\Favorite::class)->create([
+                'article_id' => $article_id,
+            ]);
+        }
+
+        $response = $this->actingAs($user);
+        $response = $response->get('/users/'.$user->id);
+ 
+        $response->assertSeeText("Total ".count($article_ids));
+
+    }
+
 }
