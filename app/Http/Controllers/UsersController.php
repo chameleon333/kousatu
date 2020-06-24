@@ -60,10 +60,18 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, Article $article, Follower $follower, Request $request)
+    public function show(User $user, Article $article, Request $request)
     {
       if(!isset($request["status"])) {
         $request["status"] = 0;
+      }
+
+      #ログインユーザーじゃないユーザーが下書きページに遷移した際、リダイレクトして閲覧を防ぐ
+      if($request["status"] == 1){
+        $is_self_article = $user->isSelfArticle($request,$user);
+        if(!$is_self_article) {
+          return redirect($request->path());
+        }
       }
 
       $timelines = $article->getUserTimeLine($user->id,$request["status"]);

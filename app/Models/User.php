@@ -182,9 +182,7 @@ class User extends Authenticatable
 
     public function getUserInfoList(){
 
-      $follower = new Follower;
       $favorite = new Favorite;
-      $article = new Article;
 
       $login_user = auth()->user();
       $follow_statuses = $this->getFollowStatuses($login_user);
@@ -200,4 +198,25 @@ class User extends Authenticatable
 
       return $user_info_list;
     }
+
+
+    public function isSelfArticle($request,$user){
+      // dump("first");
+      
+      // dd($request->path());
+      $login_user = auth()->user();
+      if(isset($login_user)) {
+        if($login_user->id != $user->id) {
+          return FALSE;
+
+          redirect($request->path());
+        }
+      } else {
+        return FALSE;
+        redirect($request->path());
+      }
+
+      return true;
+    }
+    
 }
