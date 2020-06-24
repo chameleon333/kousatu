@@ -39,10 +39,6 @@
     <script src="{{ asset('js/profile_image_preview.js') }}" defer></script>
     @stack('cropper')
 
-    <!-- <script src="{{ asset('js/tui-editor-Editor-full.js') }}"></script> -->
-
-
-
 </head>
 <body>
 @guest

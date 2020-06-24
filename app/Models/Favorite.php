@@ -32,4 +32,12 @@ class Favorite extends Model
     {
         return $this->where('id', $favorite_id)->delete();
     }
+
+    public function getTotalFavoritedCount(Int $user_id){
+        $article = new Article; 
+        $article_ids = $article::all()->where('user_id',$user_id)->pluck('id');
+        
+        $total_favorited_count = count($this->whereIn('article_id',$article_ids)->get());
+        return $total_favorited_count;
+    }
 }

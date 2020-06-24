@@ -17,7 +17,7 @@ class SearchesController extends Controller
 
         if(!empty($keyword)) {
             #記事タイトルから検索
-            $search_articles = Article::where('title', 'LIKE', '%'.$keyword.'%')->paginate(5);
+            $search_articles = Article::where('title', 'LIKE', '%'.$keyword.'%')->paginate(6);
         }
         $popular_tags = $tag->getPopularTags();
         $popular_users = $user->getPopularUsers();

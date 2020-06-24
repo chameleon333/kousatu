@@ -54,7 +54,7 @@ class User extends Authenticatable
   
     public function getAllUsers($user_id)
     {
-      return $this->Where('id', '<>', $user_id)->paginate(5);
+      return $this->Where('id', '<>', $user_id)->paginate(6);
     }
   
     public function follow(Int $user_id)
@@ -111,12 +111,12 @@ class User extends Authenticatable
 
     public function getFollowingUsers($user_id)
     {
-      return $this->follows()->where('following_id', $user_id)->paginate(5);
+      return $this->follows()->where('following_id', $user_id)->paginate(6);
     }
 
     public function getFollowers($user_id)
     {
-      return $this->followers()->where('followed_id', $user_id)->paginate(5);
+      return $this->followers()->where('followed_id', $user_id)->paginate(6);
     }
 
     public function getPopularUsers() {
@@ -135,11 +135,88 @@ class User extends Authenticatable
         $rank_keys = array_slice($rank_keys, 0, 5);
   
         $popular_users = $this->whereIn('id',$rank_keys)->get();
-  
       }
-
-
-
       return $popular_users;
     }
+
+    public function getTabInfoList(){
+      $article = new Article();
+      $follower = new Follower();
+      $favorite = new Favorite();
+
+      $user_id = $this->id;
+      $follow_count = $follower->getFollowCount($user_id);
+      $follower_count = $follower->getFollowerCount($user_id);
+      $article_count = $article->getArticleCount($user_id);
+      $favorite_count = $article->getFavoriteArticles($user_id)->total();
+
+      $tab_info_list = [
+        "投稿 ".$article_count => [
+            "link" => "/users/{$user_id}",
+        ],
+        "フォロー ".$follow_count => [
+            "link" => "/users/{$user_id}/following",
+        ], 
+        "フォロワー ".$follower_count => [
+          "link" => "/users/{$user_id}/followers",
+        ], 
+        "いいねした記事 ".$favorite_count => [
+          "link" => "/users/{$user_id}/favorite",
+        ],
+      ];
+
+      return $tab_info_list;
+    }
+
+    public function getFollowStatuses($login_user) {
+      if(isset($login_user)) {
+        $follow_statuses["is_following"] = $login_user->isFollowing($this->id);
+        $follow_statuses["is_followed"] = $login_user->isFollowed($this->id);  
+      } else {
+        $follow_statuses["is_following"] = false;
+        $follow_statuses["is_followed"] = false;
+      }
+
+      return $follow_statuses;
+    }
+
+    public function getUserInfoList(){
+
+      $favorite = new Favorite;
+
+      $login_user = auth()->user();
+      $follow_statuses = $this->getFollowStatuses($login_user);
+      $total_favorited_count = $favorite->getTotalFavoritedCount($this->id);
+
+      $user_info_list["user"] = $this;
+      $user_info_list["total_favorited_count"] = $total_favorited_count;
+      $user_info_list["is_following"] = $follow_statuses["is_following"];
+      $user_info_list["is_followed"] = $follow_statuses["is_followed"];
+
+      $user_info_list["tab_info_list"] = $this->getTabInfoList();
+
+
+      return $user_info_list;
+    }
+
+
+    public function isSelfArticle($request,$user){
+      // dump("first");
+      
+      // dd($request->path());
+      $login_user = auth()->user();
+      if(isset($login_user)) {
+        if($login_user->id != $user->id) {
+          return FALSE;
+
+          redirect($request->path());
+        }
+      } else {
+        return FALSE;
+        redirect($request->path());
+      }
+
+      return true;
+    }
+    
 }
