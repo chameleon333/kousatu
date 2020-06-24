@@ -39,7 +39,6 @@ class FollowTest extends TestCase
 
     public function testDisplayFollowUserInUsers() 
     {   
-        #フォローテスト
         $followers = factory(App\Models\Follower::class,5)->create([
             'following_id' => 1,
         ]);
@@ -54,6 +53,25 @@ class FollowTest extends TestCase
             $followed_user = User::find($follower->followed_id);
             $response->assertSeeText($followed_user->name);
             $response->assertSeeText($followed_user->screen_name);
+        }
+    }
+
+    public function testDisplayFollowedUserInUsers() 
+    {   
+        $followers = factory(App\Models\Follower::class,5)->create([
+            'followed_id' => 1,
+        ]);
+
+        $followed_id = $followers[0]->followed_id;
+        $followed_user = User::find($followed_id);
+
+        $response = $this->actingAs($followed_user);
+        $response = $response->get('/users/'.$followed_user->id.'/followers');
+
+        foreach($followers as $follower) {
+            $following_user = User::find($follower->following_id);
+            $response->assertSeeText($following_user->name);
+            $response->assertSeeText($following_user->screen_name);
         }
     }
 
