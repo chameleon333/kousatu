@@ -46,6 +46,7 @@ class ShareTweetTest extends DuskTestCase
                     ->switchTo()
                     ->window($window);
             // Check if the title is correct
+            sleep(4);
             $browser->assertTitleContains('Twitter');
             
         });
