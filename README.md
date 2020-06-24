@@ -25,8 +25,8 @@ https://the-kousatu.com
     - プロフィール、登録情報編集
 
 - 記事関係
-    - 一覧表示(無限スクロール)
-    - 記事詳細表示、編集、削除
+    - 無限スクロール
+    - 一覧表示、記事詳細表示、編集、削除
     - 投稿(本番・下書き)
     - MarkDown記法
     - コメント
@@ -71,9 +71,9 @@ https://the-kousatu.com
 | <img src="https://user-images.githubusercontent.com/46510584/85518358-1d5a3c00-b63b-11ea-9032-8c68565e12f9.png"> | <img src="https://user-images.githubusercontent.com/46510584/85223507-b7817080-b3fe-11ea-9206-e3428da6202b.png"> |
 
 
-| スマホ表示 |
-| :----: | :----: |
-| <img src="https://user-images.githubusercontent.com/46510584/85519181-1122ae80-b63c-11ea-9735-e30d71df0c12.png"> |
+| スマホ表示1 | スマホ表示2 | スマホ表示3 |
+| :----: | :----: | :----: |
+| <img src="https://user-images.githubusercontent.com/46510584/85519181-1122ae80-b63c-11ea-9735-e30d71df0c12.png"> | <img src="https://user-images.githubusercontent.com/46510584/85635391-b4b1a480-b6b8-11ea-8fb1-3cf33bf3f08a.png"> | <img src="https://user-images.githubusercontent.com/46510584/85635538-0b1ee300-b6b9-11ea-874b-d807fb459e22.png"> |
 
 <br>
 <br>
@@ -98,7 +98,7 @@ https://the-kousatu.com
 - CircleCI
 - Terrafrom
 
-- AWS
+### AWS
     - ACM
     - CloudWatch
     - EC2/ALB
