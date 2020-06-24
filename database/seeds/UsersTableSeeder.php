@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
       ]);
 
       $faker = Faker::create('ja_JP');
-      for ($i = 2; $i <= 10; $i++){
+      for ($i = 2; $i <= 20; $i++){
         $name = $faker->name;
         User::create([
           'screen_name' => $faker->unique()->regexify('\w{8}'),
