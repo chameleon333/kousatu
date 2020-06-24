@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\User;
 
 class FollowTest extends TestCase
 {
@@ -34,6 +35,26 @@ class FollowTest extends TestCase
             'following_id' => $user_idA,
             'followed_id' => $user_idB
         ]);
+    }
+
+    public function testDisplayFollowUserInUsers() 
+    {   
+        #フォローテスト
+        $followers = factory(App\Models\Follower::class,5)->create([
+            'following_id' => 1,
+        ]);
+
+        $following_id = $followers[0]->following_id;
+        $following_user = User::find($following_id);
+
+        $response = $this->actingAs($following_user);
+        $response = $response->get('/users/'.$following_user->id.'/following');
+
+        foreach($followers as $follower) {
+            $followed_user = User::find($follower->followed_id);
+            $response->assertSeeText($followed_user->name);
+            $response->assertSeeText($followed_user->screen_name);
+        }
     }
 
 }
