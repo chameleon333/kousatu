@@ -25,7 +25,7 @@ function ImageUpload(images){
                 upload_file = response;
             },
             error:function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('error');
+                alert('サイズが大きすぎるか、対応していない形式です。');
                 console.log(XMLHttpRequest);
                 console.log(textStatus);
                 console.log(errorThrown);
