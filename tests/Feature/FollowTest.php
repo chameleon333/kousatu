@@ -56,7 +56,7 @@ class FollowTest extends TestCase
         }
     }
 
-    public function testDisplayFollowedUserInUsers() 
+    public function testDisplayFollowerUserInUsers() 
     {   
         $followers = factory(App\Models\Follower::class,5)->create([
             'followed_id' => 1,
