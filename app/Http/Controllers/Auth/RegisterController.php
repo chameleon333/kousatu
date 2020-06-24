@@ -68,12 +68,17 @@ class RegisterController extends Controller
 
         #base64でエンコードされた画像データを画像ファイルとして保存する
         $img = $data["binary_image"];
-        $fileData = base64_decode($img);
-        $fileName = '/tmp/profile_image.png';
-        file_put_contents($fileName, $fileData);
+        if(!isset($img)) {
+            $image_path = "/images/profile_image/etc.png";
+        } else {
+            $fileData = base64_decode($img);
+            $fileName = '/tmp/profile_image.png';
+            file_put_contents($fileName, $fileData);
+    
+            $image = Storage::disk('s3')->putFile('/profile_images', $fileName, 'public');
+            $image_path = Storage::disk('s3')->url($image);
+        }
 
-        $image = Storage::disk('s3')->putFile('/profile_images', $fileName, 'public');
-        $image_path = Storage::disk('s3')->url($image);
 
         return User::create([
             'screen_name' => $data['screen_name'],
