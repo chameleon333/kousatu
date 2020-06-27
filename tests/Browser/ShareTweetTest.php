@@ -29,8 +29,6 @@ class ShareTweetTest extends DuskTestCase
             $selector = '#twitterShare';
             $browser->loginAs($article)
                     ->visit("/articles/{$article->id}");
-            $param = $article->getTwitterSharaParam($article);
-
 
             $browser->waitFor($selector)
                     ->assertSourceHas("hashtags={$tag->name}")
