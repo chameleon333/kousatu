@@ -63,31 +63,16 @@
                         <a href="{{ url('articles/' .$article->id) }}"><i class="far fa-comment fa-fw"></i></a>
                         <p class="mb-0 text-secondary">{{ count($article->comments) }}</p>
                     </div>
-
                     <div class="d-flex align-items-center">
-
                     @if ($user)
-                        @if (!in_array($user->id, array_column($article->favorites->toArray(),'user_id')))
-                            <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
-                                @csrf
-                                <input type="hidden" name="article_id" value="{{ $article->id }}">
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-thumbs-up"></i></button>
-                            </form>
+                        @if (!$favorite_id)
+                            <favorite-button-component favorite-count="{{ count($article->favorites) }}" article-id="{{ $article->id }}" ></favorite-button-component>
                         @else
-                            <form method="POST" action="{{ url('favorites/' .array_column($article->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-thumbs-up"></i></i></button>
-                            </form>
+                            <favorite-button-component favorite-count="{{ count($article->favorites) }}" article-id="{{ $article->id }}" favorite-id="{{ $favorite_id }}"></favorite-button-component>
                         @endif
                     @else
-                        <form method="POST" action="{{ url('favorites/') }}" class ="mb-0">
-                            @csrf
-                            <input type="hidden" name="article_id" value="{{ $article->id }}">
-                            <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-thumbs-up"></i></i></button>
-                        </form>                    
+                        <favorite-button-component favorite-count="{{ count($article->favorites) }}" article-id="{{ $article->id }}" ></favorite-button-component>
                     @endif
-                        <p class="mb-0 text-secondary">{{ count($article->favorites) }}</p>
                     </div>
                 </div>
             </div>
@@ -163,7 +148,7 @@
         </div>
     </div>
 </div>
+@endsection
 <!-- marked.js -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="{{ asset('js/markdown_preview.js') }}" defer></script>
-@endsection
