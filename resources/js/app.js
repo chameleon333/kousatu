@@ -23,6 +23,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('tags-component', require('./components/TagsComponent.vue').default);
 Vue.component('post-article-button-component', require('./components/PostArticleButtonComponent.vue').default);
 Vue.component('article-list-component', require('./components/ArticleListComponent.vue').default);
+Vue.component('favorite-button-component', require('./components/FavoriteButtonComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

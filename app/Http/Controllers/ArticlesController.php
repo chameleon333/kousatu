@@ -141,19 +141,29 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article, Comment $comment)
+    public function show(Article $article, Comment $comment,Favorite $favorite)
     {
+        
         $user = auth()->user();
+
         $article = $article->getArticle($article->id);
+        $favorite_row = $favorite->getFavoriteRow($user->id, $article->id);
         $comments = $comment->getComments($article->id);
 
         $twitter_share_param = $article->getTwitterSharaParam($article);
+
+        if(isset($favorite_row)) {
+            $favorite_id = $favorite_row->id;
+        } else {
+            $favorite_id = NULL;
+        }
 
         return view('articles.show',[
             'user' => $user,
             'article' => $article,
             'comments' => $comments,
             'twitter_share_param' => $twitter_share_param,
+            'favorite_id' => $favorite_id,
         ]);
     }
 

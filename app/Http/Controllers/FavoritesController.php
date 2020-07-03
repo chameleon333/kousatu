@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Favorite;
+use App\Models\Article;
 
 class FavoritesController extends Controller
 {
@@ -34,17 +35,24 @@ class FavoritesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Favorite $favorite)
-    {
+    {   
+
         $user = auth()->user();
         $article_id = $request->article_id;
         $is_favorite = $favorite->isFavorite($user->id, $article_id);
-
         if(!$is_favorite)
         {
             $favorite->storeFavorite($user->id, $article_id);
-            return back();
         }
-        return back();
+        $favorited_count = $favorite->getFavoritedCount($article_id);
+        $favorite_row = $favorite->getFavoriteRow($user->id, $article_id);
+        
+        $favorite_list = [
+            "favorited_count" => $favorited_count,
+            "favorite_id" => $favorite_row->id,
+        ];  
+
+        return $favorite_list;
     }
 
     /**
@@ -93,11 +101,23 @@ class FavoritesController extends Controller
         $article_id = $favorite->article_id;
         $favorite_id = $favorite->id;
         $is_favorite = $favorite->isFavorite($user_id, $article_id);
-
         if($is_favorite) {
             $favorite->destroyFavorite($favorite_id);
-            return back();
         }
-        return back();
+        $favorited_count = $favorite->getFavoritedCount($article_id);
+        $favorite_row = $favorite->getFavoriteRow($user_id, $article_id);
+
+        if(isset($favorite_row)) {
+            $favorite_id = $favorite_row->id;
+        } else {
+            $favorite_id = NULL;
+        }
+
+        $favorite_list = [
+            "favorited_count" => $favorited_count,
+            "favorite_id" => $favorite_id,
+        ];
+
+        return $favorite_list;
     }
 }
