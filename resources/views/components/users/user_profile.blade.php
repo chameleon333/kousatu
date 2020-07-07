@@ -14,28 +14,20 @@
   </div>
   <div class="mx-3 mb-3 d-flex flex-column">
     <div class="d-flex">
-        @if (isset(auth()->user()->id))
-          @if (auth()->user()->id == $user->id)
-          <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
-          @else
-            @if ($is_following)
-              <form action="{{ route('users.unfollow', ['user' => $user->id]) }}" method="POST">
-                {{ csrf_field() }}
-                {{ method_field('DELETE') }}
-
-                <button type="submit" class="btn btn-danger">フォロー解除</button>
-              </form>
-            @else
-              <form action="{{ route('users.follow', ['user' => $user->id]) }}" method="POST">
-                {{ csrf_field() }}
-                <button type="submit" class="btn btn-sm page-link text-dark d-inline-block">フォローする</button>
-              </form>
-            @endif
-            @if ($is_followed)
-              <span class="mt-2 px-1 bg-white text-dark">フォローされています</span>
-            @endif
-          @endif
-        @endif
+      @if (isset(auth()->user()->id))
+      @if (auth()->user()->id == $user->id)
+      <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
+      @else
+      @if ($is_following)
+      <follow-button-component is-follow="{{ auth()->user()->isFollowing($user->id) }}" user-id="{{ $user->id }}"></follow-button-component>
+      @else
+      <follow-button-component is-follow="{{ auth()->user()->isFollowing($user->id) }}" user-id="{{ $user->id }}"></follow-button-component>
+      @endif
+      @if ($is_followed)
+      <span class="mt-2 px-2 text-dark">フォローされています</span>
+      @endif
+      @endif
+      @endif
     </div>
     <div class="d-flex">
       <span class="mt-2">{{ $user->self_introduction }}</span>
