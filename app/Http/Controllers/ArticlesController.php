@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,30 +17,30 @@ use Illuminate\Support\Facades\Storage;
 
 class ArticlesController extends Controller
 {
-  
+
     public function __construct()
     {
-//        $this->middleware('auth');
+        //        $this->middleware('auth');
     }
 
-    public function fetch(Request $request,Article $article)
+    public function fetch(Request $request, Article $article)
     {
         $status_id = 0;
-        
-        switch($request["mode"]) {
+
+        switch ($request["mode"]) {
             case "tag":
-                $articles = Article::with(['tags','user','favorites'])->whereHas('tags',function(Builder $query) use ($request){
-                    $query->where('tag_id',$request["tag_id"]);
+                $articles = Article::with(['tags', 'user', 'favorites'])->whereHas('tags', function (Builder $query) use ($request) {
+                    $query->where('tag_id', $request["tag_id"]);
                 })->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
-            break;
+                break;
 
             case "popular":
                 $articles = $article->getPopularArticles();
-                $articles = $articles->with(['tags','user','favorites'])->where('status',$status_id)->paginate(6);
-            break;
+                $articles = $articles->with(['tags', 'user', 'favorites'])->where('status', $status_id)->paginate(6);
+                break;
 
             default:
-                $articles = Article::with(['tags','user','favorites'])->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
+                $articles = Article::with(['tags', 'user', 'favorites'])->where('status', $status_id)->orderBy('created_at', 'DESC')->paginate(6);
         }
         return $articles;
     }
@@ -50,12 +51,12 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request,Article $article, Tag $tags, User $user)
+    public function index(Request $request, Article $article, Tag $tags, User $user)
     {
-        switch($request["mode"]) {
+        switch ($request["mode"]) {
             case "popular":
                 $api = "/fetch?mode=popular";
-            break;
+                break;
             default:
                 $api = "/fetch";
         }
@@ -80,7 +81,7 @@ class ArticlesController extends Controller
     {
         $article_status_texts = $article->getPostArticleStatusTexts();
         $user = auth()->user();
-        return view('articles.create',[
+        return view('articles.create', [
             'user' => $user,
             'article_status_texts' => $article_status_texts,
         ]);
@@ -96,25 +97,23 @@ class ArticlesController extends Controller
     {
         $user = auth()->user();
         $data = $request->all();
-        $validator = Validator::make($data,[
+        $validator = Validator::make($data, [
             'title' => ['string', 'max:30'],
             'body' => ['string', 'max:20480'],
             'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
-        
+
         $validator->validate();
         // 画像のみの投稿の処理
-        if(isset($data["image"]))
-        {
+        if (isset($data["image"])) {
             $image = Storage::disk('s3')->putFile('/article_images', $data["image"], 'public');
             $image_path = Storage::disk('s3')->url($image);
             return $image_path;
-        } 
+        }
         // 記事を投稿する際の処理
-        elseif(isset($data["title"]) && isset($data["body"])) 
-        {
+        elseif (isset($data["title"]) && isset($data["body"])) {
             // dump($data);
-            if(!isset($data["binary_image"])){
+            if (!isset($data["binary_image"])) {
                 $data["binary_image"] = "/images/etc/default-header-image.png";
             } else {
                 $img = $data["binary_image"];
@@ -126,10 +125,10 @@ class ArticlesController extends Controller
                 $data["binary_image"] = Storage::disk('s3')->url($image);
             }
             $article->articleStore($user->id, $data);
-            if(isset($data["tags"])) {
+            if (isset($data["tags"])) {
                 $tag->tagStore($data["tags"]);
                 $tag_ids = $tag->getTagIds($data["tags"]);
-                $article->articleTagSync($tag_ids);    
+                $article->articleTagSync($tag_ids);
             }
             return redirect('articles');
         }
@@ -141,24 +140,26 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article, Comment $comment,Favorite $favorite)
+    public function show(Article $article, Comment $comment, Favorite $favorite)
     {
-        
+        $favorite_id = NULL;
         $user = auth()->user();
 
+        if (isset($user)) {
+            $favorite_row = $favorite->getFavoriteRow($user->id, $article->id);
+            if (isset($favorite_row)) {
+                $favorite_id = $favorite_row->id;
+            }
+        }
+
         $article = $article->getArticle($article->id);
-        $favorite_row = $favorite->getFavoriteRow($user->id, $article->id);
         $comments = $comment->getComments($article->id);
 
         $twitter_share_param = $article->getTwitterSharaParam($article);
 
-        if(isset($favorite_row)) {
-            $favorite_id = $favorite_row->id;
-        } else {
-            $favorite_id = NULL;
-        }
 
-        return view('articles.show',[
+
+        return view('articles.show', [
             'user' => $user,
             'article' => $article,
             'comments' => $comments,
@@ -178,18 +179,18 @@ class ArticlesController extends Controller
         $article_status_texts = $article->getPostArticleStatusTexts();
         $user = auth()->user();
         $articles = $article->getEditArticle($user->id, $article->id);
-        
-        if(!isset($articles)) {
+
+        if (!isset($articles)) {
             return redirect('articles');
         }
         $tags = [];
-        foreach($article->tags as $tag){
+        foreach ($article->tags as $tag) {
             $tags[] = $tag;
         }
         return view('articles.edit', [
             'user' => $user,
             'articles' => $articles,
-            'tags'=>$tags,
+            'tags' => $tags,
             'article_status_texts' => $article_status_texts,
         ]);
     }
@@ -204,7 +205,7 @@ class ArticlesController extends Controller
     public function update(Request $request, Article $article, Tag $tag)
     {
         $data = $request->all();
-        $validator = Validator::make($data,[
+        $validator = Validator::make($data, [
             'title' => ['required', 'string', 'max:30'],
             'body' => ['string', 'max:20480'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
@@ -214,8 +215,8 @@ class ArticlesController extends Controller
         $article->articleUpdate($article->id, $data);
 
         #カテゴリ名の重複登録を防ぐ
-        $storedTagNames = $tag->whereIn('name',$data["tags"])->pluck('name');
-        $newTagNames = array_diff($data["tags"],$storedTagNames->all());
+        $storedTagNames = $tag->whereIn('name', $data["tags"])->pluck('name');
+        $newTagNames = array_diff($data["tags"], $storedTagNames->all());
 
         $tag->tagStore($newTagNames);
         $tag_ids = $tag->getTagIds($data["tags"]);
