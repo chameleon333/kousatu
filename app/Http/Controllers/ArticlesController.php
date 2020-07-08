@@ -142,14 +142,14 @@ class ArticlesController extends Controller
      */
     public function show(Article $article, Comment $comment, Favorite $favorite)
     {
-
+        $favorite_id = NULL;
         $user = auth()->user();
 
         if (isset($user)) {
             $favorite_row = $favorite->getFavoriteRow($user->id, $article->id);
-            $favorite_id = $favorite_row->id;
-        } else {
-            $favorite_id = NULL;
+            if (isset($favorite_row)) {
+                $favorite_id = $favorite_row->id;
+            }
         }
 
         $article = $article->getArticle($article->id);
