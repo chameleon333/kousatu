@@ -68,9 +68,9 @@ import axios from "axios";
 })
 export default class ArticlListComponent extends Vue {
   @Prop()
-  public api: any;
-  public page: number = 1;
-  public list: any[] = [];
+  private api: string = "/fetch";
+  private page: number = 1;
+  private list: object[] = [];
 
   @Emit("infiniteHandler")
   infiniteHandler($state: {
@@ -87,8 +87,6 @@ export default class ArticlListComponent extends Vue {
         }
       })
       .then(({ data }) => {
-        console.log($state);
-        console.log($state.loaded());
         if (this.page <= data.data.length) {
           this.page += 1;
           this.list.push(...data.data);
