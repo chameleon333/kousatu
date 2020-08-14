@@ -5,6 +5,12 @@
  */
 
 // require('./bootstrap');
+import ArticlListComponent from './components/ArticleListComponent.vue';
+import TagsComponent from './components/TagsComponent.vue';
+import PostArticleButtonComponent from './components/PostArticleButtonComponent.vue';
+import ArticleListComponent from './components/ArticleListComponent.vue';
+import FavoriteButtonComponent from './components/FavoriteButtonComponent.vue';
+import FollowButtonComponent from './components/FollowButtonComponent.vue';
 
 window.Vue = require('vue');
 
@@ -19,12 +25,6 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('tags-component', require('./components/TagsComponent.vue').default);
-Vue.component('post-article-button-component', require('./components/PostArticleButtonComponent.vue').default);
-Vue.component('article-list-component', require('./components/ArticleListComponent.vue').default);
-Vue.component('favorite-button-component', require('./components/FavoriteButtonComponent.vue').default);
-Vue.component('follow-button-component', require('./components/FollowButtonComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -33,4 +33,11 @@ Vue.component('follow-button-component', require('./components/FollowButtonCompo
 
 const app = new Vue({
     el: '#app',
+    components: {
+        "article-list-component": ArticlListComponent,
+        'favorite-button-component': FavoriteButtonComponent,
+        'follow-button-component': FollowButtonComponent,
+        "post-article-button-component": PostArticleButtonComponent,
+        "tags-component": TagsComponent,
+    },
 });
