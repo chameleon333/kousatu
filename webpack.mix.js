@@ -16,22 +16,19 @@ mix.ts('resources/ts/app.ts', 'public/js');
 mix.sass('resources/sass/style.scss', 'public/css/');
 mix.sass('resources/sass/app.scss', 'public/css/');
 
-// mix.webpackConfig({
-//     resolve: {
-//         extensions: [".js", ".jsx", ".vue", ".ts", ".tsx"],
-//         alias: {
-//             'vue$': 'vue/dist/vue.esm.js'
-//         }
-//     },
-//     module: {
-//         rules: [
-//             {
-//                 test: /\.tsx$/,
-//                 loader: "ts-loader",
-//                 options: { appendTsSuffixTo: [/\.vue$/] },
-//                 exclude: /node_modules/
-//             }
-//         ]
-//     }
-// })
-
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            }
+        ]
+    }
+}
