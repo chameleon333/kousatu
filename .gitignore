@@ -12,3 +12,4 @@ docker/db/data
 terraform.tfstate*
 .terraform
 **/terraform.tfvars
+task-definition.json
