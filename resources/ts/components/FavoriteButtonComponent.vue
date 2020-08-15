@@ -8,53 +8,80 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {computed,defineComponent,reactive} from '@vue/composition-api';
 import axios from "axios";
 
-export default {
-  props: ["favoriteCount", "articleId", "favoriteId"],
+type Props = {
+  favoriteCount: number,
+  articleId: number,
+  favoriteId: number,
+}
 
-  data() {
-    if (!this.favoriteId) {
-      var flag = false;
-    } else {
-      var flag = true;
-    }
-
-    return {
-      display_favoriteCount: this.favoriteCount,
-      post_favoriteId: this.favoriteId,
-      flag: flag
-    };
+export default defineComponent({
+  props: {
+    favoriteCount: {type: String, required: true },
+    articleId: {type: String, required: true },
+    favoriteId: {type: String, required: false },
   },
-  methods: {
-    postFavorite() {
-      if (!this.post_favoriteId) {
+
+  setup(props: Props) {
+
+    const state = reactive<{
+      display_favoriteCount: number,
+      flag: boolean,
+    }>({
+      display_favoriteCount: props.favoriteCount,
+      flag: false,
+    })
+
+    state.flag = function() {
+      if(!props.favoriteId) {
+        return false;
+      } else {
+        return true;
+      }
+    }();
+
+    var display_favoriteCount = computed(()=> state.display_favoriteCount);
+    var flag = computed(()=> state.flag);
+    var post_favoriteId: number = props.favoriteId;
+
+    function postFavorite() {
+      if (!state.flag) {
         axios
           .post(`/favorites/`, {
-            article_id: this.articleId
+            article_id: props.articleId
           })
           .then(({ data }) => {
-            this.display_favoriteCount = data["favorited_count"];
-            this.post_favoriteId = data["favorite_id"];
-            this.flag = true;
+            state.display_favoriteCount = data["favorited_count"];
+            state.flag = true;
+            post_favoriteId = data["favorite_id"];
           })
           .catch(err => {
             console.log("err", err.response.data);
           });
       } else {
         axios
-          .delete(`/favorites/${this.post_favoriteId}`, {})
+          .delete(`/favorites/${post_favoriteId}`, {})
           .then(({ data }) => {
-            this.display_favoriteCount = data["favorited_count"];
-            this.post_favoriteId = data["favorite_id"];
-            this.flag = false;
+            state.display_favoriteCount = data["favorited_count"];
+            state.flag = false;
+            post_favoriteId = data["favorite_id"];
           })
           .catch(err => {
             console.log("err", err.response.data);
           });
       }
     }
+
+    return {
+      display_favoriteCount,
+      flag,
+      postFavorite,
+    }
   }
-};
+
+})
+
 </script>
