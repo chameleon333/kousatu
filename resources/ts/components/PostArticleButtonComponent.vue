@@ -1,7 +1,7 @@
 <template>
   <div class="btn-group">
     <button
-      id="post-aritcle-button"
+      id="post-article-button"
       type="submit"
       class="btn btn-primary"
       onclick="callBody();"
