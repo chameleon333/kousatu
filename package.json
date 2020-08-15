@@ -46,6 +46,7 @@
     "dependencies": {
         "@babel/plugin-proposal-decorators": "^7.10.5",
         "@johmun/vue-tags-input": "^2.1.0",
+        "@vue/composition-api": "^1.0.0-beta.9",
         "babel-cli": "^6.26.0",
         "hard-source-webpack-plugin": "^0.13.1",
         "marked": "^0.8.0",
