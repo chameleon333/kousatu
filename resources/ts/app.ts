@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import bootstrap from './bootstrap';
+import VueCompositionApi from '@vue/composition-api';
 import AppComponent from './components/App.vue';
 import ArticleListComponent from './components/ArticleListComponent.vue';
 import FavoriteButtonComponent from './components/FavoriteButtonComponent.vue';
@@ -8,6 +9,7 @@ import PostArticleButtonComponent from './components/PostArticleButtonComponent.
 import TagsComponent from './components/TagsComponent.vue';
 
 bootstrap();
+Vue.use(VueCompositionApi);
 
 const app: any = new Vue({
     el: '#app',

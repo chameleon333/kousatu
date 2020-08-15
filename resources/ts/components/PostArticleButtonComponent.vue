@@ -28,20 +28,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class PostArticleButtonComponent extends Vue {
-  @Prop({ default: "" })
-  statusTexts: string[];
-
-  public status_text: string = this.statusTexts[0];
-  public status_num: number = 0;
-
-  @Emit("changePostArticleStatus")
-  changePostArticleStatus(status_text: string, index: number) {
-    $("#post-article-button").text(status_text);
-    $("input[name='article_status_id'").val(index);
-  }
+import {defineComponent} from '@vue/composition-api';
+type Props = {
+  statusTexts: string[],
+  status_num: number,
 }
+
+export default defineComponent({
+  props: {
+    statusTexts: {type: Array, required: true, default: []},
+    status_num: {type: Number,required: false, default: 0},
+  },
+
+  setup(props: Props) {
+    var status_text: string = props.statusTexts[0];
+
+    function changePostArticleStatus(status_text: string, index: number) {
+      $("#post-article-button").text(status_text);
+      $("input[name='article_status_id'").val(index);
+    }
+
+    return {
+      changePostArticleStatus,
+      status_text,
+    };
+  }
+})
+
 </script>
