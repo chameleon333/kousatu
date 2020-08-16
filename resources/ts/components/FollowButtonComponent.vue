@@ -5,44 +5,58 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {computed,defineComponent,reactive} from '@vue/composition-api';
 import axios from "axios";
 
-export default {
-  props: ["isFollow", "userId"],
+type Props = {
+  isFollow: Boolean,
+  userId: String,
+}
 
-  data() {
-    return {
-      user_id: this.userId,
-      is_follow: this.isFollow
-    };
+export default defineComponent({
+  props: {
+    isFollow: {type: Boolean, required: false},
+    userId: {type: String, required: false},
   },
-  methods: {
-    postFollow() {
-      if (this.is_follow === undefined) {
+  setup(props: Props){
+    const state = reactive<{
+      is_follow: Boolean,
+    }>({
+      is_follow: props.isFollow,
+    })
+    var is_follow = computed(()=>state.is_follow);
+    var userId = props.userId;
+
+    function postFollow(){
+      if (state.is_follow === undefined) {
         location.href = `/login`;
       } else {
-        if (!this.is_follow) {
+        if (!state.is_follow) {
           axios
-            .post(`/users/${this.user_id}/follow`, {})
+            .post(`/users/${userId}/follow`, {})
             .then(({ data }) => {
-              this.is_follow = true;
+              state.is_follow = data;
             })
             .catch(err => {
-              // console.log("err", err.response.data);
+              console.log("err", err.response.data);
             });
         } else {
           axios
-            .delete(`/users/${this.user_id}/unfollow`, {})
+            .delete(`/users/${userId}/unfollow`, {})
             .then(({ data }) => {
-              this.is_follow = false;
+              state.is_follow = data;
             })
             .catch(err => {
-              // console.log("err", err.response.data);
+              console.log("err", err.response.data);
             });
         }
       }
     }
+    return {
+      postFollow,
+      is_follow,
+    }
   }
-};
+})
 </script>

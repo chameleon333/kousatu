@@ -22,13 +22,13 @@
 
     <div class="d-flex justify-content-end flex-grow-1 w-25">
       @if(auth()->user())
-      @if(auth()->user()->isFollowing($user->id))
-      <follow-button-component is-follow="{{ auth()->user()->isFollowing($user->id) }}" user-id="{{ $user->id }}"></follow-button-component>
+        @if(auth()->user()->isFollowing($user->id))
+        <follow-button-component v-bind:is-follow='true' user-id="{{ $user->id }}"></follow-button-component>
+        @else
+        <follow-button-component v-bind:is-follow='false' user-id="{{ $user->id }}"></follow-button-component>
+        @endif
       @else
-      <follow-button-component is-follow="{{ auth()->user()->isFollowing($user->id) }}" user-id="{{ $user->id }}"></follow-button-component>
-      @endif
-      @else
-      <follow-button-component></follow-button-component>
+        <follow-button-component v-bind:is-follow='undefined'></follow-button-component>
       @endif
     </div>
   </div>

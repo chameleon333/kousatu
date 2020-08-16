@@ -1,12 +1,11 @@
-import Vue from 'vue'
-import bootstrap from './bootstrap';
-import VueCompositionApi from '@vue/composition-api';
-import AppComponent from './components/App.vue';
 import ArticleListComponent from './components/ArticleListComponent.vue';
+import bootstrap from './bootstrap';
 import FavoriteButtonComponent from './components/FavoriteButtonComponent.vue';
 import FollowButtonComponent from './components/FollowButtonComponent.vue';
 import PostArticleButtonComponent from './components/PostArticleButtonComponent.vue';
 import TagsComponent from './components/TagsComponent.vue';
+import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api';
 
 bootstrap();
 Vue.use(VueCompositionApi);
@@ -16,7 +15,7 @@ const app: any = new Vue({
     components: {
         'article-list-component': ArticleListComponent,
         'favorite-button-component': FavoriteButtonComponent,
-        // 'follow-button-component': FollowButtonComponent,
+        'follow-button-component': FollowButtonComponent,
         "post-article-button-component": PostArticleButtonComponent,
         "tags-component": TagsComponent,
     },
