@@ -15,9 +15,9 @@ const app: any = new Vue({
     el: '#app',
     components: {
         'article-list-component': ArticleListComponent,
-        "post-article-button-component": PostArticleButtonComponent,
-        "tags-component": TagsComponent,
         'favorite-button-component': FavoriteButtonComponent,
         // 'follow-button-component': FollowButtonComponent,
+        "post-article-button-component": PostArticleButtonComponent,
+        "tags-component": TagsComponent,
     },
 });

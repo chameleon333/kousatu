@@ -15,27 +15,35 @@
 
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {defineComponent,reactive} from '@vue/composition-api';
 const VueTagsInput = require("@johmun/vue-tags-input").default;
-@Component({
-  components: {
-    VueTagsInput
-  }
-})
-export default class TagsComponent extends Vue {
-  public tag: string = "";
-  public tags: object;
-  public maxTags: number = 5;
-  public placeholderText: string = "タグは5つまで登録できます";
 
-  created() {
-    this.tags = $(".parameter_tags")
+export default defineComponent({
+  components: {
+    VueTagsInput,
+  },
+
+  setup(){
+    var tag: string = "";
+    var tags: object = [];
+    const maxTags: number = 5;
+    const placeholderText: string = "タグは5つまで登録できます";
+
+    tags = $(".parameter_tags")
       .map(function() {
         return { text: $(this).text() };
       })
       .get();
+
+    return {
+      tag,
+      tags,
+      maxTags,
+      placeholderText,
+    }
   }
-}
+})
+
 </script>
 
 <style scoped>
