@@ -57,44 +57,57 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
+import {defineComponent} from '@vue/composition-api';
 import InfiniteLoading from "vue-infinite-loading";
 import axios from "axios";
 
-@Component({
+type Props = {
+  api: string,
+  page: number,
+  list: object[],
+}
+
+export default defineComponent({
   components: {
     InfiniteLoading
-  }
-})
-export default class ArticlListComponent extends Vue {
-  @Prop()
-  private api: string = "/fetch";
-  private page: number = 1;
-  private list: object[] = [];
+  },
+  props: {
+    api: {type: String, required: false, default: "/fetch"},
+    list: {type: Array, required: false, default: () => ([])},
+    page: {type: Number, required: false, default: 1},
+  },
+  setup(props:Props) {
+    var page = props.page;
+    var list = props.list;
 
-  @Emit("infiniteHandler")
-  infiniteHandler($state: {
-    loaded: any;
-    complete: any;
-    reset: any;
-    error: any;
-  }) {
-    axios
-      .get(this.api, {
+    function infiniteHandler($state: {
+      loaded: any;
+      complete: any;
+      reset: any;
+      error: any;
+    }) {
+      axios
+      .get(props.api, {
         params: {
-          page: this.page,
+          page,
           per_page: 1
         }
       })
       .then(({ data }) => {
-        if (this.page <= data.data.length) {
-          this.page += 1;
-          this.list.push(...data.data);
+        if (props.page <= data.data.length) {
+          list.push(...data.data);
+          page += 1;
           $state.loaded();
         } else {
           $state.complete();
         }
       });
+    }
+
+    return {
+      infiniteHandler,
+    }
   }
-}
+})
+
 </script>
