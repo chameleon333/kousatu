@@ -714,6 +714,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -760,6 +761,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -974,33 +976,26 @@
         },
         {
             "name": "laravel/ui",
-            "version": "v1.1.2",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ui.git",
-                "reference": "0287d4eee80aad718bdf7f90117cfe720c493064"
+                "reference": "21dc7e58896db977aad246e710b4810aaab9a968"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ui/zipball/0287d4eee80aad718bdf7f90117cfe720c493064",
-                "reference": "0287d4eee80aad718bdf7f90117cfe720c493064",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/21dc7e58896db977aad246e710b4810aaab9a968",
+                "reference": "21dc7e58896db977aad246e710b4810aaab9a968",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "~5.8|^6.0",
                 "illuminate/filesystem": "~5.8|^6.0",
                 "illuminate/support": "~5.8|^6.0",
-                "php": "^7.1.3"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^8.0"
+                "php": "^7.1.3|^8.0"
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Laravel\\Ui\\UiServiceProvider"
@@ -1027,7 +1022,7 @@
                 "laravel",
                 "ui"
             ],
-            "time": "2019-12-20T15:09:01+00:00"
+            "time": "2020-11-03T19:38:34+00:00"
         },
         {
             "name": "league/commonmark",
@@ -1163,6 +1158,7 @@
                 "markdown",
                 "table"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-09-26T13:28:33+00:00"
         },
         {
@@ -4106,6 +4102,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
@@ -4967,6 +4964,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -5833,5 +5831,6 @@
         "php": "^7.2",
         "ext-intl": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
