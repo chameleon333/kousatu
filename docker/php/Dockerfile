@@ -8,6 +8,15 @@ COPY ./docker/php/php.ini /usr/local/etc/php/
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_HOME /composer
+ENV PATH $PATH:/composer/vender/bin
+
+COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug
+
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
 
 RUN apt-get update \
@@ -16,14 +25,6 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql intl gd \
     && rm -rf /var/lib/apt/lists/*
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_HOME /composer
-ENV PATH $PATH:/composer/vender/bin
-
-RUN composer global require "laravel/installer"
-
-RUN composer install -n --prefer-dist --no-dev
 
 RUN npm install npm@latest -g
 
