@@ -1,6 +1,5 @@
 FROM php:7.3-fpm
 
-ADD . /var/www
 WORKDIR /var/www
 
 COPY ./docker/php/php.ini /usr/local/etc/php/
@@ -27,6 +26,3 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install npm@latest -g
-
-RUN chmod -R a+w storage/ bootstrap/cache
-
