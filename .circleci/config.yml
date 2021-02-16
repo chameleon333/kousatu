@@ -8,7 +8,7 @@ jobs:
 
             # duskテスト用
             - image: circleci/node:7.10-browsers
-            - image: selenium/standalone-chrome
+            # - image: selenium/standalone-chrome
 
         environment:
             - APP_DEBUG: true
@@ -19,7 +19,7 @@ jobs:
 
         steps:
             - run: git config --global core.quotepath false
-            
+
             - checkout
             - setup_remote_docker
 
@@ -52,24 +52,24 @@ jobs:
 
             - run:
                 name: Run unit test
-                command: | 
+                command: |
                     php artisan migrate
                     ./vendor/bin/phpunit
 
-            - run:
-                name: Run Laravel Server
-                command: php artisan serve
-                background: true
+            # - run:
+            #     name: Run Laravel Server
+            #     command: php artisan serve
+            #     background: true
 
-            - run:
-                name: Run browser
-                command: docker run -d -p 4444:4444 selenium/standalone-chrome
-            - run: 
-                name: Run dusk
-                command: | 
-                    npm run production
-                    cp .env.testing .env
-                    php artisan dusk --env=circleci
+            # - run:
+            #     name: Run browser
+            #     command: docker run -d -p 4444:4444 selenium/standalone-chrome
+            # - run:
+            #     name: Run dusk
+            #     command: |
+            #         npm run production
+            #         cp .env.testing .env
+            #         php artisan dusk --env=circleci
 
             - store_artifacts:
                 path: tests/Browser/screenshots/
