@@ -11,7 +11,7 @@ resource "aws_ecs_service" "kousatu" {
   health_check_grace_period_seconds = 0
 
   load_balancer {
-    target_group_arn = data.terraform_remote_state.alb.outputs.lb_target_group_arn
+    target_group_arn = aws_lb_target_group.kousatu.arn
     container_name   = "nginx"
     container_port   = "80"
   }
@@ -29,13 +29,14 @@ resource "aws_ecs_service" "kousatu" {
 
 
 resource "aws_launch_configuration" "kousatu" {
-  image_id                    = "ami-00c408a8b71d5c614"
-  instance_type               = "t2.micro"
-  user_data                   = file("./user_data.sh")
-  iam_instance_profile        = data.terraform_remote_state.iam.outputs.aws_iam_instance_profile_arn
-  security_groups             = [data.terraform_remote_state.vpc.outputs.security_group_id]
+  image_id             = "ami-00c408a8b71d5c614"
+  instance_type        = "t2.micro"
+  user_data            = file("./user_data.sh")
+  iam_instance_profile = aws_iam_instance_profile.kousatu.arn
+  security_groups = [
+    aws_security_group.vpc-kousatu.id
+  ]
   associate_public_ip_address = true
-
 }
 
 resource "aws_autoscaling_group" "kousatu" {
@@ -44,16 +45,19 @@ resource "aws_autoscaling_group" "kousatu" {
   health_check_grace_period = 0
   health_check_type         = "EC2"
   launch_configuration      = aws_launch_configuration.kousatu.id
+  vpc_zone_identifier = [
+    aws_subnet.public-a.id,
+    aws_subnet.public-c.id
+  ]
 }
 
 resource "aws_appautoscaling_target" "kousatu" {
   min_capacity       = 1
   max_capacity       = 2
-  resource_id        = "service/kousatu-cluster/ecs-kousatu-service"
+  resource_id        = "service/${aws_ecs_cluster.kousatu.name}/${aws_ecs_service.kousatu.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
-
 
 resource "aws_appautoscaling_policy" "kousatu" {
   name               = "tracking"
@@ -78,22 +82,22 @@ resource "aws_appautoscaling_policy" "kousatu" {
 data "template_file" "service_container_definition" {
   template = file("./task-definitions/service.json")
   vars = {
-    bucket_name = var.bucket_name
-    app_key = var.app_key
-    db_host = var.db_host
-    db_username = var.db_username
-    aws_access_key_id = var.aws_access_key_id 
+    bucket_name           = var.bucket_name
+    app_key               = var.app_key
+    db_host               = var.db_host
+    db_username           = var.db_username
+    aws_access_key_id     = var.aws_access_key_id
     aws_secret_access_key = var.aws_secret_access_key
-    db_database = var.db_database
-    db_password = var.db_password
+    db_database           = var.db_database
+    db_password           = var.db_password
   }
 }
 
 resource "aws_ecs_task_definition" "kousatu" {
   family                = "kousatu-task"
   container_definitions = data.template_file.service_container_definition.rendered
-  task_role_arn         = data.terraform_remote_state.iam.outputs.ecs_role_arn
-  execution_role_arn    = data.terraform_remote_state.iam.outputs.ecs_role_arn
+  task_role_arn         = aws_iam_role.task-role.arn
+  execution_role_arn    = aws_iam_role.task-role.arn
   network_mode          = "bridge"
   cpu                   = "1024"
   memory                = "800"
@@ -102,32 +106,5 @@ resource "aws_ecs_task_definition" "kousatu" {
   ]
   volume {
     name = "src"
-  }
-}
-
-data "terraform_remote_state" "vpc" {
-  backend = "s3"
-  config = {
-    bucket = "kousatu-private"
-    key    = "terraform/vpc/terraform.tfstate"
-    region = "ap-northeast-1"
-  }
-}
-
-data "terraform_remote_state" "iam" {
-  backend = "s3"
-  config = {
-    bucket = "kousatu-private"
-    key    = "terraform/iam/terraform.tfstate"
-    region = "ap-northeast-1"
-  }
-}
-
-data "terraform_remote_state" "alb" {
-  backend = "s3"
-  config = {
-    bucket = "kousatu-private"
-    key    = "terraform/alb/terraform.tfstate"
-    region = "ap-northeast-1"
   }
 }

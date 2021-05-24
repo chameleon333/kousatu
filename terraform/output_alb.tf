@@ -1,5 +1,5 @@
-output "security_group_id" {
-  value = aws_security_group.kousatu.id
+output "alb_security_group_id" {
+  value = aws_security_group.db-kousatu.id
 }
 
 output "domain_name" {

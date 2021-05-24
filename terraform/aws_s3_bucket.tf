@@ -1,6 +1,7 @@
 # #外部公開しないプライベートバケット
 resource "aws_s3_bucket" "private" {
-
+  bucket = "kousatu-private"
+  acl    = "private"
   lifecycle_rule {
     enabled                                = true
     abort_incomplete_multipart_upload_days = 0
@@ -10,7 +11,6 @@ resource "aws_s3_bucket" "private" {
       expired_object_delete_marker = false
     }
   }
-  bucket = "kousatu-private"
   versioning {
     enabled = true
   }
@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "private" {
 
 #公開用
 resource "aws_s3_bucket" "public" {
-  # acl = "public"
+  #   acl = "public"
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -27,4 +27,3 @@ resource "aws_s3_bucket" "public" {
     }
   }
 }
-

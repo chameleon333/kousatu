@@ -1,5 +1,5 @@
-output "security_group_id" {
-  value = aws_security_group.kousatu.id
+output "vpc_security_group_id" {
+  value = aws_security_group.vpc-kousatu.id
 }
 
 output "public-a-id" {

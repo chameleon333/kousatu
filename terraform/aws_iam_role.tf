@@ -3,7 +3,7 @@ data "template_file" "task-role-template" {
 }
 
 resource "aws_iam_role" "task-role" {
-  name               = "ecsTaskExecutionRole"
+  name               = "ecsTaskExecutionRoleTest"
   assume_role_policy = data.template_file.task-role-template.rendered
 }
 
