@@ -17,16 +17,3 @@ resource "aws_db_instance" "kousatu" {
   option_group_name      = aws_db_option_group.kousatu.name
   db_subnet_group_name   = aws_db_subnet_group.kousatu.name
 }
-
-
-resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
-  parameter_group_name = "default.mysql5.7"
-  skip_final_snapshot  = true
-  name                 = var.db_database
-  username             = var.db_username
-  password             = var.db_password
-}
