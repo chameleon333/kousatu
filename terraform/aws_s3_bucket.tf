@@ -12,13 +12,14 @@ resource "aws_s3_bucket" "private" {
     }
   }
   versioning {
-    enabled = true
+    enabled = false
   }
+  force_destroy = true
 }
 
 #公開用
 resource "aws_s3_bucket" "public" {
-  #   acl = "public"
+    # acl = "public"
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
