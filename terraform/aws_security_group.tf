@@ -1,7 +1,7 @@
 resource "aws_security_group" "kousatu" {
   name        = "ecs-lb-sg"
   vpc_id      = aws_vpc.kousatu.id
-  description = "load-balancer-wizard-1 created on 2020-03-03T21:19:06.401+09:00"
+  description = "ecs lb security group for kousatu"
 }
 
 # #80ポートを許可
