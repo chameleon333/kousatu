@@ -27,24 +27,29 @@ resource "aws_ecs_service" "kousatu" {
 
 }
 
-
 resource "aws_launch_configuration" "kousatu" {
-  image_id             = "ami-00c408a8b71d5c614"
+  image_id             = "ami-0ca38c7440de1749a"
   instance_type        = "t2.micro"
+  key_name             = "aws_key_pair"
   user_data            = file("./user_data.sh")
   iam_instance_profile = aws_iam_instance_profile.kousatu.arn
   security_groups = [
     aws_security_group.vpc-kousatu.id
   ]
   associate_public_ip_address = true
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
+# auto scalingグループの設定
+# この設定でEC2が立ち上がる。
 resource "aws_autoscaling_group" "kousatu" {
+  min_size                  = 1
   max_size                  = 2
-  min_size                  = 0
   health_check_grace_period = 0
   health_check_type         = "EC2"
-  launch_configuration      = aws_launch_configuration.kousatu.id
+  launch_configuration      = aws_launch_configuration.kousatu.name
   vpc_zone_identifier = [
     aws_subnet.public-a.id,
     aws_subnet.public-c.id
