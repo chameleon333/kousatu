@@ -19,10 +19,6 @@ resource "aws_route" "kousatu" {
   depends_on             = [aws_route_table.kousatu]
 }
 
-resource "aws_main_route_table_association" "a" {
-  vpc_id         = aws_vpc.kousatu.id
-  route_table_id = aws_route_table.kousatu.id
-}
 
 resource "aws_route_table_association" "public-a" {
   subnet_id      = aws_subnet.public-a.id
