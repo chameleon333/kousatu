@@ -27,8 +27,12 @@ resource "aws_ecs_service" "kousatu" {
 
 }
 
+data "aws_ssm_parameter" "ecs_optimized_ami" {
+  name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+}
+
 resource "aws_launch_configuration" "kousatu" {
-  image_id             = "ami-0ca38c7440de1749a"
+  image_id             = data.aws_ssm_parameter.ecs_optimized_ami.value
   instance_type        = "t2.micro"
   key_name             = "aws_key_pair"
   user_data            = file("./user_data.sh")
@@ -104,8 +108,8 @@ resource "aws_ecs_task_definition" "kousatu" {
   task_role_arn         = aws_iam_role.task-role.arn
   execution_role_arn    = aws_iam_role.task-role.arn
   network_mode          = "bridge"
-  cpu                   = "1024"
-  memory                = "800"
+  cpu                   = "256"
+  memory                = "512"
   requires_compatibilities = [
     "EC2",
   ]
