@@ -54,6 +54,7 @@ resource "aws_autoscaling_group" "kousatu" {
   health_check_grace_period = 0
   health_check_type         = "EC2"
   launch_configuration      = aws_launch_configuration.kousatu.name
+  target_group_arns    = [aws_lb_target_group.kousatu.arn]
   vpc_zone_identifier = [
     aws_subnet.public-a.id,
     aws_subnet.public-c.id
