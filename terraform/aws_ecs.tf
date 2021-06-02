@@ -3,12 +3,11 @@ resource "aws_ecs_cluster" "kousatu" {
 }
 
 resource "aws_ecs_service" "kousatu" {
-  name                              = "ecs-kousatu-service"
-  cluster                           = aws_ecs_cluster.kousatu.id
-  task_definition                   = aws_ecs_task_definition.kousatu.arn
-  desired_count                     = 1
-  launch_type                       = "EC2"
-  health_check_grace_period_seconds = 0
+  name            = "ecs-kousatu-service"
+  cluster         = aws_ecs_cluster.kousatu.id
+  task_definition = aws_ecs_task_definition.kousatu.arn
+  desired_count   = 1
+  launch_type     = "EC2"
 
   load_balancer {
     target_group_arn = aws_lb_target_group.kousatu.arn
@@ -33,7 +32,7 @@ data "aws_ssm_parameter" "ecs_optimized_ami" {
 
 resource "aws_launch_configuration" "kousatu" {
   image_id             = data.aws_ssm_parameter.ecs_optimized_ami.value
-  instance_type        = "t2.micro"
+  instance_type        = "t2.small"
   key_name             = "aws_key_pair"
   user_data            = file("./user_data.sh")
   iam_instance_profile = aws_iam_instance_profile.kousatu.arn
@@ -51,10 +50,10 @@ resource "aws_launch_configuration" "kousatu" {
 resource "aws_autoscaling_group" "kousatu" {
   min_size                  = 1
   max_size                  = 2
-  health_check_grace_period = 0
+  health_check_grace_period = 300
   health_check_type         = "EC2"
   launch_configuration      = aws_launch_configuration.kousatu.name
-  target_group_arns    = [aws_lb_target_group.kousatu.arn]
+  target_group_arns         = [aws_lb_target_group.kousatu.arn]
   vpc_zone_identifier = [
     aws_subnet.public-a.id,
     aws_subnet.public-c.id
@@ -110,7 +109,7 @@ resource "aws_ecs_task_definition" "kousatu" {
   execution_role_arn    = aws_iam_role.task-role.arn
   network_mode          = "bridge"
   cpu                   = "256"
-  memory                = "512"
+  memory                = "1000"
   requires_compatibilities = [
     "EC2",
   ]

@@ -9,9 +9,14 @@ resource "aws_lb_target_group" "kousatu" {
   deregistration_delay = 300
 
   health_check {
-    healthy_threshold   = 5
     port                = "traffic-port"
+    interval            = 30
+    path                = "/"
+    protocol            = "HTTP"
     unhealthy_threshold = 2
+    healthy_threshold   = 5
+    timeout             = 10
+    matcher             = "200,301,302"
   }
 
   depends_on = [aws_lb.kousatu]
@@ -36,7 +41,7 @@ resource "aws_lb_listener_rule" "kousatu" {
 
   condition {
     path_pattern {
-        values = ["*"]
+      values = ["*"]
     }
   }
 
