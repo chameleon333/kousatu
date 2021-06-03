@@ -12,7 +12,7 @@ resource "aws_iam_role" "task-role" {
 }
 
 resource "aws_iam_role" "ec2-role" {
-  name               = "eC2ContainerServiceEC2Role"
+  name               = "EC2ContainerServiceEC2Role"
   assume_role_policy = data.template_file.ec2-role-template.rendered
 }
 
