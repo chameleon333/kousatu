@@ -82,7 +82,7 @@ https://the-kousatu.com
 
 ### フロントエンド
 - JavaScript
-- Jquery 3.4.1
+- jQuery 3.4.1
 - Vue 2.6.11
 
 ### バックエンド
@@ -99,16 +99,15 @@ https://the-kousatu.com
 - Terrafrom
 
 ### AWS
-    - ACM
-    - CloudWatch
-    - EC2/ALB
-    - ECR/ECS
-    - RDS
-    - Route 53
-    - S3
-    - VPC
+  - ACM
+  - CloudWatch
+  - EC2/ALB
+  - ECR/ECS
+  - RDS
+  - Route 53
+  - S3
+  - VPC
 
-<br>
 <br>
 
 ## クラウドアーキテクチャー
