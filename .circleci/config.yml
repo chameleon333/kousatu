@@ -10,13 +10,6 @@ jobs:
             - image: circleci/node:7.10-browsers
             # - image: selenium/standalone-chrome
 
-        environment:
-            - APP_DEBUG: true
-            - APP_ENV: testing
-            - APP_KEY: base64:XOrH3Y+mrgWbcanrysRacUeB65LqheafmfhJ2bI8nJ4=
-            - DB_CONNECTION: circle_testing
-            - MYSQL_ALLOW_EMPTY_PASSWORD: true
-
         steps:
             - run: git config --global core.quotepath false
 
