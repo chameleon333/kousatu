@@ -14,10 +14,9 @@ ENV PATH $PATH:/composer/vender/bin
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 
-RUN pecl install xdebug && \
-    docker-php-ext-enable xdebug
+RUN pecl install xdebug-2.9.0 && docker-php-ext-enable xdebug
 
-RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libicu-dev unzip zlib1g-dev mariadb-client libzip-dev \
