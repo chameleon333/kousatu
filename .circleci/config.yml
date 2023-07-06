@@ -8,7 +8,7 @@ jobs:
 
             # duskテスト用
             - image: circleci/node:7.10-browsers
-            # - image: selenium/standalone-chrome
+            - image: selenium/standalone-chrome
 
         environment:
             - APP_DEBUG: true
