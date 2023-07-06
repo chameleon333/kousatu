@@ -17,7 +17,7 @@ services:
       dockerfile: ./docker/php/Dockerfile
     volumes:
     - ./:/var/www:cached
-    - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    - ./docker/php/xdebug.ini:/usr/locadel/etc/php/conf.d/xdebug.ini
     - vendor-store:/var/www/vendor
 
 
@@ -36,6 +36,7 @@ services:
 
   db:
     image: mysql:5.7
+    platform: linux/amd64
     container_name: db-host
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -59,6 +60,7 @@ services:
 
   db-testing:
     image: mysql:5.7
+    platform: linux/amd64
     container_name: db-testing
     environment:
       MYSQL_DATABASE: ${DB_DATABASE_TESTING}
