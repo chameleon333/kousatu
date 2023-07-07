@@ -1,7 +1,13 @@
 # docker/nginx/Dockerfile
 FROM nginx:1.17.10
 
+RUN mkdir /etc/nginx/ssl/
+RUN mkdir -p /var/www/
+
 ADD ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
-RUN mkdir -p /var/www/
+COPY nginx/ssl/server.crt /etc/nginx/ssl/server.crt
+COPY nginx/ssl/server.key /etc/nginx/ssl/server.key
+COPY nginx/ssl/server.password /etc/nginx/ssl/server.password
+
 ADD ./ /var/www/
