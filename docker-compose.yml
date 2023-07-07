@@ -20,7 +20,6 @@ services:
     - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     - vendor-store:/var/www/vendor
 
-
   nginx:
     image: nginx:1.17.10
     container_name: kousatu_nginx
@@ -30,9 +29,15 @@ services:
     volumes:
     - ./:/var/www:cached
     - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:cached
+    - ./docker/nginx/ssl:/etc/nginx/ssl
+    - ./docker/nginx/ssl.conf:/etc/nginx/conf.d/ssl.conf
     - node_modules-store:/var/www/node_modules
     depends_on:
     - php
+    networks:
+      default:
+        aliases:
+          - kousatu.local
 
   db:
     image: mysql:5.7
@@ -54,6 +59,7 @@ services:
 
   selenium:
     container_name: chrome
+    platform: linux/amd64
     image: selenium/standalone-chrome
     ports:
       - 4444:4444
