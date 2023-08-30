@@ -50,7 +50,7 @@
         "babel-cli": "^6.26.0",
         "hard-source-webpack-plugin": "^0.13.1",
         "marked": "^0.8.0",
-        "npm-check-updates": "^4.0.1",
+        "npm-check-updates": "^16.13.2",
         "ts-node": "^8.10.2",
         "tui-editor": "^1.4.10",
         "vue-class-component": "^7.2.5",
